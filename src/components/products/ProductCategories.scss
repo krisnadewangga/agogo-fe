@@ -1,0 +1,56 @@
+@import "../../sass/vars";
+
+.product-categories{
+  position: fixed;
+  top: 0;
+  right: 0;
+  display: block;
+  width: 13%;
+  text-align: right;
+  color: white;
+  a{
+    color: white;
+  }
+  .nav-item{
+    clear: both;
+    // &:nth-child(2){
+    //   .nav-link{
+    //     color: $orange;
+    //     border-right: 5px solid $orange;
+    //   }
+    // }
+  }
+  .nav-link{
+    padding: 0.75rem;
+    font-weight: 700;
+    font-style: italic;
+    border-right: 5px solid transparent;
+    &:hover,
+    &.active{
+      color: $orange;
+      border-right: 5px solid $orange;
+      background-color: transparent;
+    }
+  }
+  .btn-fullscreen{
+    color: aqua;
+    // position: ;
+    bottom: 500px;
+  }
+}
+
+
+#productSearch{
+  float: right;
+  text-align: right;
+  width: 90%;
+  border-radius: 3rem;
+  margin-top: 0.25rem;
+  margin-right: 0.5rem;
+  margin-bottom: 1rem;
+  border: none;
+  font-style: italic;
+  &::placeholder {
+    color: $lightGrey;
+  }
+}

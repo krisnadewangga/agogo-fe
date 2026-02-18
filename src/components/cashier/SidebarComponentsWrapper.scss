@@ -1,0 +1,54 @@
+@import "../../sass/vars";
+
+.SidebarComponentsWrapper{
+  z-index: 4;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  padding: 2% 2%;
+  @media only screen and (max-width: 1140px) {
+    padding: 1% 1%;
+  }
+  background-color: rgba(0,0,0,.75);
+  background-image: url('../../img/bg-login.jpg');
+  background-size: cover;
+  color: white;
+
+  .sidebar-header-nav{
+    font-size: 1.7rem;
+    font-weight: 700;
+    font-style: italic;
+    // margin-left: -2rem;
+    padding: 0;
+    cursor: pointer;
+    &:hover{
+      color: $orange !important;
+    }
+  }
+
+  .TransactionItems, .ReservationItems {
+    background-color: white;
+    border-radius: 10px;
+    // padding-top: 10px;
+  }
+
+  .SidebarBody{
+    .simple-keyboard.hg-theme-default{
+      max-width: 250px;;
+    }  
+  }
+
+  .SidebarFooter{
+    button{
+      margin-left: -1rem;
+      font-weight: 700;
+    }
+    .btn-bayar-fixed{
+      position: fixed;
+      top: 50px;
+      right: 40px;
+    }
+  }
+}

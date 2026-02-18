@@ -1,0 +1,22 @@
+
+.PaymentCheckout{
+  color: white;
+
+  .input-keyboard-wrapper{
+    position: relative;
+    .input-masking{
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;;
+    }
+  }
+}
+
+.whiteColor{
+  color: white;
+}
+
+.whiteColor:hover{
+  color: grey;
+}

@@ -1,0 +1,153 @@
+
+.OrderBooking{
+    color: white;
+     top: 0;
+     position : fixed;
+    input{
+      width: 100%;
+      font-weight: bold;
+      font-size: 15px
+    }
+  
+    .input-data-wrapper{
+      position: relative;
+      .input-masking{
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;;
+        // -webkit-text-security:disc;
+      }
+    }
+  }
+
+.SidebarBody {
+    padding-left: 0px;
+    margin-top: 10px;
+}
+
+.Sidebar{
+  .input-uangTambah{
+    width: 100%;
+    max-height:30px
+  }
+  .input-uangDiskon{
+    width: 100%;
+    max-height: 30px
+  }
+  .input-uangMuka{
+    width: 100%;
+    max-height: 30px
+  }
+  .input-user{
+    width: 100%;
+    max-height: 30px
+  }
+  .input-password{
+    width: 100%;
+    max-height: 30px
+  }
+}
+
+// input[type=date]::-webkit-calendar-picker-indicator {
+//   background: transparent;
+//   bottom: 0;
+//   color: transparent;
+//   cursor: pointer;
+//   height: auto;
+//   left: 0;
+//   position: absolute;
+//   right: 0;
+//   top: 0;
+//   width: auto;
+// }
+
+// .input {
+//     margin-top: 5px;
+//     background-color: transparent;
+//     border: none;
+//     border-bottom: 1px solid gray;
+//     text-align: left;
+//     font-weight: none;
+// }
+
+// .input:focus,
+// .input:hover {
+//     background-color: none;
+// }
+
+// textarea.input-note.form-control {
+//     margin-top: 20px;
+//     height: 100px;
+// }
+
+// .pr-0{
+//     margin-top: 10px;
+// }
+
+// .input-lg {
+//     margin-top: 10px;
+//     margin-left: 15px;
+//     height: 50px;
+//     border: none;
+//     border-radius: 1rem;
+// }
+
+// .input-lg.approval {
+//     background-color: gray;
+// }
+
+// input[type=radio] {
+//     margin-top: 5px;
+//     display: block;
+// }
+
+input.radio.sm.for.-control-sm.form-check-input {
+    font-size: 1rem;
+    size: 1rem;
+    margin-left: 0px;
+}
+
+label.form-check-label {
+    margin-left: 45%;
+}
+
+.react-datepicker{
+    &-wrapper{
+    color: black;
+    font-size: 1rem;
+    background-color: white;
+    width: 100%;
+    height: 2.4em;
+    }
+
+    &__input-container{
+      width: 100%;
+      height: 2.4em;
+      border: none;
+      font-size: 1rem;
+      font-weight: bold;
+
+      input{
+      width: 100%;
+      height: 2.4em;
+    }
+
+    }
+}
+
+.react-time-picker{
+  color: black;
+  padding-left: 10px;
+  // font-size: 1rem;
+  background-color: white;
+  width: 100%;
+
+  &__wrapper{
+    width: 100%;
+    height: 2.4em;
+    border: none;
+    font-size: 15px;
+    font-weight: bold;
+  }
+}

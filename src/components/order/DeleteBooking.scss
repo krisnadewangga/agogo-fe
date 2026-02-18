@@ -1,0 +1,53 @@
+.deleteBooking {
+    color: white;
+    
+    input{
+    margin-left: -1rem;
+    }
+
+    .input-keyboard-wrapper{
+    position: relative;
+    .input-masking{
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;;
+    }
+    }
+}
+
+.SidebarBodyBooking {
+    margin-top: 5px;
+    color: white;
+}
+
+h7.mb-0 {
+    color: rgb(136, 135, 135);
+    font-size: 10pt;
+}
+
+.SidebarBottom {
+    margin-top: 20px;
+}
+
+.notif-close {
+    font-size: 8pt;
+    color: orange;
+}
+
+.notif {
+    font-size: 9pt;
+    color: orange;
+    font-style: italic;
+}
+
+.del, .check {
+    padding-right: 15px;
+}
+
+.btn-del {
+    background-color: brown;
+    width: 150px;
+    color: white;
+    padding: 10px;
+}

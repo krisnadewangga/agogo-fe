@@ -1,0 +1,39 @@
+@import "../../sass/vars";
+
+.UserCard.card{
+  border: none;
+  text-align: center;
+  background-color: transparent;
+  color: #fff;
+  a{
+    color: #fff;
+    text-decoration: none;
+    &:hover{
+      img{
+        border: solid 9px #fff;
+      }
+    }
+  }
+  img{
+    width: 150px;
+    height: 150px;;
+    border-radius: 50%;
+    border: solid 5px $orange;
+    margin: auto;
+    background-color: #fff;
+  }
+  .card-body{
+    padding: 0.5rem 0;
+    font-weight: 700;
+    .card-title{
+      font-size: 1rem;
+      margin-top: 0.25rem;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+    .card-subtitle{
+      font-size: small;
+      text-transform: uppercase;
+    }
+  }
+}

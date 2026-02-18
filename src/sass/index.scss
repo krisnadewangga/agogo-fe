@@ -1,0 +1,152 @@
+@import 'vars';
+
+html,
+body,
+#root,
+.App{
+  height: 100%;
+  background-color: #000;
+  font-family: 'Open Sans', sans-serif;
+  background-image: url('../img/bg-login.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  overflow: hidden;
+}
+.fullscreen{
+  height: 100%;
+}
+.centered{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+a{
+  text-decoration: none;
+  color: black;
+  &:hover{
+    color: $red;
+    text-decoration: none;
+  }
+}
+
+.Header, 
+.Footer{
+  width: 100%;
+  position: fixed;
+  left: 0;
+}
+.Footer{
+  bottom: 0;
+  text-align: right;
+  color: white;
+  width: auto;
+  &.right{
+    right: 0;
+  }
+}
+
+.nav-link{
+  cursor: pointer;
+  transition: all .3s ease-in-out; -webkit-transition: all 0.3s ease-in-out;
+}
+
+.btn{
+  border: none;
+}
+
+.btn-danger{
+  background-color: $red;
+}
+
+
+.anim{
+  transition: all .3s ease-in-out; -webkit-transition: all 0.3s ease-in-out;
+ }
+
+ .bg-orange{
+   background-color: $orange !important;
+ }
+ .bg-red{
+  background-color: $red !important;
+}
+.bg-light-grey{
+  background-color: $lightGrey !important;
+}
+.bg-black{
+  background-color: black !important;
+}
+
+ .text-black{
+  color: black;
+}
+.text-white{
+  color: white;
+}
+.text-red{
+  color: $red;
+}
+.text-orange{
+  color: $orange;
+}
+.text-light-grey{
+  color: $lightGrey !important;
+}
+
+
+// BOOTSTRAP OVERWRITE
+.btn{
+  border-radius: 3rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.btn-fullscreen{
+  color: white;
+  font-size: 2.5rem;
+  padding: 2rem;
+  display: inline-block;
+  line-height: 1;
+  float: right;
+}
+.btn-fullscreen-other{
+  color: white;
+  font-size: 2.5rem;
+  padding: 1.5rem;
+  // display: inline-block;
+  // // line-height: 1;
+  float: right;
+}
+
+// ======
+// MODALS
+// ======
+
+.modal-content{
+  border-radius: 2rem;
+  border: none;
+  // top: 90%;
+  // left: 90%;
+  // right: auto;
+  // bottom: auto;
+  // margin-right: -50%;
+  // transform: translate(-50%, -50%)
+}
+.modal{
+  // top: 90%;
+  // left: 90%;
+  // right: auto;
+  // bottom: auto;
+  // margin-right: -50%;
+  // transform: translate(-50%, -50%)
+}
+
+
+// NAV LINKS
+// =========
+.nav-link{
+  &.active{
+    background-color: $orange;
+  }
+}

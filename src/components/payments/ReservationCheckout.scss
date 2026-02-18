@@ -1,0 +1,18 @@
+
+.ReservationCheckout{
+  color: white;
+
+  input{
+    margin-left: -1rem;
+  }
+
+  .input-keyboard-wrapper{
+    position: relative;
+    .input-masking{
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;;
+    }
+  }
+}

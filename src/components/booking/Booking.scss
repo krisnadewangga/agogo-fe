@@ -1,0 +1,177 @@
+@import "../../sass/vars";
+
+.booking{
+  position: relative;
+  width: 100%;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+  &-cart{
+    background-color: white;
+  }
+  &-product{
+    // overflow: auto;
+    background-color: transparent;
+    padding-bottom: 6rem;
+    -webkit-box-shadow: inset 7px 7px 33px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: inset 7px 7px 33px 0px rgba(0,0,0,0.75);
+    box-shadow: inset 7px 7px 33px 0px rgba(0,0,0,0.75);
+  }
+
+  .product-nav,
+  .cart-nav,
+  .cart-header{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 50%;
+    background-color: black;
+    line-height: 1.5rem;
+    text-align: right;
+    z-index: 3;
+    height: 73px;
+    .navbar{
+      padding: 0;
+    }
+    .nav-link{
+      padding: 1rem 1.5rem;
+      @media only screen and (min-width: 992px) {
+        padding: 1rem 1.25rem;
+      }
+      font-weight: 700;
+      color: white;
+      text-align: center;
+      .fas{
+        font-size: 2rem;
+      }
+      &.disabled{
+        color: grey;
+        &:hover{
+          background-color: black;
+        }
+      }
+      &:hover{
+        background-color: $red;
+      }
+    }
+  }
+
+  .cart-list{
+    position: relative;
+    .calc-container{
+      z-index: 9 !important;
+      position: absolute;
+      top: 3.5rem;
+      left: 100%;
+      z-index: 3;
+      background-color: #fff;
+      padding: 1rem;
+      border-radius: 2rem;
+      margin-left: 1rem;
+      border-top-left-radius: 0;
+      -webkit-box-shadow: 7px 7px 33px 0px rgba(0,0,0,0.85);
+      -moz-box-shadow: 7px 7px 33px 0px rgba(0,0,0,0.85);
+      box-shadow: 7px 7px 33px 0px rgba(0,0,0,0.85);
+    }
+  }
+
+
+  .cart-nav{
+    left: 0;
+    text-align: left;
+    background-color: #f1f1f1;
+    color: black;
+    font-style: italic;
+      font-weight: 700;
+    .nav-link{
+      color: black;
+      text-align: center;
+      &:hover{
+        background-color: $orange;
+      }
+    }
+
+    #productQRCode{
+      width: 170px;
+      @media only screen and (min-width: 992px) {
+        width: 137px;
+      }
+    }
+    #productQRCodeQty{
+      width: 70px;
+      text-align: center;
+      @media only screen and (min-width: 992px) {
+        width: 55px;
+      }
+    }
+    &-input{
+      display: inline-block;
+      border-radius: 3rem;
+      border: solid 3px black;
+      height: 48px;
+    }
+    &-numberformat{
+      display: inline-block;
+      border-radius: 3rem;
+      border: solid 3px black;
+      height: 48px;
+    }
+  }
+
+  .cart-header{
+    bottom: inherit;
+    top: 0;
+    left: 0;
+    color: white;
+    background-color: black;
+    a{
+      color: white;
+    }
+    .navbar-brand{
+      font-style: italic;
+      font-weight: 700;
+    }
+    .navbar-close{
+      .fas{
+        font-size: 2rem;
+        margin-top: -10px;
+        position: relative;
+        top: 5px;
+      }
+      
+    }
+  }
+}
+
+.CashierOverlay{
+  z-index: 8;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 87%;
+  background-color: rgba(0,0,0,.75)
+}
+
+.popover {
+  min-width: 500px;
+  &-header {
+    height: 63px;
+  }
+}
+
+.search{
+  float: right;
+  text-align: left;
+  width: 40%;
+  border-radius: 3rem;
+  margin-top: 0.25rem;
+  margin-right: 0.5rem;
+  margin-bottom: 1rem;
+  border: none;
+  font-style: italic;
+  &::placeholder {
+    color: $lightGrey;
+  }
+}
+

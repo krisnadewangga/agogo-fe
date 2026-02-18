@@ -1,0 +1,152 @@
+.modal-content{
+  box-shadow: 7px 7px 33px 0px rgba(0, 0, 0, 0.85);
+  width: 870px;
+  // top: 75%;
+  // left: 50%;
+  // right: auto;
+  // bottom: auto;
+  // margin-right: -50%;
+  // transform: translate(-50%, -50%);
+}
+
+.ReactModal__Overlay {
+  transition: opacity 500ms ease-in-out;
+  opacity: 0;
+
+  &--after-open {
+    opacity: 1;
+  }
+
+  &--before-close {
+    opacity: 0;
+  }
+}
+
+.ReactModal__Content {
+  transition: all 500ms ease-in-out;
+  transform: translateY(30px);
+  opacity: 0;
+
+  &--after-open {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  &--before-close {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+}
+
+.modal-header .close {
+  display:none;
+}
+
+.img-view{
+  width: 250px;
+  height: 215px;
+  margin: auto;
+  background-color: #fff;
+}
+
+.my-icon {
+  color: brown;
+  border-radius: 25px;
+  border: 2px solid black;
+  padding: 20px;
+  width: 200px;
+  height: 200px;
+
+  .label{
+    color: black;
+    font-size: 30px;
+  }
+}
+
+.Modal{
+  color: white;
+
+  input{
+    margin-left: -1rem;
+  }
+
+  .input-data-wrapper{
+    position: relative;
+    .input-masking{
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;;
+    }
+  }
+}
+
+.SidebarHeader {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.SidebarBody {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.input {
+  margin-top: 5px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid gray;
+  text-align: left;
+  font-weight: none;
+}
+
+.input:focus,
+.input:hover {
+  background-color: none;
+}
+
+textarea.input-note.form-control {
+  margin-top: 20px;
+  height: 100px;
+}
+
+.pr-0{
+  margin-top: 20px;
+}
+
+.input-lg {
+  margin-top: 10px;
+  margin-left: 15px;
+  height: 50px;
+  border: none;
+  border-radius: 1rem;
+}
+
+.input-lg.approval {
+  background-color: gray;
+}
+
+input[type=radio] {
+  margin-top: 5px;
+  display: block;
+}
+
+input.radio.sm.for.-control-sm.form-check-input {
+  font-size: 1rem;
+  size: 1rem;
+  margin-left: 0px;
+}
+
+label.form-check-label {
+  margin-left: 20px;
+}
+
+.paewo{
+  font-size: 36px;
+  color: brown;
+}
+
+.toRight{
+  position: absolute;
+  right: 10px;
+}
