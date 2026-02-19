@@ -137,7 +137,7 @@ class ProductsContainer extends Container {
 
   setProductItemsHeight(){
     this.setState({
-      windowInnerHeight: window.innerHeight
+      windowInnerHeight: window.innerHeight + 140
     },
       () => {
         this.setState({

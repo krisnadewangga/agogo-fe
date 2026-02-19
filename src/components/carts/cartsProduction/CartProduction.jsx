@@ -43,8 +43,8 @@ class CartProduction extends React.Component {
                         
 
                         
-                        <div className="view-img img-fluid" style={{marginTop: "10px"}}>
-                            <img className="img-fluid" src={this.props.cartStore.state.selectedProduct.photo}></img>
+                        <div className="view-img img-fluid" style={{marginTop: "10px", maxWidth: 300, maxHeight: 300}}>
+                            <img className="img-fluid" style={{maxWidth: 300, maxHeight: 300}} src={this.props.cartStore.state.selectedProduct.photo}></img>
                         </div>
                         <div className="select-view-product">
                             { this.props.cartStore.state.selectedProduct.name ? this.props.cartStore.state.selectedProduct.name : "Pilih product untuk melihat stok"}

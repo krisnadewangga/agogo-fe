@@ -22,10 +22,12 @@ class Production extends React.Component {
       }
 
     componentDidMount(){
-    const user = JSON.parse(sessionStorage.getItem('usernow'))
-    this.setState({userLoggedIn: user, name: user.username.toUpperCase()});
+        const user = JSON.parse(sessionStorage.getItem('usernow'))
+        this.setState({userLoggedIn: user, name: user.username.toUpperCase()});
+        this.props.productStore.setFilteredKeyword("Semua Item")
+        this.props.productStore.fetchProducts()
+    }
     
-}
     render() {
         return (
             <Container fluid="true" className="kasir container-fluid h-100">
