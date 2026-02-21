@@ -606,12 +606,30 @@ class Modals extends Component {
                 <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
                 <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="right"><NumberFormat prefix={' '} value={transaction.total_transaksi} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} /></td>
               </tr>
-            
               <tr class="tabletitle">
                 <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">Pembayaran </td>
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="right"><NumberFormat prefix={' '} value={uangBayar} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} /></td>
               </tr>
+              {transaction?.["cash"] !== 0 &&  <tr>
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">{`(CASH)`}</td>
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="right">
+                  <NumberFormat prefix={' '} value={transaction?.["cash"]} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} />
+                </td>
+              </tr>}
+              {transaction?.["transfer"] !== 0 &&  <tr>
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">{`(TRANSFER)`}</td>
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="right">
+                  <NumberFormat prefix={' '} value={transaction?.["transfer"]} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} />
+                </td>
+              </tr>}
+              {transaction?.["qris"] !== 0 &&  <tr>
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">{`(QRIS)`}</td>
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="right">
+                  <NumberFormat prefix={' '} value={transaction?.["qris"]} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} />
+                </td>
+              </tr>}
               <tr class="tabletitle">
                 <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">Kembali </td>
                 <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>

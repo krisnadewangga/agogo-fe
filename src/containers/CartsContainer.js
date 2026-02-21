@@ -424,7 +424,7 @@ class CartsContainer extends Container {
         // })
 
 
-        this.setState({ currentTrx: trx.current_invoice, disabledOrder: false, disabledOther: true});
+        this.setState({ currentTrx: `${trx.current_invoice}${process.env.REACT_APP_RECEIPT_CODE}`, disabledOrder: false, disabledOther: true});
         })
 
        

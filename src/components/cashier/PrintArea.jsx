@@ -3,19 +3,22 @@ import NumberFormat from 'react-number-format'
 // import "./PrintArea.css"
 import LogoAgogo from "./../../img/logoa.png";
 const headContent = () =>{
+  const alamat = process.env.REACT_APP_BRANCH_ADDRESS.split(',')
+  const namaJalan = alamat[0]
+  const namaKel = alamat[1]
+  const namaKec = alamat[2]
+  const namaKab = alamat[3]
+  const namaProv = alamat[4]
+
   return (<div>
-      
-          
-            <p align='center'><img src={LogoAgogo} className="img-fluid" style={{ width: '20mm', height: '20mm'}} /> </p>
-          
-          <p style={{fontFamily: 'Arial, Helvetica, sans-serif', marginTop: -30,fontSize: '50%'}} align='center'> 
-              Jalan Woltermonginsidi<br />
-              Kel. Girian Indah - Kec. Girian<br />
-              Bitung | Sulawesi Utara<br />
-              Telp. 0438 2230652<br />
-              Fax. 0821 8749 8746<br />
-          </p>
-          </div>
+    <p align='center'><img src={LogoAgogo} className="img-fluid" style={{ width: '20mm', height: '20mm'}} /> </p>
+    <p style={{fontFamily: 'Arial, Helvetica, sans-serif', marginTop: -30,fontSize: '50%'}} align='center'> 
+        {namaJalan}<br />
+        {namaKel} - {namaKec}<br />
+        {namaKab} | {namaProv}<br />
+        {process.env.REACT_APP_BRANCH_PHONE}<br />
+    </p>
+    </div>
   )
 }
 
@@ -713,8 +716,27 @@ return (
          
           <tr class="tabletitle">
             <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '60%'}}align="left">Pembayaran </td>
-            <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '60%'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
-            <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '60%'}}align="right"><NumberFormat prefix={' '} value={props.cartStore.getTotalPayment()} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} /></td>
+            {props.cartStore.state.paymentMethod.value?.["cash"] !== 0 &&  <tr>
+              <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '60%'}}align="left">{`(CASH)`}</td>
+              <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '60%'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+              <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '60%'}}align="right">
+                <NumberFormat prefix={' '} value={props.cartStore.state.paymentMethod.value["cash"]} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} />
+              </td>
+            </tr>}
+            {props.cartStore.state.paymentMethod.value?.["transfer"] !== 0 &&  <tr>
+              <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '60%'}}align="left">{`(TRANSFER)`}</td>
+              <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '60%'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+              <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '60%'}}align="right">
+                <NumberFormat prefix={' '} value={props.cartStore.state.paymentMethod.value["transfer"]} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} />
+              </td>
+            </tr>}
+            {props.cartStore.state.paymentMethod.value?.["qris"] !== 0 &&  <tr>
+              <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '60%'}}align="left">{`(QRIS)`}</td>
+              <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '60%'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+              <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '60%'}}align="right">
+                <NumberFormat prefix={' '} value={props.cartStore.state.paymentMethod.value["qris"]} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} />
+              </td>
+            </tr>}
           </tr>
           <tr class="tabletitle">
             <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '60%'}}align="left">Kembali </td>
