@@ -322,7 +322,7 @@ class CartsContainer extends Container {
   fetchDoneTransaction() {
     axios.get(DefaultIP + `/api/PaidOrders`)
     .then(res => {
-      // console.log(res);
+      // console.log(res); 
       const transaction = res.data;
       this.setState({ transaction: transaction});
     })
@@ -617,7 +617,11 @@ class CartsContainer extends Container {
   }
 
   showSelectedTransaction(transactionDetail, modal){
-    this.setState({showSelectedTransaction: transactionDetail})
+     axios.get(DefaultIP + `/api/PaidOrdersItem/${transactionDetail.id}`).then(result => {
+        transactionDetail.carts = result.data;
+        console.log(transactionDetail);
+        this.setState({showSelectedTransaction: transactionDetail})
+      })
     modal('showTransaction','','','');
   }
 

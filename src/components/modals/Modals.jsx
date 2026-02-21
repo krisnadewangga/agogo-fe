@@ -572,16 +572,20 @@ class Modals extends Component {
               <tr class="tabletitle">
                 <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">Kasir</td>
                 <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center">{transaction.kasir_id}</td>
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center">{transaction.kasir_name}</td>
               </tr>
               <tr>
                 <td colSpan={3}>
                 ------------------------------------------------------------
                 </td>
               </tr>
-              <tr>
-                Item
-              </tr>
+              {transaction?.carts?.map((item,index) => 
+                <tr class="service">
+                  <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">{index + 1}. {item.product_name}</td>
+                  <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">&nbsp;{`(${item.qty} x ${item.price})`}</td>
+                  <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="right"><NumberFormat value={item.price * item.qty} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} /></td>
+                </tr>
+              )}
               <tr>
                 <td colSpan={3}>
                 ------------------------------------------------------------
