@@ -46,7 +46,7 @@ return (
         </tr>
         <tr>
             <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '50%'}}>No orderx</td>
-            <td style={{fontFamily: 'Arial, Helvetica, sans-serif',fontSize: '50%'}}>: {`${props.cartStore.state.currentTrx}${process.env.REACT_APP_RECEIPT_CODE}`}</td>
+            <td style={{fontFamily: 'Arial, Helvetica, sans-serif',fontSize: '50%'}}>: {props.cartStore.state.currentTrx}</td>
         </tr>
         <tr>
             <td style={{fontFamily: 'Arial, Helvetica, sans-serif',fontSize: '50%'}}>Tanggal</td>
@@ -648,7 +648,7 @@ return (
         </tr>
         <tr>
             <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '50%'}}>No order</td>
-            <td style={{fontFamily: 'Arial, Helvetica, sans-serif',fontSize: '50%'}}>:  {`${props.cartStore.state.currentTrx}${process.env.REACT_APP_RECEIPT_CODE}`}</td>
+            <td style={{fontFamily: 'Arial, Helvetica, sans-serif',fontSize: '50%'}}>:  {props.cartStore.state.currentTrx}</td>
         </tr>
         <tr>
             <td style={{fontFamily: 'Arial, Helvetica, sans-serif',fontSize: '50%'}}>Tanggal</td>

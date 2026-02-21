@@ -543,6 +543,82 @@ class Modals extends Component {
         )}
         </div>
       );
+      case 'showTransaction':
+        const transaction = this.props.cartStore.state.showSelectedTransaction
+        const uangBayar = parseInt(transaction.cash + transaction.transfer + transaction.qris)
+        const uangKembali = parseInt(uangBayar - transaction.total_transaksi)
+        return (
+          <div id="A" ref={this.root}>
+          {this.root.current && (
+        <Modal parentSelector={() => this.root.current} style={customStyles} isOpen={this.props.modal} toggle={this.props.toggle} className={this.props.className} size={this.props.size} centered>
+          {externalCloseBtn}
+          <ModalBody className="p-5">
+            <table>
+              <tr class="tabletitle">
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">Jenis</td>
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center">Pembelian</td>
+              </tr>
+              <tr class="tabletitle">
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">No order</td>
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center">{transaction.no_transaksi}</td>
+              </tr>
+              <tr class="tabletitle">
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">Tanggal</td>
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center">{transaction.tgl_bayar}</td>
+              </tr>
+              <tr class="tabletitle">
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">Kasir</td>
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center">{transaction.kasir_id}</td>
+              </tr>
+              <tr>
+                <td colSpan={3}>
+                ------------------------------------------------------------
+                </td>
+              </tr>
+              <tr>
+                Item
+              </tr>
+              <tr>
+                <td colSpan={3}>
+                ------------------------------------------------------------
+                </td>
+              </tr>
+              <tr class="tabletitle">
+               <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">Subtotal </td>
+               <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+               <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="right"><NumberFormat prefix={' '} value={transaction.total_transaksi} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} /></td>
+              </tr>
+              <tr>
+                <td colSpan={3}>
+                ------------------------------------------------------------
+                </td>
+              </tr>
+              <tr class="tabletitle">
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">Grand Total </td>
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="right"><NumberFormat prefix={' '} value={transaction.total_transaksi} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} /></td>
+              </tr>
+            
+              <tr class="tabletitle">
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">Pembayaran </td>
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="right"><NumberFormat prefix={' '} value={uangBayar} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} /></td>
+              </tr>
+              <tr class="tabletitle">
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">Kembali </td>
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="right"><NumberFormat prefix={' '} value={uangKembali} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} /></td>
+              </tr>
+            </table>
+          </ModalBody>
+        </Modal>
+        )}
+        </div>
+      );
       case 'changeDate':
         return (
           <div id="A" ref={this.root}>

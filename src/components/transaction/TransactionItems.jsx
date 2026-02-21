@@ -26,6 +26,8 @@ class TransactionItems extends Component {
           cartStore={this.props.cartStore} 
           rootStore={this.props.rootStore}
           isPaid={isPaid}
+          transactionDetail={transaction}
+          modalStore={this.props.modalStore}
         />
       </Col>
       )}    

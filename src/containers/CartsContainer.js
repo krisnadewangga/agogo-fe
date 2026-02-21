@@ -1,7 +1,6 @@
 import { Container } from 'unstated'
 import axios from 'axios'
-import DefaultIP from './DefaultIP'
-import { e } from 'mathjs';
+import DefaultIP from './DefaultIP' 
 
 const initialState = {
   dataNyoba: [],
@@ -18,6 +17,7 @@ const initialState = {
   selectedItems: [],
   selectedProduct: {},
   selectedTransaction: {},
+  showSelectedTransaction: {},
   dataReservation : {},
   clearProduction: [],
   production: [],
@@ -132,8 +132,6 @@ const initialState = {
     qris: false,
     value: ''
   },
-  activeInputCash: '',
-  valueInputCash: '',
 };
 
 class CartsContainer extends Container {
@@ -616,6 +614,11 @@ class CartsContainer extends Container {
     } else{
       return "enabled"
     }
+  }
+
+  showSelectedTransaction(transactionDetail, modal){
+    this.setState({showSelectedTransaction: transactionDetail})
+    modal('showTransaction','','','');
   }
 
   // tampil detail transaksi

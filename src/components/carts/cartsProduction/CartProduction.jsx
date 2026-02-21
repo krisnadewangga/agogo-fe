@@ -30,7 +30,15 @@ class CartProduction extends React.Component {
 
     componentDidMount() {
         this.props.cartStore.getDateTrx()
-      }
+    }
+
+    getManagerRole = () => {
+        const user = JSON.parse(sessionStorage.getItem("usernow"))
+        if(user.role.includes(1 || 2)){
+            return true
+        }
+        return false
+    }
 
     render() {
         return (
@@ -71,7 +79,9 @@ class CartProduction extends React.Component {
                                                                            }</td>
                         </tr>
                         </div>
-                        {/* <ProductionStore cartStore={this.props.cartStore} modalStore={this.props.modalStore}/> */}
+                        {this.getManagerRole() && 
+                            <ProductionStore cartStore={this.props.cartStore} modalStore={this.props.modalStore}/>
+                        }
                         <OthersProduction cartStore={this.props.cartStore} modalStore={this.props.modalStore}/>
                     </Col>
                 </Row>
@@ -81,10 +91,11 @@ class CartProduction extends React.Component {
                     </Col>
                 </Row>
 
-                <Table borderless striped>
-
-                    <CartProductionTotal date={this.state} cartStore={this.props.cartStore}/>
-                </Table>
+                {this.getManagerRole() && 
+                    <Table borderless striped>
+                        <CartProductionTotal date={this.state} cartStore={this.props.cartStore}/>
+                    </Table>
+                }
             </Container>
         )
     }

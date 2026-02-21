@@ -53,7 +53,7 @@ class TransactionList extends Component {
             >
               <div className="scroll-wrapper" id="Cobaaa">
                 <Table style={{color: "white"}} borderless striped className="mb-0">
-                  <TransactionItems cartStore={this.props.cartStore} paid={false}/>
+                  <TransactionItems cartStore={this.props.cartStore} paid={false} modalStore={this.props.modalStore}/>
                 </Table>
               </div>
             </ShadowScrollbars>

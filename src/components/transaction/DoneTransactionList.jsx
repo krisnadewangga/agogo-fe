@@ -40,7 +40,7 @@ class TransactionList extends Component {
         <Container className="transaction d-block">
         <NavLink onClick={() => this.props.cartStore.toggleOpenDoneTransactionShow()} className="sidebar-header-nav" style={{color: "white"}}><i className="fas fa-arrow-left mr-2" style={{color: "white"}}></i>Transaksi Selesai</NavLink>
             <Table style={{color: "white"}} borderless striped>
-              <TransactionHeader />
+              <TransactionHeader paid={true} />
             </Table>
   
             <ShadowScrollbars
@@ -53,7 +53,7 @@ class TransactionList extends Component {
             >
               <div className="scroll-wrapper" id="Cobaaa">
                 <Table style={{color: "white"}} borderless striped className="mb-0">
-                  <TransactionItems cartStore={this.props.cartStore} paid={true}/>
+                  <TransactionItems cartStore={this.props.cartStore} paid={true} modalStore={this.props.modalStore}/>
                 </Table>
               </div>
             </ShadowScrollbars>

@@ -4,7 +4,7 @@ import NumberFormat from 'react-number-format';
 const CartProductionTotal = (props) => {
     return (
         <tfoot className="tfoot-booking">
-            {/* <tr className="cart-total">
+            <tr className="cart-total">
                 <th>
                     STOK AWAL <br/>
                     <span className="date">{props.cartStore.state.days[new Date(props.cartStore.state.lastDate).getDay() - 1] + ", " + props.cartStore.state.prevDate}</span>  
@@ -16,7 +16,7 @@ const CartProductionTotal = (props) => {
                 </th>
                 <th><h2><NumberFormat value={props.cartStore.getStokNow() || "-"} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','}  />
                 </h2></th>
-            </tr> */}
+            </tr>
         </tfoot>
     )
 }
