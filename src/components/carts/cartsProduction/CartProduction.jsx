@@ -34,7 +34,7 @@ class CartProduction extends React.Component {
 
     getManagerRole = () => {
         const user = JSON.parse(sessionStorage.getItem("usernow"))
-        if(user.role.includes(1 || 2)){
+        if(user.role.some(value => [1,2].includes(value))){
             return true
         }
         return false
