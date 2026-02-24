@@ -1513,6 +1513,7 @@ addSelectedTransaction(id, current, idx) {
   // KEYBOARD ACTION
   // ===============
   onChange = inputQtyCartItem => {
+    console.log(inputQtyCartItem, 'ini')
     this.setState({
       inputQtyCartItem: inputQtyCartItem
     });
@@ -1727,6 +1728,7 @@ addSelectedTransaction(id, current, idx) {
   }
 
   onChangePayment = valueInputPayment => {
+    console.log(valueInputPayment, 'xx')
     if(this.state.activeInputPayment === "approvalUser" || this.state.activeInputPayment === "approvalCode"){
       this.setState({
         valueInputRefund: valueInputPayment,
@@ -1773,7 +1775,7 @@ addSelectedTransaction(id, current, idx) {
         }
       );
     };
-    console.log(valueInputPayment, "INI VALUE", this.state.valueInputPayment)
+    // console.log(valueInputPayment, "INI VALUE", this.state.paymentMethod.value)
   }
   onChangeValuePayment = valueInputPayment => {
     console.log(valueInputPayment);
@@ -1876,6 +1878,7 @@ addSelectedTransaction(id, current, idx) {
   }
 
   onKeyPressPayment = (button) => {
+    console.log(button, 'ini button')
     if (button === "{rp}") {
       this.setState({
         discountType: 'Rp'

@@ -30,6 +30,43 @@ const PaymentCheckout = (props) => {
   const [cash, setCash] = React.useState(false)
   const [transfer, setTransfer] = React.useState(false)
   const [qris, setQris] = React.useState(false)
+  const [uangPas, setUangPas] = React.useState(false)
+
+  const handleUncheck = (changeState, state, label) => {
+    changeState(state)
+  }
+
+  const handleUncheckUangPas = (state) => {
+    setUangPas(state)
+    if(state){
+      setCash(false);
+      setTransfer(false);
+      setQris(false);
+      props.cartStore.setState(prevState => ({
+        paymentMethod: {
+          ...prevState.paymentMethod,
+          value: {
+            cash: props.cartStore.state.grandTotalAmountDiscount
+          },
+        }
+      }),
+        () =>{
+          props.cartStore.sumGrandTotalAmount()
+        }
+      )
+    } else {
+      props.cartStore.setState(prevState => ({
+        paymentMethod: {
+          value: '',
+        }
+      }),
+        () =>{
+          props.cartStore.sumGrandTotalAmount()
+        }
+      )
+    }
+  }
+
   return (
 
     <Row className="PaymentCheckout d-block">
@@ -99,17 +136,21 @@ const PaymentCheckout = (props) => {
                 inline
                 className="m-0"
               >
-                <Input type="checkbox" className="form-control-sm" value={cash} onChange={(e) => setCash(e.target.checked)}/>
+                <Input type="checkbox" className="form-control-sm" checked={cash} value={cash} disabled={uangPas} onChange={(e) => handleUncheck(setCash, e.target.checked, 'cash')}/>
                 <span check className="ml-1 mr-2">
                   Cash
                 </span>
-                <Input type="checkbox" className="form-control-sm" value={transfer} onChange={(e) => setTransfer(e.target.checked)}/>
+                <Input type="checkbox" className="form-control-sm" checked={transfer} value={transfer} disabled={uangPas} onChange={(e) => handleUncheck(setTransfer,e.target.checked, 'transfer')}/>
                 <span check className="ml-1 mr-2">
                   Transfer
                 </span>
-                <Input type="checkbox" className="form-control-sm" value={qris} onChange={(e) => setQris(e.target.checked)}/>
-                <span check className="ml-1">
+                <Input type="checkbox" className="form-control-sm" checked={qris} value={qris} disabled={uangPas} onChange={(e) => handleUncheck(setQris,e.target.checked, 'qris')}/>
+                <span check className="ml-1 mr-2">
                   QRIS
+                </span>
+                <Input type="checkbox" className="form-control-sm" value={uangPas} onChange={(e) => handleUncheckUangPas(e.target.checked)}/>
+                <span check className="ml-1">
+                  PAS
                 </span>
               </FormGroup>
               <InputValue props={props} value={cash} label="cash" />

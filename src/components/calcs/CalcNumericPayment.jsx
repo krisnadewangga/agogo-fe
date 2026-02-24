@@ -3,7 +3,7 @@ import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import "./CalcNumeric.scss";
 
-class CalcNumeric extends Component {
+class CalcNumericPayment extends Component {
   constructor(props){
     super(props)
   }
@@ -60,4 +60,4 @@ class CalcNumeric extends Component {
   }
 }
 
-export default CalcNumeric
+export default CalcNumericPayment
