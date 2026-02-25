@@ -245,9 +245,9 @@ class Modals extends Component {
           </ModalHeader>
         <ModalBody>
         <Row>
-          <Col xs="7">
+          <Col xs={this.props.cartStore.state.approveOK ? '12' : '7'}>
           {this.props.cartStore.state.approveOK ?
-          <div style={{textAlign: "left", paddingLeft: "30px"}}>
+          <div style={{textAlign: "left"}}>
             <h4>
             <tr>
               <td>Saldo Awal </td>
@@ -312,7 +312,17 @@ class Modals extends Component {
                 parseInt(this.props.modalStore.state.transaction.qris)}
                 displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} prefix={' Rp '} />
                 </td>
-            </tr>
+             </tr>
+            <div className={'input-keyboard-wrapper active-input mt-1'}>
+                <Input  
+                  // value={this.props.cartStore.state.valueInputBooking["note"]}
+                  id={"noteLogout"}
+                  // onChange={this.props.cartStore.onChangeBooking}
+                  // onFocus={this.props.cartStore.setActiveInputBooking} 
+                  className="note-production" type="textarea" name="catatan" placeholder="Masukkan uang cash fisik diterima" rows="2"
+                  autoFocus
+                />
+            </div>
             {/* <tr>
               <td>Transaksi </td>
               <td>:</td>
@@ -366,14 +376,16 @@ class Modals extends Component {
           </div>
           }
           </Col>
+          {!this.props.cartStore.state.approveOK &&
           <Col xs="5">
-          <CalcNumericKas
-                  cartStore={this.props.cartStore} 
-                  onEnterKas={this.props.cartStore.onEnterKas} 
-                  modalStore={this.props.modalStore}
-                  data={data}
-                />
+            <CalcNumericKas
+              cartStore={this.props.cartStore} 
+              onEnterKas={this.props.cartStore.onEnterKas} 
+              modalStore={this.props.modalStore}
+              data={data}
+            />
           </Col>
+          }
         </Row>
         </ModalBody>
         </Modal>

@@ -716,21 +716,21 @@ return (
          
           <tr class="tabletitle">
             <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '60%'}}align="left">Pembayaran </td>
-            {props.cartStore.state.paymentMethod.value?.["cash"] !== 0 &&  <tr>
+            {props.cartStore.state.paymentMethod.value?.["cash"]?.length > 0 &&  <tr>
               <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '60%'}}align="left">{`(CASH)`}</td>
               <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '60%'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
               <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '60%'}}align="right">
                 <NumberFormat prefix={' '} value={props.cartStore.state.paymentMethod.value["cash"]} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} />
               </td>
             </tr>}
-            {props.cartStore.state.paymentMethod.value?.["transfer"] !== 0 &&  <tr>
+            {props.cartStore.state.paymentMethod.value?.["transfer"]?.length > 0 &&  <tr>
               <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '60%'}}align="left">{`(TRANSFER)`}</td>
               <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '60%'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
               <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '60%'}}align="right">
                 <NumberFormat prefix={' '} value={props.cartStore.state.paymentMethod.value["transfer"]} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} />
               </td>
             </tr>}
-            {props.cartStore.state.paymentMethod.value?.["qris"] !== 0 &&  <tr>
+            {props.cartStore.state.paymentMethod.value?.["qris"]?.length > 0 &&  <tr>
               <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '60%'}}align="left">{`(QRIS)`}</td>
               <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '60%'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
               <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '60%'}}align="right">

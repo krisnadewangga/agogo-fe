@@ -34,6 +34,21 @@ const PaymentCheckout = (props) => {
 
   const handleUncheck = (changeState, state, label) => {
     changeState(state)
+    if(state === false){
+      props.cartStore.setState(prevState => ({
+        paymentMethod: {
+          ...prevState.paymentMethod,
+          value: {
+            ...prevState.paymentMethod.value,
+            [label]: '',
+          },
+        }
+      }),
+        () =>{
+          props.cartStore.sumGrandTotalAmount()
+        }
+      )
+    }
   }
 
   const handleUncheckUangPas = (state) => {
@@ -46,7 +61,9 @@ const PaymentCheckout = (props) => {
         paymentMethod: {
           ...prevState.paymentMethod,
           value: {
-            cash: props.cartStore.state.grandTotalAmountDiscount
+            cash: `${props.cartStore.state.grandTotalAmountDiscount}`,
+            transfer: 0,
+            qris: 0,
           },
         }
       }),
@@ -57,7 +74,11 @@ const PaymentCheckout = (props) => {
     } else {
       props.cartStore.setState(prevState => ({
         paymentMethod: {
-          value: '',
+          value: {
+            cash: '',
+            transfer: '',
+            qris: '',
+          },
         }
       }),
         () =>{
@@ -76,6 +97,7 @@ const PaymentCheckout = (props) => {
             <NavLink onClick={() => props.cartStore.togglePaymentCheckoutShow()} className="sidebar-header-nav"><i className="fas fa-arrow-left mr-2 whiteColor"></i><span style={{fontSize: "1em", color: 'white'}}>Lanjut Belanja</span></NavLink>
           </Col>
           <Col sm="5" style={{textAlign: "end"}}>
+          {/* <Button onClick={() => console.log(props.cartStore.state.paymentMethod)}  */}
             <Button onClick={() => props.cartStore.doTransaction(props.userNow.id, props.modalStore.toggleModal)} 
             color="danger" size="lg" className="py-3 px-5 btn-bayar-fixed"><i className="fas fa-coins mr-2"></i> BAYAR</Button>
           </Col>
