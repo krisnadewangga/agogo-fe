@@ -61,7 +61,8 @@ class Modals extends Component {
     ],
     userLoggedIn :[],
     name: '',
-    transaction: {}
+    transaction: {},
+    uangFisik: 0,
     };
     this.root = React.createRef();
   };
@@ -79,14 +80,15 @@ class Modals extends Component {
     }
     that.setState({
       //Setting the value of the date time
-      date:
-        date + '/' + month + '/' + year,
+      date: date + '/' + month + '/' + year,
     });
   }
 
   componentWillUnmount(){
     this.props.cartStore.clearCart()
   }
+
+  componentDidUnmout
 
   clearCartCloseModal = (props) => {
     this.props.cartStore.clearCart() 
@@ -235,6 +237,10 @@ class Modals extends Component {
       case 'hitungKas':
         const user = sessionStorage.getItem('usernow')
         const data = JSON.parse(user)
+        const doSubmit = (e) => {
+          e.preventDefault();
+          this.props.cartStore.doPostKas(this.props.modalStore.state.transaction, this.state.uangFisik, this.props.modalStore)
+        }
         return (
           <div id="A" ref={this.root}>
           {this.root.current && (
@@ -247,7 +253,7 @@ class Modals extends Component {
         <Row>
           <Col xs={this.props.cartStore.state.approveOK ? '12' : '7'}>
           {this.props.cartStore.state.approveOK ?
-          <div style={{textAlign: "left"}}>
+          <form style={{textAlign: "left"}} onSubmit={doSubmit}>
             <h4>
             <tr>
               <td>Saldo Awal </td>
@@ -314,14 +320,13 @@ class Modals extends Component {
                 </td>
              </tr>
             <div className={'input-keyboard-wrapper active-input mt-1'}>
-                <Input  
-                  // value={this.props.cartStore.state.valueInputBooking["note"]}
-                  id={"noteLogout"}
-                  // onChange={this.props.cartStore.onChangeBooking}
-                  // onFocus={this.props.cartStore.setActiveInputBooking} 
-                  className="note-production" type="textarea" name="catatan" placeholder="Masukkan uang cash fisik diterima" rows="2"
-                  autoFocus
-                />
+              <NumberFormat thousandSeparator={'.'} decimalSeparator={','} prefix={'Rp '} className="mb-4 form-control-lg form-control" placeholder="Rp 0"  
+                name="noteLogout"
+                autoFocus
+                onFocus={this.props.cartStore.moveCaretAtEnd}
+                required
+                onValueChange={(e) => this.setState({uangFisik: e.value})}
+              />
             </div>
             {/* <tr>
               <td>Transaksi </td>
@@ -349,9 +354,9 @@ class Modals extends Component {
             </h4>
             <div style={{display: 'flex', justifyContent: 'space-between'}}>
               <Button color="secondary" size="lg" onClick={this.clearCartCloseModal}><i class="fas fa-times-circle mr-1"></i> Batalkan</Button>
-              <Button href="#" onClick={() => this.props.cartStore.doPostKas(this.props.modalStore.state.transaction, data, this.props.modalStore)} color="danger" className="btn btn-danger btn-lg"><i class="fas fa-check mr-1"></i> Sign Out</Button>
+              <Button type="submit" color="danger" className="btn btn-danger btn-lg"><i class="fas fa-check mr-1"></i> Sign Out</Button>
             </div>
-          </div>
+          </form>
           :
           <div>
           <h3>USER APPROVAL</h3>

@@ -1122,7 +1122,7 @@ addSelectedTransaction(id, current, idx) {
 
   }
 
-  doPostKas(transaction, user, modal){
+  doPostKas(transaction, uang_fisik, modal){
     const idKas = JSON.parse(sessionStorage.getItem('idKas'))
     const saldo_akhir = transaction.total_transaksi + transaction.saldo_awal - parseInt(transaction.total_refund)
     let postData = {
@@ -1131,6 +1131,7 @@ addSelectedTransaction(id, current, idx) {
         diskon: transaction.diskon,
         transaksi: transaction.total_transaksi,
         saldo_akhir: saldo_akhir,
+        uang_fisik_diterima: uang_fisik,
        // tax: transaction.tax,
        tax: 0,
         username_approval: this.state.dataReservation["user"],
@@ -1143,15 +1144,16 @@ addSelectedTransaction(id, current, idx) {
       modal.clearModal()
       modal.toggleModal('alert','','','Mohon lakukan approval terlebih dahulu!')
     } else {
-    axios.put(DefaultIP + '/api/updateKas/' + idKas.id, [postData])
+      // console.log({postData})
+      axios.put(DefaultIP + '/api/updateKas/' + idKas.id, [postData])
 
-    .then(res => {
-     document.location.href = '/logout'
-    })
-    .catch(res => {
-      modal.clearModal()
-      modal.toggleModal('alert','','',res.response.data.message)
-    })
+      .then(res => {
+      document.location.href = '/logout'
+      })
+      .catch(res => {
+        modal.clearModal()
+        modal.toggleModal('alert','','',res.response.data.message)
+      })
     }
   }
 
