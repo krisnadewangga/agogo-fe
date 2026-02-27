@@ -1,6 +1,7 @@
 import { Container } from 'unstated'
 import axios from 'axios'
 import DefaultIP from './DefaultIP' 
+import React from 'react';
 
 const initialState = {
   dataNyoba: [],
@@ -132,6 +133,7 @@ const initialState = {
     qris: false,
     value: ''
   },
+  keyboardRef : null
 };
 
 class CartsContainer extends Container {
@@ -1730,7 +1732,7 @@ addSelectedTransaction(id, current, idx) {
   }
 
   onChangePayment = valueInputPayment => {
-    console.log(valueInputPayment, 'xx')
+    console.log(this.state, 'xx')
     if(this.state.activeInputPayment === "approvalUser" || this.state.activeInputPayment === "approvalCode"){
       this.setState({
         valueInputRefund: valueInputPayment,

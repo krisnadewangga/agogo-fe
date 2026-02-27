@@ -35,6 +35,7 @@ const PaymentCheckout = (props) => {
   const handleUncheck = (changeState, state, label) => {
     changeState(state)
     if(state === false){
+      props.cartStore.keyboardRef.keyboard.clearInput();
       props.cartStore.setState(prevState => ({
         paymentMethod: {
           ...prevState.paymentMethod,
@@ -42,7 +43,8 @@ const PaymentCheckout = (props) => {
             ...prevState.paymentMethod.value,
             [label]: '',
           },
-        }
+        },
+        activeInputPayment: ''
       }),
         () =>{
           props.cartStore.sumGrandTotalAmount()
@@ -53,6 +55,7 @@ const PaymentCheckout = (props) => {
 
   const handleUncheckUangPas = (state) => {
     setUangPas(state)
+    props.cartStore.keyboardRef.keyboard.clearInput();
     if(state){
       setCash(false);
       setTransfer(false);

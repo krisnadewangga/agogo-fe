@@ -320,7 +320,7 @@ class Modals extends Component {
                 </td>
              </tr>
             <div className={'input-keyboard-wrapper active-input mt-1'}>
-              <NumberFormat thousandSeparator={'.'} decimalSeparator={','} prefix={'Rp '} className="mb-4 form-control-lg form-control" placeholder="Rp 0"  
+              <NumberFormat thousandSeparator={'.'} decimalSeparator={','} prefix={'Rp '} className="mb-4 form-control-lg form-control" placeholder="Cash fisik"  
                 name="noteLogout"
                 autoFocus
                 onFocus={this.props.cartStore.moveCaretAtEnd}
