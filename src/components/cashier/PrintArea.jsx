@@ -1,7 +1,7 @@
 import React from 'react'
 import NumberFormat from 'react-number-format'
 // import "./PrintArea.css"
-import LogoAgogo from "./../../img/logoa.png";
+import LogoAgogo from "../../img/logoa.png";
 const headContent = () =>{
   const alamat = process.env.REACT_APP_BRANCH_ADDRESS.split(',')
   const namaJalan = alamat[0]
@@ -253,43 +253,6 @@ return (
       {/* {paperFeed()} */}
     </div>
 
-    
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-    
     {/* PEMESANAN ORDER */}
     <div id="pesananOrder">
       {headContent()}
