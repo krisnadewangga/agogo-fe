@@ -29,7 +29,6 @@ const isTokenExpired = (token) => {
 
       var tokentime =  parseInt(tgltoken || 0) + 2
       if(hour > tokentime){
-        alert('lahini')
          sessionStorage.clear();
         return false
 
@@ -154,7 +153,7 @@ class App extends Component {
                   // this.activePath(props);
                   return(
                     isLoggedIn() === true && (whatRole() === 'all' || whatRole() === 'kasirpemesanan' || whatRole() === 'kasirproduksi' || whatRole() === 'kasir')
-                    ? <Redirect to={{ pathname: '/initial-balance', state: { from: props.location } }} />
+                    ? <Redirect to={{ pathname: '/selection', state: { from: props.location } }} />
                     : <UsersContainer {...props} 
                       rootStore={this.props.rootStore} 
                       activePath={props.match.path} />

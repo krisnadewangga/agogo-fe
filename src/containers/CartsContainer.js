@@ -133,7 +133,8 @@ const initialState = {
     qris: false,
     value: ''
   },
-  keyboardRef : null
+  keyboardRef : null,
+  prosesBayar: false,
 };
 
 class CartsContainer extends Container {
@@ -2103,14 +2104,17 @@ addSelectedTransaction(id, current, idx) {
       console.log(this.state.Tcode);
       if(Tcode == ""){
         console.log(this.state.data);
+        this.setState({prosesBayar: true});
         axios.post(DefaultIP + `/api/orders`, this.state.data)
           .then(res => {
             console.log(res.data.status);
+            this.setState({prosesBayar: false});
+
             if(res.data.status === 'success'){
               modal('bayarAmbil','','kasir')
 
                 this.selectedPrint('kasirTax')
-              this.setState({refund: [], data: []})
+                this.setState({prosesBayar: false, refund: [], data: []})
             
             }
             
@@ -2118,7 +2122,7 @@ addSelectedTransaction(id, current, idx) {
             .catch(res => {
             
               modal('alert', '' , '', res.response.data.message)
-              this.setState({refund: [], data: []})}
+              this.setState({prosesBayar: false, refund: [], data: []})}
         )
       }else{
         axios.post(DefaultIP+`/api/bayar_transaksi`, this.state.data)
@@ -2134,7 +2138,7 @@ addSelectedTransaction(id, current, idx) {
             // }
 
             this.selectedPrint('kasirTax')
-            this.setState({refund: [], data: []});
+            this.setState({prosesBayar: false, refund: [], data: []});
             this.setState({
               Tcode: '',
               
@@ -2144,7 +2148,7 @@ addSelectedTransaction(id, current, idx) {
             
           }).catch(res => {
            // modal('alert', '' , '', res.response.data.message)
-            this.setState({refund: [], data: []})
+            this.setState({prosesBayar: false, refund: [], data: []})
           });
       }
 

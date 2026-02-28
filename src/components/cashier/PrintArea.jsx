@@ -253,6 +253,43 @@ return (
       {/* {paperFeed()} */}
     </div>
 
+    
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    
     {/* PEMESANAN ORDER */}
     <div id="pesananOrder">
       {headContent()}

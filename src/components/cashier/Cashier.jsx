@@ -33,13 +33,15 @@ class Kasir extends Component {
   }
   
   componentDidMount(){
-
-     const user = JSON.parse(sessionStorage.getItem('usernow'))
-    this.setState({userLoggedIn: user, name: user.username.toUpperCase()});
- 
+    const user = JSON.parse(sessionStorage.getItem('usernow'))
     axios.get(DefaultIP + '/api/cekKas/'+user.id)
     .then(res => {
-        sessionStorage.setItem('idKas', JSON.stringify(res.data))
+      sessionStorage.setItem('idKas', JSON.stringify(res.data))
+      if(res.data.status === 'counted'){
+        window.location.href = '/initial-balance';        
+      } else {
+        this.setState({userLoggedIn: user, name: user.username.toUpperCase()});
+      }
     })
 
     // 

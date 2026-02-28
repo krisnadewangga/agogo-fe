@@ -101,8 +101,8 @@ const PaymentCheckout = (props) => {
           </Col>
           <Col sm="5" style={{textAlign: "end"}}>
           {/* <Button onClick={() => console.log(props.cartStore.state.paymentMethod)}  */}
-            <Button onClick={() => props.cartStore.doTransaction(props.userNow.id, props.modalStore.toggleModal)} 
-            color="danger" size="lg" className="py-3 px-5 btn-bayar-fixed"><i className="fas fa-coins mr-2"></i> BAYAR</Button>
+            <Button disabled={props.cartStore.state.prosesBayar} onClick={() => props.cartStore.doTransaction(props.userNow.id, props.modalStore.toggleModal)} 
+            color="danger" size="lg" className="py-3 px-5 btn-bayar-fixed"><i className="fas fa-coins mr-2"></i> BAYARS</Button>
           </Col>
         </Row>
 
