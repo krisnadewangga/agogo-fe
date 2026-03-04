@@ -102,7 +102,7 @@ const PaymentCheckout = (props) => {
           <Col sm="5" style={{textAlign: "end"}}>
           {/* <Button onClick={() => console.log(props.cartStore.state.paymentMethod)}  */}
             <Button disabled={props.cartStore.state.prosesBayar} onClick={() => props.cartStore.doTransaction(props.userNow.id, props.modalStore.toggleModal)} 
-            color="danger" size="lg" className="py-3 px-5 btn-bayar-fixed"><i className="fas fa-coins mr-2"></i> BAYARS</Button>
+            color="danger" size="lg" className="py-3 px-5 btn-bayar-fixed"><i className="fas fa-coins mr-2"></i> BAYAR</Button>
           </Col>
         </Row>
 
