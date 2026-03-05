@@ -251,7 +251,7 @@ class Modals extends Component {
           </ModalHeader>
         <ModalBody>
         <Row>
-          <Col xs={this.props.cartStore.state.approveOK ? '12' : '7'}>
+          <Col xs='7'>
           {this.props.cartStore.state.approveOK ?
           <form style={{textAlign: "left"}} onSubmit={doSubmit}>
             <h4>
@@ -381,7 +381,6 @@ class Modals extends Component {
           </div>
           }
           </Col>
-          {!this.props.cartStore.state.approveOK &&
           <Col xs="5">
             <CalcNumericKas
               cartStore={this.props.cartStore} 
@@ -390,7 +389,6 @@ class Modals extends Component {
               data={data}
             />
           </Col>
-          }
         </Row>
         </ModalBody>
         </Modal>
