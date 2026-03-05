@@ -239,7 +239,7 @@ class Modals extends Component {
         const data = JSON.parse(user)
         const doSubmit = (e) => {
           e.preventDefault();
-          this.props.cartStore.doPostKas(this.props.modalStore.state.transaction, this.state.uangFisik, this.props.modalStore)
+          this.props.cartStore.doPostKas(this.props.modalStore.state.transaction, this.props.cartStore.state.valueInputRefund?.noteLogout, this.props.modalStore)
         }
         return (
           <div id="A" ref={this.root}>
@@ -321,11 +321,12 @@ class Modals extends Component {
              </tr>
             <div className={'input-keyboard-wrapper active-input mt-1'}>
               <NumberFormat thousandSeparator={'.'} decimalSeparator={','} prefix={'Rp '} className="mb-4 form-control-lg form-control" placeholder="Cash fisik"  
-                name="noteLogout"
-                autoFocus
-                onFocus={this.props.cartStore.moveCaretAtEnd}
+                name="noteLogout" id="noteLogout"
                 required
-                onValueChange={(e) => this.setState({uangFisik: e.value})}
+                autoFocus
+                onFocus={this.props.cartStore.setActiveInputRefund}
+                onChange={this.props.cartStore.onChangeRefund}
+                value={this.props.cartStore.state.valueInputRefund["noteLogout"] || ''}
               />
             </div>
             {/* <tr>
