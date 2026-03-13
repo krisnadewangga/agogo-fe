@@ -3,8 +3,10 @@
 //export default 'http://127.0.0.1/agogo-backend/public';
 // export default 'http://192.168.1.30/agogo';
 
-export default 'https://pos.agogo-bakery.com';
+// export default 'https://pos.agogo-bakery.com';
 // export default 'http://localhost/agogo-be';
-//export default 'http://127.0.0.1:8000';
+// export default 'http://127.0.0.1:8000';
 //export default 'http://192.168.1.30/agogo';
+
+export default window.appConfig.API_BASE_URL;
 
