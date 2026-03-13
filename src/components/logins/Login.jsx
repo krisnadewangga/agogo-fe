@@ -148,7 +148,7 @@ class Login extends Component {
                     />
 
                     <FormGroup className="mt-4">
-                      <Label for="PIN" className="text-center d-block">Masukan PIN Anda</Label>
+                      <Label for="PIN" className="text-center d-block">Masukkan PIN Anda</Label>
                       <Input 
                         autoFocus
                         value={this.state.password} 
