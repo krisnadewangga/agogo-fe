@@ -18,20 +18,27 @@ class ProductsContainer extends Container {
   }
 
   fetchProducts() {
-    // axios.get(`http://gigit.store/wp-json/wp/v2/product?_embed`)
-    axios.get(DefaultIP + `/api/products`)
-    .then(res => {
-      // console.log(res);
-      const products = res.data;
-      this.setState({ 
-        products: products,
-      }, 
-        () => {
-          this.productsFiltered()
-          sessionStorage.setItem('products', JSON.stringify(products));
-        }
-      );
-    })
+    if(sessionStorage.getItem('products')){
+      const products = JSON.parse(sessionStorage.getItem('products'));
+      this.setState({
+        products: products
+      });
+    } else {
+      // axios.get(`http://gigit.store/wp-json/wp/v2/product?_embed`)
+      axios.get(DefaultIP + `/api/products`)
+      .then(res => {
+        // console.log(res);
+        const products = res.data;
+        this.setState({ 
+          products: products,
+        }, 
+          () => {
+            this.productsFiltered()
+            sessionStorage.setItem('products', JSON.stringify(products));
+          }
+        );
+      })
+    }
   }
 
   // CARI PRODUK

@@ -34,7 +34,9 @@ class CalcNumeric extends Component {
         inputQtyCartItem: inputQtyCartItem
       },
       () => {
-        this.keyboard.setInput(inputQtyCartItem);
+        if (this.keyboard) {
+          this.keyboard.setInput(inputQtyCartItem);
+        }
       }
     );
   };
@@ -44,8 +46,9 @@ class CalcNumeric extends Component {
       if (button === "{bksp}") {
         this.onReset();
       }
-      this.keyboard.clearInput();
-      this.keyboard.setInput('');
+      // if (this.keyboard) {
+      //   this.keyboard.setInput('');
+      // }
       this.props.cartStore.setState({
         onReset: false
       })
@@ -73,7 +76,9 @@ class CalcNumeric extends Component {
         inputQtyCartItem: 1
       },
       () => {
-        this.keyboard.clearInput();
+        // if (this.keyboard) {
+        //   this.keyboard.setInput('');
+        // }
       }
     );
   }

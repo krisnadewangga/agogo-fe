@@ -1485,7 +1485,8 @@ addSelectedTransaction(id, current, idx) {
     let cashPayment = parseInt(this.state.paymentMethod.value["cash"]) || 0
     let transferPayment = parseInt(this.state.paymentMethod.value["transfer"]) || 0
     let qrisPayment = parseInt(this.state.paymentMethod.value["qris"]) || 0
-    let grandPayment = cashPayment+transferPayment+qrisPayment;
+    let valuePaymentBooking = parseInt(this.state.valueInputPayment["paymentTotal"]) || 0
+    let grandPayment = cashPayment+transferPayment+qrisPayment+valuePaymentBooking;
     return grandPayment
   }
 
@@ -2041,6 +2042,13 @@ addSelectedTransaction(id, current, idx) {
     // alert("ini dia");
     let whatBooking = this.state.refund
     let items = this.state.items
+    let cash = parseInt(this.state.paymentMethod.value["cash"]) || 0
+    let transfer = parseInt(this.state.paymentMethod.value["transfer"]) || 0
+    let qris = parseInt(this.state.paymentMethod.value["qris"]) || 0
+    if((cash + transfer + qris) > this.state.leftToPay){
+      cash = this.state.leftToPay - transfer - qris;
+    }
+            
     this.setState({data: []}, () => {
     if(whatBooking.length === 0){
       items.forEach((x) => 
@@ -2058,9 +2066,9 @@ addSelectedTransaction(id, current, idx) {
             kembali: this.state.changePayment,
             // tax: this.state.totalTax,
             tax: 0,
-            cash: parseInt(this.state.paymentMethod.value["cash"]) || 0,
-            transfer: parseInt(this.state.paymentMethod.value["transfer"]) || 0,
-            qris: parseInt(this.state.paymentMethod.value["qris"]) || 0,
+            cash: cash,
+            transfer: transfer,
+            qris: qris,
             status: "PAID",
           })
       )
@@ -2204,7 +2212,7 @@ addSelectedTransaction(id, current, idx) {
           total: item.total,
           uang_muka: item.uang_muka,
           waktu_selesai: item.waktu_selesai,
-          uang_dibayar: this.state.payment,
+          uang_dibayar: this.state.valueInputPayment["paymentTotal"],
           uang_kembali: this.state.changePayment,
           diskon: this.state.discountAmount,
           subtotal: this.state.totalAmount,

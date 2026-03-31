@@ -4,13 +4,17 @@ import { CardDeck, CardImg, CardBody, CardTitle, CardImgOverlay } from 'reactstr
 
 import './ProductItem.scss';
 import DefaultImage from '../../containers/DefaultImage';
+import DefaultIP from '../../containers/DefaultIP';
 
 const ProductItem = (props) => {
+  const imgServer = props.productImage;
+  const imgLocal = imgServer.replace("https://pos.agogo-bakery.com", DefaultIP);
+
   return (
     <CardDeck className="product-item p-1">
       {/* idx, id, name, qty, price */}
       <a href="#" onClick={() => props.cartStore.addSelectedProduct(props.productIndex, props.productID, props.productName, props.productQty, props.productPrice, props.activePath, props.modalStore)}>
-        <CardImg top width="100%" loading="lazy" src={props.productImage} alt={props.productName} onError={(e) => {
+        <CardImg top width="100%" loading="lazy" src={imgLocal} alt={props.productName} onError={(e) => {
             e.currentTarget.onerror = null; // prevents infinite loop if fallback also fails
             e.currentTarget.src = DefaultImage; // set the fallback source
          }} />
