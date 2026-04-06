@@ -6,6 +6,7 @@ import CartProductionTotal from '../CartProductionTotal'
 import './CartProduction.scss'
 import OthersProduction from './OthersProduction';
 import ProductionStore from './ProductionStore';
+import DefaultIP from '../../../containers/DefaultIP'
 
 class CartProduction extends React.Component {
 
@@ -41,6 +42,9 @@ class CartProduction extends React.Component {
     }
 
     render() {
+        const imgServer = this.props.cartStore.state?.selectedProduct?.photo;
+        const imgLocal = imgServer ? imgServer.replace("https://pos.agogo-bakery.com", DefaultIP) : null;
+        
         return (
 
 
@@ -52,7 +56,7 @@ class CartProduction extends React.Component {
 
                         
                         <div className="view-img img-fluid" style={{marginTop: "10px", maxWidth: 300, maxHeight: 300}}>
-                            <img className="img-fluid" style={{maxWidth: 300, maxHeight: 300}} src={this.props.cartStore.state.selectedProduct.photo}></img>
+                            <img className="img-fluid" style={{maxWidth: 300, maxHeight: 300}} src={imgLocal}></img>
                         </div>
                         <div className="select-view-product">
                             { this.props.cartStore.state.selectedProduct.name ? this.props.cartStore.state.selectedProduct.name : "Pilih product untuk melihat stok"}

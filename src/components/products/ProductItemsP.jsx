@@ -1,5 +1,5 @@
 import React from 'react'
-import ProductItem from './ProductItemP';
+import ProductItem from './ProductItem';
 import { Row, Col } from 'reactstrap';
 import "./ProductItems.scss";
 
