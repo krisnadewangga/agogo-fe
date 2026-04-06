@@ -18,12 +18,12 @@ class ProductsContainer extends Container {
   }
 
   fetchProducts() {
-    if(sessionStorage.getItem('products')){
-      const products = JSON.parse(sessionStorage.getItem('products'));
-      this.setState({
-        products: products
-      });
-    } else {
+    // if(sessionStorage.getItem('products')){
+    //   const products = JSON.parse(sessionStorage.getItem('products'));
+    //   this.setState({
+    //     products: products
+    //   });
+    // } else {
       // axios.get(`http://gigit.store/wp-json/wp/v2/product?_embed`)
       axios.get(DefaultIP + `/api/products`)
       .then(res => {
@@ -34,11 +34,11 @@ class ProductsContainer extends Container {
         }, 
           () => {
             this.productsFiltered()
-            sessionStorage.setItem('products', JSON.stringify(products));
+            // sessionStorage.setItem('products', JSON.stringify(products));
           }
         );
       })
-    }
+    // }
   }
 
   // CARI PRODUK
