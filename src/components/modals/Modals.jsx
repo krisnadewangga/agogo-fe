@@ -288,7 +288,7 @@ class Modals extends Component {
               <td>CASH </td>
               <td>:</td>
               <td className='toRight'>
-              <NumberFormat value={parseInt(this.props.modalStore.state.transaction.cash)}
+              <NumberFormat value={parseInt(this.props.modalStore.state.transaction.cash + this.props.modalStore.state.transaction.total_pelunasan_preorders + this.props.modalStore.state.transaction.total_dp_preorders)}
                 displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} prefix={' Rp '} />
               </td>
             </tr>
@@ -315,7 +315,11 @@ class Modals extends Component {
               <td className='toRight'>
               <NumberFormat value={parseInt(this.props.modalStore.state.transaction.cash) + 
                 parseInt(this.props.modalStore.state.transaction.transfer) +
-                parseInt(this.props.modalStore.state.transaction.qris)}
+                parseInt(this.props.modalStore.state.transaction.total_pelunasan_preorders) +
+                parseInt(this.props.modalStore.state.transaction.total_dp_preorders) +
+                parseInt(this.props.modalStore.state.transaction.qris)
+              
+              }
                 displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} prefix={' Rp '} />
                 </td>
              </tr>
