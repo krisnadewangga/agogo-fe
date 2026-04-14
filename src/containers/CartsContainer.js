@@ -2091,6 +2091,9 @@ addSelectedTransaction(id, current, idx) {
             kembali: this.state.changePayment,
            // tax: this.state.totalTax,
             tax: 0,
+            cash: cash,
+            transfer: transfer,
+            qris: qris,
             status: "PAID",
         })
       )
