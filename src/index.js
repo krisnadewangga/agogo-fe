@@ -1,7 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider, Subscribe } from 'unstated'
-import {Modal} from 'reactstrap'
+import { createRoot } from 'react-dom/client';
+import { Provider, Subscribe } from './lib/unstated-compat'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './sass/index.scss';
@@ -14,11 +13,12 @@ import ProductsContainer from './containers/ProductsContainer'
 
 import Modals from './components/modals/Modals';
 import App from './App';
-
-import * as serviceWorker from './serviceWorker';
 // Modal.setAppElement('#root');
 
-ReactDOM.render(
+const rootElement = document.getElementById('root');
+const root = createRoot(rootElement);
+
+root.render(
   <Provider>
 
     <Subscribe to={[RootContainer, ModalsContainer, CartsContainer, ProductsContainer]}>
@@ -54,11 +54,5 @@ ReactDOM.render(
       )}
     </Subscribe>
 
-  </Provider>, 
-document.getElementById('root'));
-
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+  </Provider>
+);

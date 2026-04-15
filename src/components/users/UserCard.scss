@@ -1,4 +1,4 @@
-@import "../../sass/vars";
+@use "../../sass/vars" as *;
 
 .UserCard.card{
   border: none;

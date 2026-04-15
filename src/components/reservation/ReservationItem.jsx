@@ -12,13 +12,13 @@ const ReservationItem = (props) => {
     <div>
         <Row>
           <Col sm="6" className="row-trx" onClick={() => props.cartStore.addSelectedReservation(props.trxID, props.trxName) || props.cartStore.reservationCheckout()}>
-            <a className="open-booking" href="#" >
-              {props.trxName}</a>
+            <span className="open-booking">
+              {props.trxName}</span>
               
           </Col>
           <Col sm="4" className="transaction-list">
-            <a className="open-booking" href="#" >
-              {formatedDate}</a>
+            <span className="open-booking">
+              {formatedDate}</span>
           </Col>
           {/* <Col sm="2" className="transaction-list">
             <a href="#"  onClick={() => props.cartStore.deleteReservation(props.trxID, props.trxIndex)}><i className="fas fa-backspace btn-delete-item" style={{ color: "black" }} /></a>

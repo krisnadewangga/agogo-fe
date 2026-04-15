@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Container, Button } from 'reactstrap';
+import { Table, Container } from 'reactstrap';
 import ShadowScrollbars from '../scrollbars/ShadowScrollbars';
 
 import CartHeader from './CartHeader';
@@ -9,14 +9,9 @@ import RefundItems from './RefundItems';
 import CartBookingTotal from './CartBookingTotal';
 
 import './Cart.scss';
-import { relative } from 'path';
 
 
 class Cart extends Component {
-  constructor(props){
-    super(props)
-  }
-
   state = {
     cart: [],
     footerNvaBarHeight: 350,

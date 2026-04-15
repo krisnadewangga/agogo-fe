@@ -1,5 +1,5 @@
 import React from 'react'
-import NumberFormat from 'react-number-format'
+import { NumericFormat as NumberFormat } from 'react-number-format'
 // import "./PrintArea.css"
 
 const headContent = () =>{

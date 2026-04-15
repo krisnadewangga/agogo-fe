@@ -10,11 +10,6 @@ import '../../booking/CartBooking.scss'
 
 
 class CartBooking extends React.Component {
-    constructor(props) {
-        super(props)
-        
-    }
-
     state = {
         cart: [],
         footerNvaBarHeight: 350,

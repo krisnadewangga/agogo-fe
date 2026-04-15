@@ -3,10 +3,9 @@ import { Nav, NavItem, NavLink, Input } from 'reactstrap';
 import axios from 'axios';
 // import DefaultIP from '../../containers/DefaultIP';
 import DefaultIP from '../../containers/DefaultIP';
+import classNames from 'classnames';
 
 import './ProductCategories.scss';
-
-var classNames = require('classnames');
 
 
 class ProductCategories extends Component {
@@ -28,11 +27,10 @@ class ProductCategories extends Component {
   fetchCategories() {
     axios.get(DefaultIP+`/api/categories`)
     .then(res => {
-      // console.log(res);
-      const categories = res.data;
-      categories.map(x => 
-      this.setState({ categories: [...this.state.categories, x] })
-      )
+      const categories = Array.isArray(res.data) ? res.data : [];
+      this.setState(prevState => ({
+        categories: [...prevState.categories, ...categories]
+      }))
     })
   }
 

@@ -1,18 +1,77 @@
 
+@use "../../sass/vars" as *;
+
 .ReservationCheckout{
   color: white;
+
+  .SidebarHeader {
+    margin-top: .35rem;
+    margin-bottom: .85rem;
+    align-items: center;
+  }
+
+  .SidebarBody {
+    margin-top: .35rem;
+    background: rgba(0, 0, 0, .36);
+    border: 1px solid rgba(255, 255, 255, .16);
+    border-radius: 1rem;
+    padding: 1rem .8rem;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, .22);
+  }
+
+  .SidebarFooter {
+    margin-top: .85rem !important;
+    background: rgba(0, 0, 0, .36);
+    border: 1px solid rgba(255, 255, 255, .16);
+    border-radius: 1rem;
+    padding: .8rem .7rem;
+  }
+
+  .btn-bayar-fixed {
+    border-radius: .8rem;
+    font-weight: 700;
+    box-shadow: 0 10px 22px rgba(152, 48, 37, .35);
+  }
 
   input{
     margin-left: -1rem;
   }
 
+  .form-control,
+  .form-control-md {
+    border-radius: .72rem;
+    border: 1px solid rgba(255, 255, 255, .22);
+    background: rgba(255, 255, 255, .12);
+    color: #fff;
+  }
+
+  .form-control::placeholder,
+  .form-control-md::placeholder {
+    color: rgba(255, 255, 255, .7);
+  }
+
+  .form-control:focus,
+  .form-control-md:focus {
+    border-color: rgba(253, 190, 30, .85);
+    box-shadow: 0 0 0 .16rem rgba(253, 190, 30, .23);
+  }
+
+  h5 {
+    color: rgba(255, 255, 255, .92);
+  }
+
+  .text-orange {
+    color: $orange !important;
+  }
+
   .input-keyboard-wrapper{
     position: relative;
+
     .input-masking{
       position: absolute;
       top: 0;
       left: 0;
-      opacity: 0;;
+      opacity: 0;
     }
   }
 }

@@ -3,11 +3,6 @@ import { Row, Col } from 'reactstrap';
 import ReservationItem from './ReservationItem';
 
 class ReservationItems extends Component {
-
-  constructor(props){
-    super(props)
-  }
-
   render(){
 
     return (

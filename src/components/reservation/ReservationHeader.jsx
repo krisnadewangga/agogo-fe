@@ -1,5 +1,4 @@
 import React from 'react'
-import { NavLink } from 'reactstrap';
 
 const ReservationHeader = (props) => {
   return (

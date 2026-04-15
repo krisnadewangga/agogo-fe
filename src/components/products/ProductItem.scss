@@ -1,34 +1,83 @@
 .product-item{
-  .card-title{
-    font-size: 0.85rem;
+  margin-bottom: 0;
+  border-radius: .25rem;
+  overflow: hidden;
+  box-shadow: none;
+  border: 1px solid rgba(255, 255, 255, .12);
+  transition: transform .2s ease, box-shadow .2s ease;
+
+  img {
+    height: 142px;
+    object-fit: cover;
+    filter: saturate(1.02);
+  }
+
+  button {
+    position: relative;
+    display: block;
+    width: 100%;
+  }
+
+  .product-thumb {
+    position: relative;
+  }
+
+  .product-caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+    padding: .35rem .45rem;
+    background: linear-gradient(180deg, rgba(0, 0, 0, .08) 0%, rgba(0, 0, 0, .8) 58%);
+  }
+
+  .product-title {
+    font-size: .86rem;
     margin: 0;
     font-style: italic;
     font-weight: 700;
-    height: 32px;;
+    line-height: 1.18;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
- 
-  .card-img-overlay{
-    margin: 0.25rem;
-    padding: 0.5rem;
-    top: inherit;
-    bottom: 0;
-    background-color: rgba($color: #000000, $alpha: .75)
+  .product-price {
+    margin-top: .08rem;
+    font-size: .86rem;
+    color: #fff;
+    font-style: italic;
+    font-weight: 700;
+    line-height: 1;
   }
+
+  button {
+    outline: none;
+  }
+
   &:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, .18);
+
     .product-is-added{
-      opacity: 1;;
+      opacity: 1;
     }
   }
+
   .product-is-added{
     position: absolute;
     top: 25%;
     left: 50%;
     margin: 0 0 0 -1.5rem;
     font-size: 3rem;
-    color: white;
+    color: #f4be1a;
+    text-shadow: 0 8px 16px rgba(0, 0, 0, .35);
     opacity: 0;
-    transition: all .3s ease-in-out; -webkit-transition: all 0.3s ease-in-out;
+    transition: all .3s ease-in-out;
+    -webkit-transition: all .3s ease-in-out;
+
     &:hover{
       opacity: 1;
     }

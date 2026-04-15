@@ -1,15 +1,20 @@
 import React from 'react'
 import { Container, Row, Col, NavLink, Button, Input, Form, FormGroup, Label } from 'reactstrap';
-import NumberFormat from 'react-number-format';
-import DatePicker from 'react-datepicker'
+import { NumericFormat as NumberFormat } from 'react-number-format';
 import TimePicker from 'react-time-picker'
 
 import './OrderBooking.scss';
-import 'react-times/css/material/default.css'
-import "react-datepicker/dist/react-datepicker.css";
 import FooterNavRightBooking from '../navigations/FooterNavRightBooking'
 
 const OrderBooking = (props) => {
+        const toDateValue = (date) => {
+            if (!date) return '';
+            const d = new Date(date);
+            if (Number.isNaN(d.getTime())) return '';
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${d.getFullYear()}-${month}-${day}`;
+        };
 
         return (
 
@@ -41,12 +46,15 @@ const OrderBooking = (props) => {
                                 onChange={props.cartStore.onChangeBooking}
                                 onFocus={props.cartStore.setActiveInputBooking}
                                 /> */}
-                            <DatePicker 
-                                selected={props.cartStore.state.startDate}
-                                onChange={props.cartStore.handleDateChange}
-                                minDate={new Date()}
-                                dateFormat='dd/MM/yyyy'
-                                />
+                            <Input
+                                className="input-tgl"
+                                type="date"
+                                name="bookingDate"
+                                id="bookingDate"
+                                value={toDateValue(props.cartStore.state.startDate)}
+                                min={toDateValue(new Date())}
+                                onChange={(e) => props.cartStore.handleDateChange(new Date(e.target.value))}
+                            />
                         </Col>
                         <Col>
                             <h7 className="mb-0">JAM SELESAI</h7>

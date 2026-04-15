@@ -1,5 +1,4 @@
 import React from 'react'
-import { Input, Button, Popover, PopoverBody} from 'reactstrap'
 
 class OthersProduction extends React.Component {
     constructor(props) {
@@ -20,17 +19,17 @@ class OthersProduction extends React.Component {
             <div>
                 <div>
                 <tr>
-                    <th><i class="fas fa-minus-circle add-product"> Lain-lain</i></th>
+                    <th><i className="fas fa-minus-circle add-product"> Lain-lain</i></th>
                 </tr>
                 <tr>
                     <td className="broken-production">Rusak</td>
                     <td className="product-total-broken text-right" >{ this.props.cartStore.state.produksi[this.props.cartStore.state.selectedProduct.name + "rusak"] || "-"}</td>
-                    <td><a className={this.props.cartStore.productionButton4()} onClick={() => this.props.modalStore.toggleModal('productionOther', 'lg', "4")}><i class="fas fa-pen-square edit"></i></a></td>
+                    <td><button type="button" className={this.props.cartStore.productionButton4()} onClick={() => this.props.modalStore.toggleModal('productionOther', 'lg', "4")}><i className="fas fa-pen-square edit"></i></button></td>
                 </tr>
                 <tr>
                     <td className="others-production">Lain-lain</td>
                     <td className="product-total-others text-right" >{ this.props.cartStore.state.produksi[this.props.cartStore.state.selectedProduct.name + "lain"] || "-"}</td>
-                    <td><a className={this.props.cartStore.productionButton5()} onClick={() => this.props.modalStore.toggleModal('productionOther', 'lg', "5")}><i class="fas fa-pen-square edit"></i></a></td>
+                    <td><button type="button" className={this.props.cartStore.productionButton5()} onClick={() => this.props.modalStore.toggleModal('productionOther', 'lg', "5")}><i className="fas fa-pen-square edit"></i></button></td>
                 </tr>
                 <hr />
                 <tr>

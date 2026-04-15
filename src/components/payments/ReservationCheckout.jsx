@@ -1,6 +1,6 @@
-import React, {Component} from 'react'
+import React from 'react'
 import { Container, Row, Col, NavLink, Button, Input, Label, FormGroup } from 'reactstrap';
-import NumberFormat from 'react-number-format';
+import { NumericFormat as NumberFormat } from 'react-number-format';
 import CalcNumericPayment from '../calcs/CalcNumericPayment'
 import './PaymentCheckout.scss';
 

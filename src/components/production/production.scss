@@ -1,0 +1,291 @@
+@use "../../sass/vars" as *;
+
+.production {
+	position: relative;
+	width: 100%;
+	min-height: 100vh;
+	color: #1f2328;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+	overflow-x: hidden;
+
+	> .row {
+		--bs-gutter-x: 0;
+		margin-left: 0;
+		margin-right: 0;
+	}
+
+	> .row > [class*="col-"] {
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	&-cart {
+		background-color: #d8d8d8;
+		border-right: 0;
+	}
+
+	&-product {
+		background: #1c1208;
+		padding-bottom: 6rem;
+		box-shadow: none;
+
+		> .row {
+			--bs-gutter-x: 0;
+			margin-left: 0;
+			margin-right: 0;
+		}
+
+		> .row > [class*="col-"] {
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
+
+	.product-nav,
+	.cart-header {
+		position: fixed;
+		right: 0;
+		width: 50%;
+		background-color: #000;
+		text-align: right;
+		z-index: 3;
+		min-height: 73px;
+		box-shadow: none;
+
+		.navbar {
+			padding: 0;
+			width: 100%;
+		}
+
+		.nav {
+			flex-wrap: nowrap;
+			align-items: stretch;
+			width: 100%;
+		}
+
+		.nav-item {
+			display: flex;
+			align-items: stretch;
+			justify-content: center;
+			min-width: 70px;
+		}
+
+		.nav-link {
+			padding: 1rem 1.2rem;
+			font-weight: 700;
+			color: #fff;
+			text-align: center;
+			transition: background-color .2s ease, color .2s ease;
+
+			.fas {
+				font-size: 1.9rem;
+			}
+
+			&:hover {
+				background-color: rgba(255, 255, 255, .12);
+			}
+		}
+	}
+
+	.cart-header {
+		top: 0;
+		bottom: auto;
+		left: 0;
+		right: auto;
+		background: #000;
+		box-shadow: none;
+
+		a {
+			color: #fff;
+		}
+
+		.navbar-brand {
+			font-style: italic;
+			font-weight: 700;
+		}
+
+		.navbar-close .fas {
+			font-size: 2rem;
+			margin-top: -10px;
+			position: relative;
+			top: 5px;
+		}
+	}
+
+	.product-nav {
+		bottom: 0;
+		left: auto;
+		right: 0;
+		text-align: right;
+		background-color: #000;
+		font-style: italic;
+		font-weight: 700;
+		border-top: 1px solid rgba(255, 255, 255, .12);
+
+		> [class*="col-"] {
+			display: flex;
+			align-items: center;
+		}
+
+		.navbar {
+			width: 100%;
+			min-height: 74px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.production-footer-left,
+		.production-footer-right {
+			display: flex;
+			align-items: center;
+			justify-content: flex-start;
+			gap: .1rem;
+			flex-wrap: nowrap;
+		}
+
+		.production-footer-left {
+			flex: 1 1 auto;
+			min-width: 0;
+		}
+
+		.production-footer-right {
+			flex: 0 0 auto;
+			justify-content: flex-end;
+		}
+
+		.radio-btn {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			gap: .35rem;
+			padding: 0 .55rem;
+			margin: .35rem .2rem;
+			border-radius: 0;
+			background: transparent;
+			border: 0;
+
+			.radio {
+				width: .95rem;
+				height: .95rem;
+				accent-color: $orange;
+			}
+
+			.item-stok {
+				font-size: .82rem;
+				color: #fff;
+				font-style: normal;
+				white-space: nowrap;
+			}
+		}
+
+		.nav-link {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: .1rem;
+			min-height: 72px;
+			padding: .45rem .55rem;
+			font-size: .72rem;
+			font-weight: 700;
+			line-height: 1.05;
+
+			.fas {
+				font-size: 1.55rem;
+			}
+
+			.nav-label {
+				display: block;
+				white-space: nowrap;
+			}
+		}
+
+		.btn-fullscreen-other {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: .1rem;
+			font-size: .72rem;
+			font-weight: 700;
+			min-height: 72px;
+			padding: .45rem .55rem;
+			margin: 0;
+			line-height: 1.05;
+			color: #fff;
+			background: transparent;
+			border: 0;
+
+			.fas {
+				font-size: 1.55rem;
+			}
+
+			.nav-label {
+				display: block;
+				white-space: nowrap;
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: 767px) {
+	.production {
+		overflow-y: auto;
+		overflow-x: hidden;
+
+		&-cart,
+		&-product {
+			width: 100%;
+			max-width: 100%;
+			min-height: auto;
+			padding-bottom: 0;
+		}
+
+		.product-nav,
+		.cart-header {
+			position: sticky;
+			width: 100%;
+			left: 0;
+			right: auto;
+
+			.navbar {
+				min-height: 62px;
+			}
+
+			.nav {
+				flex-wrap: wrap;
+				justify-content: center;
+			}
+
+			.nav-link {
+				padding: .72rem .62rem;
+				font-size: .8rem;
+
+				.fas {
+					font-size: 1.38rem;
+				}
+			}
+		}
+
+		.cart-header {
+			top: 0;
+			z-index: 6;
+		}
+
+		.product-nav {
+			bottom: 0;
+			z-index: 5;
+
+			.radio-btn {
+				margin: .2rem;
+				padding: 0 .42rem;
+
+				.item-stok {
+					font-size: .74rem;
+				}
+			}
+		}
+	}
+}

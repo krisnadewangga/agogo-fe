@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Row, Col, NavLink, Button, Input, Table } from 'reactstrap';
+import { Container, Row, Col, NavLink, Table } from 'reactstrap';
 import ShadowScrollbars from '../scrollbars/ShadowScrollbars';
 import FooterNavRightBooking from '../navigations/FooterNavRightBooking'
 
@@ -9,9 +9,9 @@ import OrderItems from './OrderItems';
 const OrderBookingDelete = (props) => {
   
   return (
-<Container className="reservation mt-4 pt-5 pr-0 pl-0">
+<Container className="order-booking-list mt-4 pt-5 pr-0 pl-0">
         <NavLink onClick={() => props.cartStore.toggleOrderBookingDeleteShow()} className="sidebar-header-nav"><i className="fas fa-arrow-left mr-2"></i>Delete Pemesanan</NavLink>
-            <Table style={{color: "white"}} borderless striped>
+            <Table borderless striped>
               <OrderHeader cartStore={props.cartStore}/>
             </Table>
   
@@ -24,7 +24,7 @@ const OrderBookingDelete = (props) => {
               autoHeightMax={0}
             >
               <div className="scroll-wrapper">
-                <Table style={{color: "white"}} borderless striped className="mb-0">
+                <Table borderless striped className="mb-0">
                   <OrderItems cartStore={props.cartStore}/>
                 </Table>
               </div>

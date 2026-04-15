@@ -1,10 +1,77 @@
 
+@use "../../sass/vars" as *;
+
 .Refund{
     color: white;
+
+        .SidebarHeader {
+            margin-top: .35rem;
+            margin-bottom: .85rem;
+            align-items: center;
+        }
+
+        .SidebarBody {
+            margin-top: .35rem;
+            background: rgba(0, 0, 0, .36);
+            border: 1px solid rgba(255, 255, 255, .16);
+            border-radius: 1rem;
+            padding: 1rem .8rem;
+            box-shadow: 0 14px 28px rgba(0, 0, 0, .22);
+        }
+
+        .SidebarFooter {
+            margin-top: .85rem !important;
+        }
+
+        .btn {
+            border-radius: .8rem;
+            font-weight: 700;
+            box-shadow: 0 10px 22px rgba(152, 48, 37, .35);
+        }
+
+        h5 {
+            color: rgba(255, 255, 255, .92);
+            font-size: .96rem;
+            letter-spacing: .02em;
+        }
+
+        .form-check-label {
+            margin-left: .35rem;
+            margin-right: .85rem;
+            color: rgba(255, 255, 255, .92);
+            font-weight: 600;
+        }
+
+        input[type=radio] {
+            accent-color: $orange;
+            width: 1rem;
+            height: 1rem;
+            margin-top: .2rem;
+            display: block;
+        }
   
     input{
       margin-left: -1rem;
     }
+
+        .form-control,
+        .form-control-lg {
+            border-radius: .72rem;
+            border: 1px solid rgba(255, 255, 255, .22);
+            background: rgba(255, 255, 255, .12);
+            color: #fff;
+        }
+
+        .form-control::placeholder,
+        .form-control-lg::placeholder {
+            color: rgba(255, 255, 255, .7);
+        }
+
+        .form-control:focus,
+        .form-control-lg:focus {
+            border-color: rgba(253, 190, 30, .85);
+            box-shadow: 0 0 0 .16rem rgba(253, 190, 30, .23);
+        }
   
     .input-data-wrapper{
       position: relative;
@@ -12,19 +79,19 @@
         position: absolute;
         top: 0;
         left: 0;
-        opacity: 0;;
+                opacity: 0;
       }
     }
   }
 
 .SidebarHeader {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: .35rem;
+    margin-bottom: .85rem;
 }
 
 .SidebarBody {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: .35rem;
+    margin-bottom: .85rem;
 }
 
 .input {
@@ -38,7 +105,7 @@
 
 .input:focus,
 .input:hover {
-    background-color: none;
+    background-color: transparent;
 }
 
 textarea.input-note.form-control {
@@ -63,7 +130,7 @@ textarea.input-note.form-control {
 }
 
 input[type=radio] {
-    margin-top: 5px;
+    margin-top: .2rem;
     display: block;
 }
 

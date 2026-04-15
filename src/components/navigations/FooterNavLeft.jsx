@@ -3,11 +3,6 @@ import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Input } from 'reactstrap';
 
 class FooterNavLeft  extends Component {
 
-  constructor(props){
-    super(props)
-  }
-
-
   handleChange = (e) => {
     this.props.cartStore.setState({
       searchCode: e.target.value

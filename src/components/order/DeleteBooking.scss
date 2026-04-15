@@ -1,5 +1,68 @@
+@use "../../sass/vars" as *;
+
 .deleteBooking {
     color: white;
+        top: 0;
+        position: fixed;
+        width: 50%;
+        left: 50%;
+        height: 100%;
+        overflow-y: auto;
+        padding: .75rem .25rem 1.5rem;
+
+        .container {
+            background: rgba(0, 0, 0, .34);
+            border: 1px solid rgba(255, 255, 255, .16);
+            border-radius: 1rem;
+            box-shadow: 0 14px 28px rgba(0, 0, 0, .22);
+            padding: .85rem;
+        }
+
+        .form-control,
+        .input-user,
+        .input-password {
+            border-radius: .72rem;
+            border: 1px solid rgba(255, 255, 255, .22);
+            background: rgba(255, 255, 255, .12);
+            color: #fff;
+            min-height: 2.35rem;
+        }
+
+        .form-control:disabled,
+        .form-control[readonly] {
+            background: rgba(255, 255, 255, .08);
+            color: rgba(255, 255, 255, .85);
+        }
+
+        .form-control::placeholder,
+        .input-user::placeholder,
+        .input-password::placeholder {
+            color: rgba(255, 255, 255, .68);
+        }
+
+        .form-control:focus,
+        .input-user:focus,
+        .input-password:focus {
+            border-color: rgba(253, 190, 30, .85);
+            box-shadow: 0 0 0 .16rem rgba(253, 190, 30, .22);
+        }
+
+        .btn-del {
+            width: 170px;
+            border-radius: .75rem;
+            background: linear-gradient(135deg, $red 0%, #7e261d 100%);
+            color: #fff;
+            padding: .62rem .9rem;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(152, 48, 37, .34);
+        }
+
+        h7.mb-0 {
+            color: rgba(255, 255, 255, .82);
+            font-size: .74rem;
+            letter-spacing: .03em;
+            font-weight: 700;
+        }
     
     input{
     margin-left: -1rem;
@@ -11,7 +74,7 @@
         position: absolute;
         top: 0;
         left: 0;
-        opacity: 0;;
+        opacity: 0;
     }
     }
 }
@@ -22,8 +85,8 @@
 }
 
 h7.mb-0 {
-    color: rgb(136, 135, 135);
-    font-size: 10pt;
+    color: rgba(255, 255, 255, .82);
+    font-size: .74rem;
 }
 
 .SidebarBottom {
@@ -31,13 +94,13 @@ h7.mb-0 {
 }
 
 .notif-close {
-    font-size: 8pt;
-    color: orange;
+    font-size: .72rem;
+    color: $orange;
 }
 
 .notif {
-    font-size: 9pt;
-    color: orange;
+    font-size: .8rem;
+    color: $orange;
     font-style: italic;
 }
 
@@ -46,8 +109,21 @@ h7.mb-0 {
 }
 
 .btn-del {
-    background-color: brown;
-    width: 150px;
-    color: white;
-    padding: 10px;
+        background: linear-gradient(135deg, $red 0%, #7e261d 100%);
+        width: 170px;
+        color: white;
+        padding: .62rem .9rem;
+        border: 0;
+}
+
+@media only screen and (max-width: 991px) {
+    .deleteBooking {
+        width: 100%;
+        left: 0;
+        padding: .7rem .15rem 1rem;
+
+        .container {
+            padding: .6rem;
+        }
+    }
 }

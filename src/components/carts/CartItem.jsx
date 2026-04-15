@@ -1,11 +1,11 @@
 import React from 'react'
 import { Input } from 'reactstrap';
-import NumberFormat from 'react-number-format';
+import { NumericFormat as NumberFormat } from 'react-number-format';
 
 const CartItem = (props) => {
   return (
     <tr>
-      <td className="item-name" scope="row">{props.title}</td>
+      <th className="item-name" scope="row">{props.title}</th>
       { props.cartStore.state.isRefundItem ?
         <td className="item-delete text-right">
           <i className="fas fa-undo btn-delete-item" onClick={() => props.cartStore.onRemoveToRefund(props.idx)} />
@@ -25,7 +25,7 @@ const CartItem = (props) => {
           size="sm" 
           placeholder={props.qty} 
           onClick={() => props.cartStore.setSelectedQtyID(props.idx, props.id, props.qty)}
-          readonly
+          readOnly
         />
         {/* <input id="input1" onFocus={this.setActiveInput} value={this.state.input['input1'] || ""}/>
         <input id="input2" onFocus={this.setActiveInput} value={this.state.input['input2'] || ""}/> */}

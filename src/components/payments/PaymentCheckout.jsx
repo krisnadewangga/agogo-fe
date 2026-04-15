@@ -1,6 +1,6 @@
-import React, {Component} from 'react'
-import { Container, Row, Col, NavLink, Button, Input, Label, Form, FormGroup } from 'reactstrap';
-import NumberFormat from 'react-number-format';
+import React from 'react'
+import { Container, Row, Col, NavLink, Button, Input, FormGroup } from 'reactstrap';
+import { NumericFormat as NumberFormat } from 'react-number-format';
 import CalcNumericPayment from '../calcs/CalcNumericPayment'
 import './PaymentCheckout.scss';
 
@@ -161,19 +161,19 @@ const PaymentCheckout = (props) => {
                 inline
                 className="m-0"
               >
-                <Input type="checkbox" className="form-control-sm" checked={cash} value={cash} disabled={uangPas} onChange={(e) => handleUncheck(setCash, e.target.checked, 'cash')}/>
+                <Input type="checkbox" className="form-control-sm" checked={cash} disabled={uangPas} onChange={(e) => handleUncheck(setCash, e.target.checked, 'cash')}/>
                 <span check className="ml-1 mr-2">
                   Cash
                 </span>
-                <Input type="checkbox" className="form-control-sm" checked={transfer} value={transfer} disabled={uangPas} onChange={(e) => handleUncheck(setTransfer,e.target.checked, 'transfer')}/>
+                <Input type="checkbox" className="form-control-sm" checked={transfer} disabled={uangPas} onChange={(e) => handleUncheck(setTransfer,e.target.checked, 'transfer')}/>
                 <span check className="ml-1 mr-2">
                   Transfer
                 </span>
-                <Input type="checkbox" className="form-control-sm" checked={qris} value={qris} disabled={uangPas} onChange={(e) => handleUncheck(setQris,e.target.checked, 'qris')}/>
+                <Input type="checkbox" className="form-control-sm" checked={qris} disabled={uangPas} onChange={(e) => handleUncheck(setQris,e.target.checked, 'qris')}/>
                 <span check className="ml-1 mr-2">
                   QRIS
                 </span>
-                <Input type="checkbox" className="form-control-sm" value={uangPas} onChange={(e) => handleUncheckUangPas(e.target.checked)}/>
+                <Input type="checkbox" className="form-control-sm" checked={uangPas} onChange={(e) => handleUncheckUangPas(e.target.checked)}/>
                 <span check className="ml-1">
                   PAS
                 </span>
@@ -208,7 +208,7 @@ const PaymentCheckout = (props) => {
             </strong></h3>
 
           
-            {(props.cartStore.state.jalur == "2") ? 
+            {(props.cartStore.state.jalur === "2") ? 
               <div>
               <h5 className="mt-4">Diambil Oleh ?</h5>
               <Input className="input-masking mb-4" type="text" name="diambilOleh" id="diambilOleh" placeholder="Nama" bsSize="lg" 

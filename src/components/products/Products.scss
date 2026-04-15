@@ -1,0 +1,17 @@
+.products {
+	position: relative;
+	padding-top: .3rem;
+	padding-right: 0;
+	padding-left: 0;
+
+	.scroll-wrapper {
+		padding-right: 0;
+	}
+}
+
+@media only screen and (max-width: 1280px) {
+	.products {
+		padding-top: .2rem;
+		padding-right: 0;
+	}
+}

@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import Keyboard, { KeyboardReactInterface }  from "react-simple-keyboard";
+import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import "./CalcNumeric.scss";
 
 class CalcNumericPayment extends Component {
   constructor(props){
     super(props)
-    this.props.cartStore.keyboardRef = React.createRef<KeyboardReactInterface | null>(null);
+    this.props.cartStore.keyboardRef = React.createRef(null);
   }
   state = {
     layoutName: "default",

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Row, Col, Button } from 'reactstrap'
+import { Container, Row, Col } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import DefaultIP from '../../containers/DefaultIP'
@@ -7,10 +7,6 @@ import DefaultIP from '../../containers/DefaultIP'
 import './Selection.css'
 
 class Selection extends Component {
-
-    constructor(props){
-        super(props)
-      }
       state = {
         userLoggedIn: {},
         where: {},

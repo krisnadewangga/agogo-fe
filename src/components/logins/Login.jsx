@@ -1,24 +1,15 @@
 import React, { Component } from "react"
-import ReactDOM from 'react-dom'
 import UserCard from '../users/UserCard'
 import CalcNumeric from '../calcs/CalcNumeric'
-import { Button, FormGroup, Input, Label } from 'reactstrap'
+import { FormGroup, Input, Label } from 'reactstrap'
 import axios from 'axios'
-import { Redirect } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import LogoAgogo from "./../../img/logo-agogo.png";
-import { Provider, Subscribe } from 'unstated'
-import ModalsContainer from '../modals/_ModalsContainer'
-import RootContainer from '../roots/RootContainer'
 import DefaultIP from '../../containers/DefaultIP'
 
 import './Login.scss';
 
 class Login extends Component {
-
-  constructor(props) {
-    super(props);
-  };
-
   state = {
     users: [],
     user: [],
@@ -33,7 +24,7 @@ class Login extends Component {
     if(sessionStorage.getItem('users')){
       console.log('User logged in')
     }else{
-      this.state({ redirect: true })
+      this.setState({ redirect: true })
     }
 
     let user_index = this.props.match.params.user_index;
@@ -106,7 +97,7 @@ class Login extends Component {
   render() {
 
     if(this.state.redirect || sessionStorage.getItem('token')){
-      return (<Redirect to={'/selection'} />);
+      return (<Navigate to={'/selection'} replace />);
     }
 
     return (
@@ -127,7 +118,7 @@ class Login extends Component {
                       <a href="/"><i className="fas fa-arrow-left mr-5"></i></a> SIGN IN PLEASE
                     </div>
                     <div className="col-3 text-right">
-                      <a href='/invoice'><img src={LogoAgogo} className="img-fluid" /> </a>
+                      <a href='/invoice'><img src={LogoAgogo} className="img-fluid" alt="Agogo logo" /> </a>
                     </div>
                   </div>
                 </div>

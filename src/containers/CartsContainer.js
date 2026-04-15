@@ -1,7 +1,6 @@
-import { Container } from 'unstated'
+import { Container } from '../lib/unstated-compat'
 import axios from 'axios'
 import DefaultIP from './DefaultIP' 
-import React from 'react';
 
 const initialState = {
   dataNyoba: [],
@@ -202,12 +201,12 @@ class CartsContainer extends Container {
     let Tcode = this.state.Tcode;
     axios.get(DefaultIP+'/api/get_transaksi/'+Tcode).then((result) => {
       
-      if(result.data.success == "1"){
+      if(result.data.success === "1"){
           let transaksi = result.data.message;
           let items = result.data.message.item_transaksi;
           console.log(transaksi);
           
-          if(transaksi.jenis == '1'){
+          if(transaksi.jenis === '1'){
             this.setState({
               items : items,
               currentTrx: transaksi.no_transaksi, 
@@ -357,18 +356,12 @@ class CartsContainer extends Container {
   // ===============
   // CART ACTION
   // ===============
-  onAddToCart = this.onAddToCart.bind(this);
-  onRemoveFromCart = this.onRemoveFromCart.bind(this);
-  onRemoveToRefund = this.onRemoveToRefund.bind(this);
-
   onAddToCart(selectedProduct, jml) {
     
     // let aa = JSON.stringify(selectedProduct);
     // console.log('ini selectedProduct'+ aa);
 
     let id = selectedProduct.id
-    let user_id = selectedProduct.user_id
-    let qty = selectedProduct.qty
     let index = this.state.items.findIndex( x => x.id === id);
 
 
@@ -411,7 +404,7 @@ class CartsContainer extends Container {
       if(active_path === '/cashier' && this.state.items.length === 0){
       axios.get(DefaultIP + `/api/cekInvoice`).then(res => {
       const trx = res.data;
-      this.setState({ currentTrx: `${trx.current_invoice}${process.env.REACT_APP_RECEIPT_CODE}`, isDisabled: false});
+      this.setState({ currentTrx: `${trx.current_invoice}${import.meta.env.VITE_RECEIPT_CODE || ''}`, isDisabled: false});
       })
       }
       else if(active_path === '/booking'){
@@ -427,7 +420,7 @@ class CartsContainer extends Container {
         // })
 
 
-        this.setState({ currentTrx: `${trx.current_invoice}${process.env.REACT_APP_RECEIPT_CODE}`, disabledOrder: false, disabledOther: true});
+        this.setState({ currentTrx: `${trx.current_invoice}${import.meta.env.VITE_RECEIPT_CODE || ''}`, disabledOrder: false, disabledOther: true});
         })
 
        
@@ -1080,9 +1073,6 @@ addSelectedTransaction(id, current, idx) {
     const user = JSON.parse(sessionStorage.getItem('usernow'))
     this.setState({trxRefund: []})
    
-    let dataReservation = this.state.refundItems
-    
-
     if(this.state.whatRefund === "PS"){
     let dataReservation = this.state.refundItems
      let jumDataAsli = this.state.cobaItemPs.data.length
@@ -1299,8 +1289,6 @@ addSelectedTransaction(id, current, idx) {
 
   onUpdateItem(id, newQty) {
     let index = this.state.items.findIndex( x => x.id === id);
-    let currentQty = this.state.items[index].qty;
-    let updateQty = currentQty + 1;
     if (index === -1){
       console.log("ERROR")
     }else{
@@ -1388,8 +1376,8 @@ addSelectedTransaction(id, current, idx) {
     for (var i = 0; i < items.length; i++) {
       total += items[i].price * parseInt(items[i].qty);
     }
-    for (var i = 0; i < refundItems.length; i++) {
-      totalRefund += refundItems[i].price * parseInt(refundItems[i].qty);
+    for (var j = 0; j < refundItems.length; j++) {
+      totalRefund += refundItems[j].price * parseInt(refundItems[j].qty);
     }
     this.setState({
       totalAmount: total,
@@ -2113,7 +2101,7 @@ addSelectedTransaction(id, current, idx) {
     }else{
       let Tcode = this.state.Tcode;
       console.log(this.state.Tcode);
-      if(Tcode == ""){
+      if(Tcode === ""){
         console.log(this.state.data);
         this.setState({prosesBayar: true});
         axios.post(DefaultIP + `/api/orders`, this.state.data)
@@ -2176,7 +2164,6 @@ addSelectedTransaction(id, current, idx) {
     
     let items = this.state.selectedItems
     let totalPayment = parseInt( this.state.valueInputPayment["paymentTotal"])
-    let index = items.findIndex( x => x.preorder_id === items[0].preorder_id);
     let user = this.state.dataReservation["user"];
     let pass = this.state.dataReservation["code"] || this.state.valueInputRefund["approvalCode"];
     if(isNaN(totalPayment)){
@@ -2320,8 +2307,6 @@ addSelectedTransaction(id, current, idx) {
 
   doProduction = (id, modal) => {
     let qty1 = this.state.valueInputRefund["refundCode1"] || 0
-    let qty2 = this.state.valueInputRefund["refundCode2"] || 0
-    let qty3 = this.state.valueInputRefund["refundCode3"] || 0
     let qty4 = this.state.valueInputRefund["refundCode4"] || 0
     let qty5 = this.state.valueInputRefund["refundCode5"] || 0
     let user = this.state.dataReservation['user']
@@ -2344,7 +2329,7 @@ addSelectedTransaction(id, current, idx) {
           else if (pin === undefined){
             modal.clearModal()
             modal.toggleModal('alert','','','Mohon lakukan approval terlebih dahulu!')
-          } else if (this.state.production == ""){
+          } else if (this.state.production === ""){
             modal.clearModal()
             modal.toggleModal('alert','','',index)
           }else{
@@ -2466,13 +2451,6 @@ addSelectedTransaction(id, current, idx) {
       return data.id === whatId
     })
     if(filterData.length !== 0){
-      const stok = parseInt(filterData[0].stock_awal || 0)
-      const produksi1 = parseInt(filterData[0].produksi1 || 0)
-      const produksi2 = parseInt(filterData[0].produksi2 || 0)
-      const produksi3 = parseInt(filterData[0].produksi3 || 0)
-      const total_penjualan = parseInt(filterData[0].total_penjualan || 0)
-      const total_lain = parseInt(filterData[0].total_lain || 0)
-      
       // total = stok+produksi1+produksi2+produksi3-total_penjualan-total_lain
     
       total = parseInt(filterData[0].sisa_stock || 0)
@@ -2599,8 +2577,6 @@ addSelectedTransaction(id, current, idx) {
   }
 
   doPrint(id){
-    const htmlToText = require('html-to-text');
-
     var content = document.getElementById(id);
 
     var pri = document.getElementById("printArea").contentWindow;

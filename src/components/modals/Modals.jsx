@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
-import axios from 'axios'
-import { Subscribe } from 'unstated'
+import { Subscribe } from '../../lib/unstated-compat'
 import { Button, ModalHeader, ModalBody, ModalFooter, Col, Input, Row, Label } from 'reactstrap';
-import { Redirect, Route } from 'react-router-dom'
 import './Modal.scss';
 import CalcNumericKas from '../calcs/CalcNumericKas';
 import CalcNumericModal from '../calcs/CalcNumericModal';
 import Modal from 'react-modal'
-import NumberFormat from 'react-number-format'
+import { NumericFormat as NumberFormat } from 'react-number-format'
 
 import RootContainer from '../../containers/RootContainer'
 import ModalsContainer from '../../containers/ModalsContainer'
 import CartsContainer from '../../containers/CartsContainer'
 
-const root = document.getElementById("modal");
 const customStyles = {
   content: {
     boxShadow: "7px 7px 33px 0px rgba(0, 0, 0, 0.85)",
@@ -218,12 +215,12 @@ class Modals extends Component {
             </a>
             </Col>
             <Col style={{margin: "auto"}} centered>
-            <a href="#" onClick={() => this.props.modalStore.clearModal() || this.props.toggleModal('hitungKas', 'lg') || this.props.modalStore.getData()}>
+            <button type="button" className="border-0 bg-transparent p-0" onClick={() => this.props.modalStore.clearModal() || this.props.toggleModal('hitungKas', 'lg') || this.props.modalStore.getData()}>
             <div className="my-icon">
               <i className="fas fa-coins mr-1 fa-7x"></i>
               <Label className="label">Hitung Kas</Label>
             </div>
-            </a>
+            </button>
             </Col>
             </Row>
           </ModalBody>
@@ -747,7 +744,7 @@ class Modals extends Component {
               {/* LEFT */}
               <Col xs='4'>
                 <div centered>
-                    <img className="img-view" src={this.props.cartStore.state.selectedProduct.photo}></img>
+                    <img className="img-view" src={this.props.cartStore.state.selectedProduct.photo} alt={this.props.cartStore.state.selectedProduct.name || 'Selected product'}></img>
                 </div>
                 </Col>
                 <Col xs='4'>
@@ -827,7 +824,7 @@ class Modals extends Component {
               {/* LEFT */}
               <Col xs='4'>
                 <div centered>
-                  <img className="img-view" src={this.props.cartStore.state.selectedProduct.photo}></img>
+                  <img className="img-view" src={this.props.cartStore.state.selectedProduct.photo} alt={this.props.cartStore.state.selectedProduct.name || 'Selected product'}></img>
                   <div style={{paddingTop: '10px'}} className={this.props.cartStore.state.activeInputBooking === 'note'+this.props.cartStore.state.selectedProduct.name ? 'input-keyboard-wrapper active-input' : 'input-keyboard-wrapper'}>
                     <Input  
                             defaultValue={this.props.cartStore.state.produksi["note"+this.props.cartStore.state.selectedProduct.name]}

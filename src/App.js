@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import { Route, BrowserRouter, Switch, Redirect, Link } from 'react-router-dom'
-import { Button } from 'reactstrap';
+import { Route, BrowserRouter, Routes, Navigate, useLocation, useParams } from 'react-router-dom'
 import Modal from 'react-modal'
-import axios from 'axios'
-
-import decode from 'jwt-decode';
 
 import UsersContainer from './containers/UsersContainer';
 import Login from './components/logins/Login';
@@ -13,10 +9,9 @@ import Selection from './components/selection/Selection'
 import Cashier from './components/cashier/Cashier';
 import Booking from './components/booking/Booking'
 
-import Fullscreen from "react-full-screen";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import Production from './components/production/Production';
 import Invoice from './components/cashier/PrintArea';
-import DefaultIP from './containers/DefaultIP'
 
 Modal.setAppElement("#root");
 
@@ -81,7 +76,172 @@ const whatRole = () => {
   }
 }
 
-const root = document.getElementById("root");
+const FullScreenWrapper = ({ isFull, onChange, children }) => {
+  const handle = useFullScreenHandle();
+
+  React.useEffect(() => {
+    if (isFull && !handle.active) {
+      handle.enter();
+    }
+
+    if (!isFull && handle.active) {
+      handle.exit();
+    }
+  }, [isFull, handle]);
+
+  return (
+    <FullScreen
+      handle={handle}
+      onChange={(state) => onChange(state)}
+    >
+      {children}
+    </FullScreen>
+  );
+};
+
+const cashierAccessRoles = ['all', 'kasirpemesanan', 'kasirproduksi', 'kasir'];
+const bookingAccessRoles = ['all', 'kasirpemesanan', 'pemesananproduksi', 'pemesanan'];
+const productionAccessRoles = ['all', 'pemesananproduksi', 'kasirproduksi', 'produksi'];
+
+const RootRoute = ({ rootStore, activePath }) => {
+  const location = useLocation();
+
+  if (isLoggedIn() && cashierAccessRoles.includes(whatRole())) {
+    return <Navigate to="/selection" replace state={{ from: location }} />;
+  }
+
+  return <UsersContainer rootStore={rootStore} activePath={location.pathname} />;
+};
+
+const LoginRoute = ({ rootStore, modalStore, activePath }) => {
+  const location = useLocation();
+  const params = useParams();
+
+  if (isLoggedIn()) {
+    return <Navigate to="/initial-balance" replace state={{ from: location }} />;
+  }
+
+  return (
+    <Login
+      match={{ params, path: location.pathname }}
+      rootStore={rootStore}
+      modalStore={modalStore}
+    />
+  );
+};
+
+const SelectionRoute = ({ rootStore, modalStore, activePath }) => {
+  const location = useLocation();
+
+  if (!isLoggedIn()) {
+    return <Navigate to="/" replace state={{ from: location }} />;
+  }
+
+  return (
+    <Selection
+      rootStore={rootStore}
+      modalStore={modalStore}
+      activePath={location.pathname}
+    />
+  );
+};
+
+const InitialBalanceRoute = ({ modalStore, activePath }) => {
+  const location = useLocation();
+
+  if (!isLoggedIn()) {
+    return <Navigate to="/cashier" replace state={{ from: location }} />;
+  }
+
+  return <InitialBalance modalStore={modalStore} activePath={location.pathname} />;
+};
+
+const InvoiceRoute = ({ cartStore, rootStore, modalStore, activePath }) => {
+  const location = useLocation();
+
+  if (!isLoggedIn()) {
+    return <Navigate to="/" replace state={{ from: location }} />;
+  }
+
+  return (
+    <Invoice
+      cartStore={cartStore}
+      rootStore={rootStore}
+      modalStore={modalStore}
+      activePath={location.pathname}
+    />
+  );
+};
+
+const CashierRoute = ({ rootStore, modalStore, cartStore, productStore, activePath }) => {
+  const location = useLocation();
+
+  if (!isLoggedIn() || !cashierAccessRoles.includes(whatRole())) {
+    return <Navigate to="/" replace state={{ from: location }} />;
+  }
+
+  return (
+    <Cashier
+      rootStore={rootStore}
+      modalStore={modalStore}
+      cartStore={cartStore}
+      productStore={productStore}
+      activePath={location.pathname}
+    />
+  );
+};
+
+const BookingRoute = ({ rootStore, modalStore, cartStore, productStore, activePath, saldo, onLogout }) => {
+  const location = useLocation();
+  const isAllowed = isLoggedIn() && bookingAccessRoles.includes(whatRole());
+
+  React.useEffect(() => {
+    if (isAllowed && !saldo) {
+      modalStore.toggleModal('alert', '', '', 'Saldo kasir belum diinput!');
+      onLogout();
+    }
+  }, [isAllowed, modalStore, onLogout, saldo]);
+
+  if (!isAllowed || !saldo) {
+    return <Navigate to="/" replace state={{ from: location }} />;
+  }
+
+  return (
+    <Booking
+      rootStore={rootStore}
+      modalStore={modalStore}
+      cartStore={cartStore}
+      productStore={productStore}
+      activePath={location.pathname}
+    />
+  );
+};
+
+const ProductionRoute = ({ rootStore, modalStore, cartStore, productStore, activePath }) => {
+  const location = useLocation();
+
+  if (!isLoggedIn() || !productionAccessRoles.includes(whatRole())) {
+    return <Navigate to="/" replace state={{ from: location }} />;
+  }
+
+  return (
+    <Production
+      rootStore={rootStore}
+      modalStore={modalStore}
+      cartStore={cartStore}
+      productStore={productStore}
+      activePath={activePath}
+    />
+  );
+};
+
+const LogoutRoute = ({ onLogout }) => {
+  React.useEffect(() => {
+    onLogout();
+  }, [onLogout]);
+
+  return <Navigate to="/" replace />;
+};
 
 class App extends Component {
 
@@ -98,9 +258,9 @@ class App extends Component {
   }
 
   activePath = (props) => {
-    if(props.match.path !== this.state.activePath){
+    if(props && props !== this.state.activePath){
       this.setState({
-        activePath: props.match.path
+        activePath: props
       })
     }
   }
@@ -137,158 +297,139 @@ class App extends Component {
 
     return (
 
-      <Fullscreen enabled={this.props.rootStore.state.isFull} onChange={isFull => this.props.rootStore.setState({isFull})}>
-          
-        <BrowserRouter>
-          <div className="App" style={{position: "relative",}}>
-
-            {/* <h1 className="text-primary text-center">Page = {this.props.rootStore.state.page}</h1> */}
-            
-            {/* GAKTAUNYA BISA KASIH FUNCTION DI ROUTE
-            INI GAK BSIA KRN ROUTENYA DI PROTECT */}
-
-            <Switch>
-              <Route exact path='/'
-                render={(props) => {
-                  // this.activePath(props);
-                  return(
-                    isLoggedIn() === true && (whatRole() === 'all' || whatRole() === 'kasirpemesanan' || whatRole() === 'kasirproduksi' || whatRole() === 'kasir')
-                    ? <Redirect to={{ pathname: '/selection', state: { from: props.location } }} />
-                    : <UsersContainer {...props} 
-                      rootStore={this.props.rootStore} 
-                      activePath={props.match.path} />
-                  )
-                }}
-              />
-              
-              <Route path='/login/:user_index'
-                render={(props) => {
-                  this.activePath(props);
-                  return(
-                    isLoggedIn() === true
-                    ? <Redirect to={{ pathname: '/initial-balance', state: { from: props.location } }} />
-                    : <Login {...props} 
-                      rootStore={this.props.rootStore} 
-                      modalStore={this.props.modalStore} 
-                      activePath={props.match.path} />
-                  )
-                }}
-              />
-
-              <Route path='/selection'
-                render={(props) => {
-                  this.activePath(props);
-                  return(
-                    isLoggedIn() === true
-                    ? <Selection {...props}
-                      rootStore={this.props.rootStore}
-                      modalStore={this.props.modalStore}
-                      activePath={props.match.path} />
-                    : <Redirect to={{ pathname: '/', state: {from: props.location} }} />
-                  )
-                }}
-              />
-              
-              <Route path='/initial-balance'
-                render={(props) => {
-                  this.activePath(props);
-                  return(
-                    isLoggedIn() === true
-                    ? <InitialBalance {...props} 
-                      rootStore={this.props.rootStore} 
-                      modalStore={this.props.modalStore} 
-                      activePath={props.match.path} /> 
-                    : <Redirect to={{ pathname: '/cashier', state: { from: props.location } }} />
-                  )
-                }}
-              />
-
-              <Route path='/invoice'
-                render={(props) => {
-                  this.activePath(props);
-                  return(
-                    isLoggedIn() === true
-                    ? <Invoice {...props} 
-                      cartStore={this.props.cartStore}
-                      rootStore={this.props.rootStore} 
-                      modalStore={this.props.modalStore} 
-                      activePath={props.match.path} /> 
-                    : <Redirect to={{ pathname: '/', state: { from: props.location } }} />
-                  )
-                }}
-              />
-              <Route path='/cashier'
-                render={(props) => {
-                  this.activePath(props);
-                  return(
-                    isLoggedIn() === true && (whatRole() === 'all' || whatRole() === 'kasirpemesanan' || whatRole() === 'kasirproduksi' || whatRole() === 'kasir')
-                    ? <Cashier {...props} 
-                        rootStore={this.props.rootStore} 
-                        modalStore={this.props.modalStore}
-                        cartStore={this.props.cartStore} 
-                        productStore={this.props.productStore} 
-                        activePath={props.match.path} />
-                    : <Redirect to={{ pathname: '/', state: { from: props.location } }} />
-                  )
-                }}
-              /> 
-
-              <Route path='/booking'
-                render={(props) => {
-                  this.activePath(props);
-                  return (
-                    isLoggedIn() === true && (whatRole() === 'all' || whatRole() === 'kasirpemesanan' || whatRole() === 'pemesananproduksi' || whatRole() === 'pemesanan' ) && this.state.saldo
-                      ? <Booking {...props}
-                        rootStore={this.props.rootStore}
-                        modalStore={this.props.modalStore}
-                        cartStore={this.props.cartStore}
-                        productStore={this.props.productStore}
-                        activePath={props.match.path} />
-                      : this.props.modalStore.toggleModal('alert','','','Saldo kasir belum diinput!') || this.logout() || 
-                      <Redirect to={{ pathname: '/', state: { from: props.location } }} />
-                  )
-                }}
-              />
-
-              <Route path='/production'
-                render={(props) => {
-                  this.activePath(props);
-                  return (
-                    isLoggedIn() === true && (whatRole() === 'all' || whatRole() === 'pemesananproduksi' || whatRole() === 'kasirproduksi' || whatRole() === 'produksi')
-                      ? <Production {...props}
-                        rootStore={this.props.rootStore}
-                        modalStore={this.props.modalStore}
-                        cartStore={this.props.cartStore}
-                        productStore={this.props.productStore}
-                        activePath={props.match.path} />
-                      : <Redirect to={{pathname: '/', state: { from: props.location } }} />
-                  )
-                }}
-              />
-
-              <Route path="/logout" 
-                render={() => {
-                  this.logout();
-                  return <Redirect to={{ pathname: '/' }} />;
-                }}
-              />
-            </Switch>
-            
+      <FullScreenWrapper
+        isFull={this.props.rootStore.state.isFull}
+        onChange={(isFull) => this.props.rootStore.setState({ isFull })}
+      >
+        <div className="device-gate" role="status" aria-live="polite">
+          <div className="device-gate-card">
+            <h2>Aplikasi Hanya Untuk Tablet &amp; PC</h2>
+            <p>Silakan gunakan perangkat dengan lebar layar minimal 768px agar pengalaman tetap nyaman.</p>
           </div>
-        </BrowserRouter>
-        <footer className="Footer right">                    
-          <a href="#" className="btn-fullscreen" onClick={this.props.rootStore.goFull} >
-            <i className="fas fa-expand-arrows-alt"></i>
-          </a>
+        </div>
 
-          {/* {this.state.activePath === '/initial-balance' &&
-          <a href="#" className="btn-logout" onClick={() => this.props.modalStore.toggleModal('saldo', '')} >
-            <i className="fas fa-power-off"></i>
-          </a>
-          } */}
-        </footer>
-        <div ref={this.root} id="myModal">{this.props.myModal}</div>
-      </Fullscreen>
+        <div className="app-shell">
+          <BrowserRouter>
+            <div className="App" style={{position: "relative",}}>
+
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <RootRoute
+                      rootStore={this.props.rootStore}
+                      activePath="/"
+                    />
+                  }
+                />
+
+              <Route
+                path="/login/:user_index"
+                element={
+                  <LoginRoute
+                    rootStore={this.props.rootStore}
+                    modalStore={this.props.modalStore}
+                    activePath="/login/:user_index"
+                  />
+                }
+              />
+
+              <Route
+                path="/selection"
+                element={
+                  <SelectionRoute
+                    rootStore={this.props.rootStore}
+                    modalStore={this.props.modalStore}
+                    activePath="/selection"
+                  />
+                }
+              />
+
+              <Route
+                path="/initial-balance"
+                element={
+                  <InitialBalanceRoute
+                    modalStore={this.props.modalStore}
+                    activePath="/initial-balance"
+                  />
+                }
+              />
+
+              <Route
+                path="/invoice"
+                element={
+                  <InvoiceRoute
+                    cartStore={this.props.cartStore}
+                    rootStore={this.props.rootStore}
+                    modalStore={this.props.modalStore}
+                    activePath="/invoice"
+                  />
+                }
+              />
+
+              <Route
+                path="/cashier"
+                element={
+                  <CashierRoute
+                    rootStore={this.props.rootStore}
+                    modalStore={this.props.modalStore}
+                    cartStore={this.props.cartStore}
+                    productStore={this.props.productStore}
+                    activePath="/cashier"
+                  />
+                }
+              />
+
+              <Route
+                path="/booking"
+                element={
+                  <BookingRoute
+                    rootStore={this.props.rootStore}
+                    modalStore={this.props.modalStore}
+                    cartStore={this.props.cartStore}
+                    productStore={this.props.productStore}
+                    activePath="/booking"
+                    saldo={this.state.saldo}
+                    onLogout={this.logout}
+                  />
+                }
+              />
+
+              <Route
+                path="/production"
+                element={
+                  <ProductionRoute
+                    rootStore={this.props.rootStore}
+                    modalStore={this.props.modalStore}
+                    cartStore={this.props.cartStore}
+                    productStore={this.props.productStore}
+                    activePath="/production"
+                  />
+                }
+              />
+
+              <Route
+                path="/logout"
+                element={<LogoutRoute onLogout={this.logout} />}
+              />
+              </Routes>
+              
+            </div>
+          </BrowserRouter>
+          <footer className="Footer right">                    
+            <button type="button" className="btn-fullscreen" onClick={this.props.rootStore.goFull}>
+              <i className="fas fa-expand-arrows-alt"></i>
+            </button>
+
+            {/* {this.state.activePath === '/initial-balance' &&
+            <a href="#" className="btn-logout" onClick={() => this.props.modalStore.toggleModal('saldo', '')} >
+              <i className="fas fa-power-off"></i>
+            </a>
+            } */}
+          </footer>
+          <div ref={this.root} id="myModal">{this.props.myModal}</div>
+        </div>
+      </FullScreenWrapper>
     );
   }
 }

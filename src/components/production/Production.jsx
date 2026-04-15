@@ -1,21 +1,13 @@
 import React from 'react'
 import { Container, Row, Col, Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap'
-import Cart from '../carts/Cart'
 import CalcNumericCart from '../calcs/CalcNumericCart'
 import Products from '../products/ProductsP'
 import ProductCategories from '../products/ProductCategories'
 import CartProduction from '../carts/cartsProduction/CartProduction'
-import FooterNavRightBooking from '../navigations/FooterNavRightBooking'
-import CartBooking from '../carts/cartsBooking/CartBooking'
-import CartBookingTotal from '../carts/CartBookingTotal'
-import CartTotal from '../carts/CartTotal'
 import FooterNavRightProduction from '../navigations/FooterNavRightProduction';
+import './production.scss'
 
 class Production extends React.Component {
-
-    constructor(props){
-        super(props)
-      }
       state = {
         userLoggedIn: [],
         name : ''
@@ -30,11 +22,11 @@ class Production extends React.Component {
     
     render() {
         return (
-            <Container fluid="true" className="kasir container-fluid h-100">
-                <Row className="h-100">
+            <Container fluid className="production h-100">
+                <Row className="h-100 row-clean">
 
-                    <Col xs="6" className="booking-cart">
-                        <Row className="cart-header no-gutters">
+                    <Col md="6" className="production-cart">
+                        <Row className="cart-header row-clean">
                             <Col xs="12">
                                 <Navbar expand="md">
                                     <NavbarBrand href="#" className="ml-4"><i className="fas fa-user-alt mr-1"></i> {" " +this.state.name}</NavbarBrand>
@@ -47,7 +39,7 @@ class Production extends React.Component {
                             </Col>
                         </Row>
 
-                        <Row className="cart-list no-gutters">
+                        <Row className="cart-list row-clean">
                             <Col xs="12">
                                 <CartProduction cartStore={this.props.cartStore} modalStore={this.props.modalStore} />
 
@@ -68,8 +60,8 @@ class Production extends React.Component {
 
                     </Col>
 
-                    <Col xs="6" className="kasir-product">
-                        <Row className="no-gutters">
+                    <Col md="6" className="production-product">
+                        <Row className="row-clean">
                             <Col xs="9">
                                 <Products modalStore={this.props.modalStore} activePath={this.props.activePath} cartStore={this.props.cartStore} productStore={this.props.productStore} />
                             </Col>
@@ -78,7 +70,7 @@ class Production extends React.Component {
                             </Col>
                         </Row>
 
-                        <Row className="product-nav no-gutters">
+                        <Row className="product-nav row-clean">
                             <Col xs="12">
                                 <FooterNavRightProduction productStore={this.props.productStore} rootStore={this.props.rootStore} modalStore={this.props.modalStore}/>
                             </Col>

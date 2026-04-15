@@ -1,6 +1,6 @@
 import React from 'react'
 import { Row, Col } from 'reactstrap'
-import NumberFormat from 'react-number-format'
+import { NumericFormat as NumberFormat } from 'react-number-format'
 
 import './kasirOrder.scss'
 

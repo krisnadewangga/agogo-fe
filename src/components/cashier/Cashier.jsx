@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Navbar, NavbarBrand, Container, Row, Col, Nav, NavItem, NavLink, Input } from 'reactstrap';
+import { Navbar, NavbarBrand, Container, Row, Col, Nav, NavItem, NavLink } from 'reactstrap';
 import Products from '../products/Products'
 import ProductCategories from '../products/ProductCategories'
 import Cart from '../carts/Cart'
@@ -10,7 +10,6 @@ import FooterNavRight from '../navigations/FooterNavRight'
 import PaymentCheckout from '../payments/PaymentCheckout'
 import ReservationCheckout from '../payments/ReservationCheckout'
 import axios from 'axios'
-import LogoAgogo from "./../../img/logo-agogo.png";
 
 import './Cashier.scss';
 import './SidebarComponentsWrapper.scss';
@@ -22,10 +21,6 @@ import PrintArea from './PrintArea'
 import DefaultIP from '../../containers/DefaultIP'
 import FooterNavRightProduction from '../navigations/FooterNavKasir';
 class Kasir extends Component {
-
-  constructor(props){
-    super(props)
-  }
   
   state = {
     userLoggedIn: [],
@@ -50,12 +45,12 @@ class Kasir extends Component {
 
   render() {
     return (
-      <Container fluid="true" className="kasir container-fluid h-100">
+      <Container fluid className="kasir h-100">
         <PrintArea cartStore={this.props.cartStore} namaKasir={this.state.name} />
-        <Row className="h-100">
+        <Row className="h-100 row-clean">
 
-          <Col xs="6" className="kasir-cart">
-            <Row className="cart-header no-gutters">
+          <Col md="6" className="kasir-cart">
+            <Row className="cart-header row-clean">
               <Col xs="12">
                 <Navbar expand="md">
                   <NavbarBrand href="#" className="ml-4"><i className="fas fa-user-alt mr-1"></i>{" " +this.state.name}</NavbarBrand>
@@ -71,7 +66,7 @@ class Kasir extends Component {
               </Col>
             </Row>
 
-            <Row className="cart-list no-gutters">
+            <Row className="cart-list row-clean">
               <Col xs="12">
                 <Cart cartStore={this.props.cartStore} modalStore={this.props.modalStore} />
 
@@ -91,7 +86,7 @@ class Kasir extends Component {
             </Row>
 
 
-            <Row className="cart-nav no-gutters">
+            <Row className="cart-nav row-clean">
               <Col xs="12">
                 <FooterNavLeft productStore={this.props.productStore} modalStore={this.props.modalStore}  userNow={this.state.userLoggedIn} cartStore={this.props.cartStore} />
               </Col>
@@ -141,8 +136,8 @@ class Kasir extends Component {
 
           </Col>
 
-          <Col xs="6" className="kasir-product">
-            <Row className="no-gutters">
+          <Col md="6" className="kasir-product">
+            <Row className="row-clean">
               <Col xs="9">
                 <Products activePath={this.props.activePath} cartStore={this.props.cartStore} productStore={this.props.productStore} />
               </Col>
@@ -151,12 +146,12 @@ class Kasir extends Component {
               </Col>
             </Row>
 
-            <Row className="product-nav no-gutters">
+            <Row className="product-nav row-clean justify-content-between flex-nowrap">
 
-            <Col xs="5">
+            <Col xs="auto" className="product-nav-left">
               <FooterNavRightProduction productStore={this.props.productStore} rootStore={this.props.rootStore} modalStore={this.props.modalStore}/>
             </Col>
-            <Col xs="7">
+            <Col xs="auto" className="product-nav-right">
               <FooterNavRight rootStore={this.props.rootStore} modalStore={this.props.modalStore} cartStore={this.props.cartStore} />
             </Col>
               

@@ -1,5 +1,5 @@
 import React from 'react'
-import NumberFormat from 'react-number-format';
+import { NumericFormat as NumberFormat } from 'react-number-format';
 
 
 const CartTotal = (props) => {
@@ -7,7 +7,7 @@ const CartTotal = (props) => {
     <tfoot>
       <tr className="table-spacer"><td></td></tr>
       <tr className="cart-subtotal">
-        <td scope="row">Sub Total</td>
+        <th scope="row">Sub Total</th>
         <td className="subtotal-price"><NumberFormat prefix={'Rp '} value={props.cartStore.state.totalAmount} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} className="h5 font-weight-bold" /></td>
       </tr>
       {/* <tr className="cart-subtotal">
@@ -28,7 +28,7 @@ const CartTotal = (props) => {
           <NumberFormat prefix={props.cartStore.state.discountAmount ? '- Rp' : 'Rp '} value={props.cartStore.state.discountAmount} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} />
         </td>
       </tr> */}
-      <tr className="table-spacer"><td></td></tr>
+      <tr className=""><td></td></tr>
       {props.cartStore.state.payRefundTK ?
       <tr className="cart-total">
         <th className="header grand-total-label">Sisa Pembayaran</th>

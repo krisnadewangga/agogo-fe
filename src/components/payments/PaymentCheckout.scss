@@ -1,14 +1,88 @@
 
+@use "../../sass/vars" as *;
+
 .PaymentCheckout{
   color: white;
 
+  .SidebarHeader {
+    margin-top: .35rem;
+    margin-bottom: .85rem;
+    align-items: center;
+  }
+
+  .SidebarBody {
+    margin-top: .35rem;
+    background: rgba(0, 0, 0, .36);
+    border: 1px solid rgba(255, 255, 255, .16);
+    border-radius: 1rem;
+    padding: 1rem .8rem;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, .22);
+  }
+
+  h5 {
+    font-size: .98rem;
+    letter-spacing: .02em;
+    color: rgba(255, 255, 255, .9);
+  }
+
+  h3 {
+    color: #fff;
+  }
+
+  .text-orange {
+    color: $orange !important;
+  }
+
+  .btn-bayar-fixed {
+    border-radius: .8rem;
+    font-weight: 700;
+    box-shadow: 0 10px 22px rgba(152, 48, 37, .35);
+  }
+
+  .form-check-inline {
+    margin-right: .8rem;
+    margin-bottom: .4rem;
+  }
+
+  .form-check-inline input[type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
+    accent-color: $orange;
+  }
+
+  .form-control,
+  .form-control-lg {
+    border-radius: .72rem;
+    border: 1px solid rgba(255, 255, 255, .22);
+    background: rgba(255, 255, 255, .12);
+    color: #fff;
+  }
+
+  .form-control::placeholder,
+  .form-control-lg::placeholder {
+    color: rgba(255, 255, 255, .7);
+  }
+
+  .form-control:focus,
+  .form-control-lg:focus {
+    border-color: rgba(253, 190, 30, .85);
+    box-shadow: 0 0 0 .16rem rgba(253, 190, 30, .23);
+  }
+
   .input-keyboard-wrapper{
     position: relative;
+
+    &.active-input .form-control,
+    &.active-input .form-control-lg {
+      border-color: rgba(253, 190, 30, .95);
+      box-shadow: 0 0 0 .16rem rgba(253, 190, 30, .23);
+    }
+
     .input-masking{
       position: absolute;
       top: 0;
       left: 0;
-      opacity: 0;;
+      opacity: 0;
     }
   }
 }
@@ -18,5 +92,5 @@
 }
 
 .whiteColor:hover{
-  color: grey;
+  color: #dbdbdb;
 }

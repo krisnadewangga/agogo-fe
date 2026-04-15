@@ -1,7 +1,8 @@
 import React from 'react'
 import { Container, Row, Col, Input, Label, Button, NavLink, Form, FormGroup } from 'reactstrap'
 import FooterNavRightBooking from '../navigations/FooterNavRightBooking'
-import NumberFormat from 'react-number-format';
+import { NumericFormat as NumberFormat } from 'react-number-format';
+import './DeleteBooking.scss'
 
 const TakeBooking = (props) => {
     let date = props.cartStore.state.tgl_trx
@@ -101,7 +102,7 @@ const TakeBooking = (props) => {
                             </FormGroup>
                             <FormGroup row>
                                 <Col className="btn btn-deleted">
-                                    <Button onClick={() => props.cartStore.takeReservation(props.userNow.id, props.modalStore.toggleModal)} size="md" name="btn-del" className="btn-del"><i class="fas fa-check check"></i>AMBIL</Button>
+                                    <Button onClick={() => props.cartStore.takeReservation(props.userNow.id, props.modalStore.toggleModal)} size="md" name="btn-del" className="btn-del"><i className="fas fa-check check"></i>AMBIL</Button>
                                 </Col>
                             </FormGroup>
                         </Form>

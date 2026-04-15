@@ -1,5 +1,4 @@
 import React from 'react'
-import TransactionItems from './TransactionItems';
 import { Row, Col } from 'reactstrap'
 
 import './TransactionItem.scss'

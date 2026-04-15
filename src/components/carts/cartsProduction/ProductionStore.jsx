@@ -1,14 +1,11 @@
 import React from 'react'
 
 class ProductionStore extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         return (
             <div>
                 <tr>
-                    <th><i class="fas fa-minus-circle add-product"> Penjualan</i></th>
+                    <th><i className="fas fa-minus-circle add-product"> Penjualan</i></th>
                 </tr>
                 <tr>
                     <td className="production-store">Toko</td>

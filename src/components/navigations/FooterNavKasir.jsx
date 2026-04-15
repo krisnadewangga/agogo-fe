@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navbar, Nav, NavItem, NavLink, FormGroup, Label, Input } from 'reactstrap';
+import { Navbar, Nav, NavItem } from 'reactstrap';
 
 const FooterNavKasir = (props) => {
     return (

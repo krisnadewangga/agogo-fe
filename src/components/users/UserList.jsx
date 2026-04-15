@@ -1,6 +1,5 @@
 import React from 'react'
 import UserCard from './UserCard';
-import DefaultIP from '../../containers/DefaultIP';
 
 const UserList = (props) => {
   return (

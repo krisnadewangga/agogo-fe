@@ -4,11 +4,6 @@ import OrderItem from './OrderItem';
 
 
 class OrderItems extends Component {
-
-  constructor(props){
-    super(props)
-  }
-
   componentDidMount(){
     this.props.cartStore.fetchReservation()
   }

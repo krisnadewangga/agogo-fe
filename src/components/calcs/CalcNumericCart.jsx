@@ -5,9 +5,6 @@ import "react-simple-keyboard/build/css/index.css";
 import "./CalcNumeric.scss";
 
 class CalcNumeric extends Component {
-  constructor(props){
-    super(props)
-  }
   state = {
     layoutName: "default",
     inputQtyCartItem: '',

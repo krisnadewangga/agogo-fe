@@ -1,4 +1,4 @@
-import { Container } from 'unstated'
+import { Container } from '../lib/unstated-compat'
 import axios from 'axios'
 // import DefaultIP from './DefaultIP'
 import DefaultIP from './DefaultIP'

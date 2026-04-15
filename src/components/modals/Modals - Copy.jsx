@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import { Subscribe } from 'unstated'
 import { Button, ModalHeader, ModalBody, ModalFooter, Col, Input, Row, Label } from 'reactstrap';
-import { Redirect, Route } from 'react-router-dom'
 import './Modal.scss';
 import CalcNumericKas from '../calcs/CalcNumericKas';
 import CalcNumericModal from '../calcs/CalcNumericModal';
 import Modal from 'react-modal'
-import NumberFormat from 'react-number-format'
+import { NumericFormat as NumberFormat } from 'react-number-format'
 
 import RootContainer from '../../containers/RootContainer'
 import ModalsContainer from '../../containers/ModalsContainer'

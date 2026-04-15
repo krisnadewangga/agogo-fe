@@ -1,4 +1,7 @@
 .ProductItems{
-  padding-bottom: 3vh;
-  
+  padding-bottom: 2vh;
+
+  > [class*="col-"] {
+    padding: .12rem;
+  }
 }

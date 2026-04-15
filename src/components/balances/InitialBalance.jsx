@@ -5,14 +5,12 @@ import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import "../calcs/CalcNumeric.scss";
 import '../logins/Login.scss';
-import { Redirect } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import axios from 'axios'
 import DefaultIP from '../../containers/DefaultIP'
 
-import { Provider, Subscribe } from 'unstated'
+import { Subscribe } from '../../lib/unstated-compat'
 import ModalsContainer from '../modals/_ModalsContainer'
-
-var classNames = require('classnames');
 
 
 class SaldoAwal extends Component {
@@ -62,59 +60,44 @@ class SaldoAwal extends Component {
   };
 
   onChangeSaldo = saldo => {
-    this.state.pos['saldo_awal'] = saldo
-    this.setState({
-      saldo: saldo
-    });
+    this.setState(prevState => ({
+      saldo,
+      pos: { ...prevState.pos, saldo_awal: saldo }
+    }));
   };
   onChangeUsername = username => {
-    this.state.pos['username_approval'] = username
-    this.setState({
-      username: username
-    });
+    this.setState(prevState => ({
+      username,
+      pos: { ...prevState.pos, username_approval: username }
+    }));
   };
   onChangePIN = pin => {
-    this.state.pos['pin_approval'] = pin
-    this.setState({
-      pin: pin
-    });
+    this.setState(prevState => ({
+      pin,
+      pos: { ...prevState.pos, pin_approval: pin }
+    }));
   };
 
   onChangeInputSaldo = event => {
     let saldo = event.target.value;
-    this.state.pos['saldo_awal'] = saldo
-    this.setState(
-      {
-        saldo: saldo
-      },
-      () => {
-       // this.keyboard.setInput(saldo);
-      }
-    );
+    this.setState(prevState => ({
+      saldo,
+      pos: { ...prevState.pos, saldo_awal: saldo }
+    }));
   };
   onChangeInputUsername = event => {
     let username = event.target.value;
-    this.state.pos['username_approval'] = username
-    this.setState(
-      {
-        username: username
-      },
-      () => {
-        //this.keyboard.setInput(username);
-      }
-    );
+    this.setState(prevState => ({
+      username,
+      pos: { ...prevState.pos, username_approval: username }
+    }));
   };
   onChangeInputPIN = event => {
     let pin = event.target.value;
-    this.state.pos['pin_approval'] = pin
-    this.setState(
-      {
-        pin: pin
-      },
-      () => {
-        //this.keyboard.setInput(pin);
-      }
-    );
+    this.setState(prevState => ({
+      pin,
+      pos: { ...prevState.pos, pin_approval: pin }
+    }));
   };
 
   onKeyPress = button => {
@@ -124,8 +107,9 @@ class SaldoAwal extends Component {
   };
 
   onEnter = () => {
-    this.setState({data: [this.state.pos] })
-    axios.post(DefaultIP + `/api/postKas`, this.state.data)
+    const data = [this.state.pos];
+    this.setState({ data });
+    axios.post(DefaultIP + `/api/postKas`, data)
     .then(res => {
       if(res.status === 200) {
       this.setState({redirect: true})
@@ -138,7 +122,7 @@ class SaldoAwal extends Component {
   render() {
 
     if(this.state.redirect){
-      return (<Redirect to={'/cashier'} />);
+      return (<Navigate to={'/cashier'} replace />);
     }
 
     return (
@@ -158,7 +142,7 @@ class SaldoAwal extends Component {
                         <i className="fas fa-coins mr-3"></i> SALDO AWAL
                       </div>
                       <div className="col-3 text-right">
-                        <img src={LogoAgogo} className="img-fluid" />
+                        <img src={LogoAgogo} className="img-fluid" alt="Agogo logo" />
                       </div>
                     </div>
                   </div>
@@ -175,7 +159,7 @@ class SaldoAwal extends Component {
                           value={this.state.saldo} 
                           onChange={e => this.onChangeInputSaldo(e)}
                           type="number" name="saldo" id="saldo" placeholder="0"  size="lg" className="text-center mt-3 mb-3" 
-                          readonly autoComplete="off"
+                          readOnly autoComplete="off"
                         />
 
                         <Label for="username" className="text-center d-block"><h3>User Approval</h3></Label>
@@ -184,7 +168,7 @@ class SaldoAwal extends Component {
                           value={this.state.username} 
                           onChange={e => this.onChangeInputUsername(e)}
                           type="text" name="username" id="username" placeholder="USER" size="lg" className="text-center mb-3" 
-                          readonly autoComplete="off"
+                          readOnly autoComplete="off"
                         />
                         
                         <Label for="pin" className="text-center d-block"><h3>Pin Approval</h3></Label>
@@ -193,7 +177,7 @@ class SaldoAwal extends Component {
                           value={this.state.pin} 
                           onChange={e => this.onChangeInputPIN(e)}
                           type="password" name="pin" id="pin" placeholder="PIN"  size="lg" className="text-center mb-3" 
-                          readonly autoComplete="off"
+                          readOnly autoComplete="off"
                         />
 
                       </FormGroup>

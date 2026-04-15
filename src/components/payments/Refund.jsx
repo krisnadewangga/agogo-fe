@@ -1,6 +1,5 @@
 import React from 'react'
 import { Container, Row, Col, NavLink, Button, Input, FormGroup, Label } from 'reactstrap';
-import NumberFormat from 'react-number-format';
 import CalcNumericRefund from '../calcs/CalcNumericRefund';
 import './Refund.scss';
 

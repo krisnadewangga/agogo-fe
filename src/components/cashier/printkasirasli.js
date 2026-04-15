@@ -1,5 +1,5 @@
 import React from 'react'
-import NumberFormat from 'react-number-format'
+import { NumericFormat as NumberFormat } from 'react-number-format'
 // import "./PrintArea.css"
 
 const headContent = () =>{
@@ -44,7 +44,7 @@ return (
         </tr>
         <tr>
             <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '50%'}}>No orderz</td>
-            <td style={{fontFamily: 'Arial, Helvetica, sans-serif',fontSize: '50%'}}>: {`${props.cartStore.state.currentTrx}${process.env.REACT_APP_RECEIPT_CODE}`}</td>
+          <td style={{fontFamily: 'Arial, Helvetica, sans-serif',fontSize: '50%'}}>: {`${props.cartStore.state.currentTrx}${import.meta.env.VITE_RECEIPT_CODE || ''}`}</td>
         </tr>
         <tr>
             <td style={{fontFamily: 'Arial, Helvetica, sans-serif',fontSize: '50%'}}>Tanggal</td>

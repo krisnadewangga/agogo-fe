@@ -1,35 +1,26 @@
 import React from 'react'
-import NumberFormat from 'react-number-format'
+import { NumericFormat as NumberFormat } from 'react-number-format'
 // import "./PrintArea.css"
 import LogoAgogo from "../../img/logoa.png";
 const headContent = () =>{
-  const alamat = process.env.REACT_APP_BRANCH_ADDRESS.split(',')
-  const namaJalan = alamat[0]
-  const namaKel = alamat[1]
-  const namaKec = alamat[2]
-  const namaKab = alamat[3]
-  const namaProv = alamat[4]
+  const branchAddress = import.meta.env.VITE_BRANCH_ADDRESS || ''
+  const alamat = branchAddress.split(',').map((value) => value.trim())
+  const namaJalan = alamat[0] || '-'
+  const namaKel = alamat[1] || '-'
+  const namaKec = alamat[2] || '-'
+  const namaKab = alamat[3] || '-'
+  const namaProv = alamat[4] || '-'
 
   return (<div>
-    <p align='center'><img src={LogoAgogo} className="img-fluid" style={{ width: '20mm', height: '20mm'}} /> </p>
+    <p align='center'><img src={LogoAgogo} className="img-fluid" style={{ width: '20mm', height: '20mm'}} alt="Agogo logo" /> </p>
     <p style={{fontFamily: 'Arial, Helvetica, sans-serif', marginTop: -30,fontSize: '50%'}} align='center'> 
         {namaJalan}<br />
         {namaKel} - {namaKec}<br />
         {namaKab} | {namaProv}<br />
-        {process.env.REACT_APP_BRANCH_PHONE}<br />
+        {import.meta.env.VITE_BRANCH_PHONE || '-'}<br />
     </p>
     </div>
   )
-}
-
-const paperFeed = () => {
-  return (<div>
-    <br />
-    <br />
-    <br />
-    <br />
-    <p align='center'>-</p>
-  </div>)
 }
 
 const PrintArea = (props) => {

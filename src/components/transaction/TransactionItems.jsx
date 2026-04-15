@@ -4,10 +4,6 @@ import TransactionItem from './TransactionItem';
 
 class TransactionItems extends Component {
 
-  constructor(props){
-    super(props)
-  }
-
   render(){
     const isPaid = this.props.paid;
     return (

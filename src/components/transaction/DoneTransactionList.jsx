@@ -8,9 +8,6 @@ import FooterNavRight from '../navigations/FooterNavRight';
 
 
 class TransactionList extends Component {
-  constructor(props){
-    super(props)
-  }
     state = {
     footerNvaBarHeight: 350,
     windowInnerHeight: 0,

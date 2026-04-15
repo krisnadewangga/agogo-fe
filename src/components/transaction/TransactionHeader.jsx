@@ -1,5 +1,4 @@
 import React from 'react'
-import { NavLink } from 'reactstrap';
 
 const TransactionHeader = (props) => {
   const { paid } = props;

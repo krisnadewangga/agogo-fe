@@ -1,15 +1,39 @@
-@import "../../sass/vars";
+@use "../../sass/vars" as *;
 
 .login{
-  width: 720px;
-  // display: flex;
+  width: min(720px, 94vw);
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, .42);
+  background: #fff;
   align-items: center;
-  // justify-content: center;
+
+  .container,
+  .row,
+  [class*="col-"] {
+    margin: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
 
   .login-header{
-    background-color: white;
-    padding: 2rem 3rem;
-    font-size: 1.75rem;
+    background-color: #f4f4f4;
+    padding: 1.55rem 2.1rem;
+    font-size: 2.3rem;
+    letter-spacing: .01em;
+    border-bottom: 1px solid rgba(0, 0, 0, .08);
+
+    a {
+      color: #0f2238;
+      font-size: 2.2rem;
+      text-decoration: none;
+    }
+
+    img {
+      width: 148px;
+      max-width: 100%;
+    }
+
     h1,h2,h3,h4,h5,h6{
       margin: 0;
       font-weight: 700;
@@ -17,33 +41,103 @@
   }
 
   .box-pin{
-    background-color:$lightGrey;
-    padding: 2rem;
+    background-color: #b9bec1;
+    padding: 2rem 1.7rem 2.1rem;
     width: auto;
     height: auto;
+    min-height: 402px;
     display: flex;
     align-items: center;
     justify-content: center;
+
+    .box-inner {
+      max-width: 295px;
+      margin: 0 auto;
+    }
+
+    .UserCard.card {
+      border: 0;
+
+      a {
+        pointer-events: none;
+      }
+
+      img {
+        width: 142px;
+        height: 142px;
+        border-width: 6px;
+      }
+
+      .card-body {
+        padding-top: .55rem;
+
+        .card-title {
+          color: #000;
+          font-size: 1.95rem;
+          font-weight: 800;
+          margin-bottom: .35rem;
+          text-transform: lowercase;
+        }
+
+        .card-subtitle {
+          color: #8a2620;
+          font-size: 1.25rem;
+          font-weight: 600;
+          text-transform: none;
+          letter-spacing: .02em;
+        }
+      }
+    }
+
+    label {
+      color: #1e2833;
+      font-size: 2.05rem;
+      margin-bottom: .9rem;
+      font-weight: 500;
+    }
+
+    input#pin {
+      background: #f4f4f4;
+      border: 0;
+      border-radius: 999px;
+      color: #5f7387;
+      height: 56px;
+      font-size: 2.3rem;
+      letter-spacing: .08em;
+      font-weight: 700;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, .08);
+
+      &::placeholder {
+        color: #5f7387;
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 .16rem rgba(152, 48, 37, .24);
+      }
+    }
   }
 
   .box-calc{
     width: auto;
-    height: 400px;
-    background-color: $red;
+    min-height: 402px;
+    background-color: #9f2f22;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+
     &::before{
       content: '';
       position: absolute;
-      bottom: 3.5rem;
-      left: -20px;
+      bottom: 4rem;
+      left: -22px;
       width: 0;
       height: 0;
       border-style: solid;
-      border-width: 20px 20px 20px 0;
-      border-color: transparent $red transparent transparent;
-      transition: all .15s ease-in-out; -webkit-transition: all 0.15s ease-in-out;
+      border-width: 22px 22px 22px 0;
+      border-color: transparent #9f2f22 transparent transparent;
+      transition: all .15s ease-in-out;
+      -webkit-transition: all 0.15s ease-in-out;
     }
     &.saldo{
       &::before{
@@ -60,6 +154,55 @@
         top: 21.5rem;
       }
     }
+
+    .box-inner {
+      width: auto;
+      max-width: 255px;
+    }
+
+    .simple-keyboard.hg-theme-default {
+      background: rgba(0, 0, 0, .12);
+      border-radius: 1.45rem;
+      padding: .85rem;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .05);
+    }
+
+    .simple-keyboard.hg-theme-default .hg-button {
+      width: 66px;
+      height: 66px;
+      border-radius: 1.5rem;
+      background-color: #c6ced1;
+      border-bottom: 0;
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: #000;
+      box-shadow: none;
+      transition: transform .1s ease, filter .1s ease;
+    }
+
+    .simple-keyboard.hg-theme-default .hg-button:active {
+      transform: scale(.97);
+      filter: brightness(.96);
+    }
+
+    .simple-keyboard.hg-theme-default .hg-button.bg-orange {
+      background: #f4be1a;
+      color: #111;
+    }
+
+    .simple-keyboard.hg-theme-default .hg-button.bg-black {
+      background: #020202;
+      color: #c9d2d6 !important;
+    }
+
+    .simple-keyboard .hg-row {
+      justify-content: center;
+      gap: .08rem;
+    }
+  }
+
+  .box-inner {
+    width: 100%;
   }
 }
 
@@ -71,4 +214,68 @@
   padding: 2rem;
   float: left;
   line-height: 1;
+}
+
+@media (max-width: 991px) {
+  .login {
+    width: min(540px, 94vw);
+    border-radius: 10px;
+
+    .login-header {
+      font-size: 1.35rem;
+      padding: 1rem 1.25rem;
+
+      a {
+        font-size: 1.6rem;
+      }
+
+      img {
+        width: 104px;
+      }
+    }
+
+    .box-pin,
+    .box-calc {
+      min-height: auto;
+      padding: 1.15rem;
+    }
+
+    .box-pin {
+      label {
+        font-size: 1.35rem;
+      }
+
+      input#pin {
+        height: 50px;
+        font-size: 1.7rem;
+      }
+
+      .UserCard.card {
+        img {
+          width: 118px;
+          height: 118px;
+        }
+
+        .card-body {
+          .card-title {
+            font-size: 1.5rem;
+          }
+
+          .card-subtitle {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+
+    .box-calc .simple-keyboard.hg-theme-default .hg-button {
+      width: 58px;
+      height: 58px;
+      font-size: 2rem;
+    }
+
+    .box-calc::before {
+      display: none;
+    }
+  }
 }

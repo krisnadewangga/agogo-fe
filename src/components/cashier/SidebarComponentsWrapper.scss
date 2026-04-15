@@ -1,4 +1,4 @@
-@import "../../sass/vars";
+@use "../../sass/vars" as *;
 
 .SidebarComponentsWrapper{
   z-index: 4;
@@ -7,21 +7,27 @@
   left: 50%;
   width: 50%;
   height: 100%;
-  padding: 2% 2%;
+  padding: 1.5% 1.8%;
   @media only screen and (max-width: 1140px) {
     padding: 1% 1%;
   }
-  background-color: rgba(0,0,0,.75);
+  background-color: rgba(17, 17, 17, .72);
   background-image: url('../../img/bg-login.jpg');
   background-size: cover;
+  background-position: center;
   color: white;
+  backdrop-filter: blur(3px);
 
   .sidebar-header-nav{
-    font-size: 1.7rem;
+    font-size: 1.55rem;
     font-weight: 700;
     font-style: italic;
     // margin-left: -2rem;
-    padding: 0;
+    padding: .4rem .75rem;
+    border-radius: .65rem;
+    display: inline-block;
+    background: rgba(0, 0, 0, .3);
+    border: 1px solid rgba(255, 255, 255, .25);
     cursor: pointer;
     &:hover{
       color: $orange !important;
@@ -30,8 +36,40 @@
 
   .TransactionItems, .ReservationItems {
     background-color: white;
-    border-radius: 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
     // padding-top: 10px;
+  }
+
+  .transaction,
+  .reservation {
+    .table {
+      background: rgba(255, 255, 255, .96);
+      color: #1f2328 !important;
+      border-radius: .9rem;
+      overflow: hidden;
+      margin-bottom: .6rem;
+
+      thead th {
+        font-size: .84rem;
+        letter-spacing: .02em;
+        color: #5a5147;
+        background: #f4eee4;
+      }
+
+      tbody tr:hover {
+        background-color: rgba(253, 190, 30, .14);
+      }
+    }
+
+    .product-nav {
+      position: sticky;
+      bottom: 0;
+      width: 100%;
+      left: 0;
+      box-shadow: 0 -8px 20px rgba(0, 0, 0, .2);
+    }
   }
 
   .SidebarBody{
@@ -49,6 +87,27 @@
       position: fixed;
       top: 50px;
       right: 40px;
+    }
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .SidebarComponentsWrapper {
+    left: 0;
+    width: 100%;
+    padding: .9rem .85rem;
+    overflow-y: auto;
+
+    .transaction,
+    .reservation {
+      .table thead th {
+        font-size: .76rem;
+      }
+
+      .product-nav .nav-link {
+        font-size: .78rem;
+        padding: .65rem .55rem;
+      }
     }
   }
 }

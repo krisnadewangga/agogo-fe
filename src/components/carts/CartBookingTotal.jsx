@@ -1,5 +1,5 @@
 import React from 'react'
-import NumberFormat from 'react-number-format'
+import { NumericFormat as NumberFormat } from 'react-number-format'
 
 const CartBookingTotal = (props) => {
     return (
@@ -7,15 +7,15 @@ const CartBookingTotal = (props) => {
         <tfoot className={props.name}>
             <tr className="table-spacer-booking"><td></td></tr>
             <tr className="cart-subtotal">
-                <td scope="row">Sub Total</td>
+                <th scope="row">Sub Total</th>
                 <td className="subtotal-price"><NumberFormat prefix={'Rp '} value={props.cartStore.state.totalAmount} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} className="h5 font-weight-bold" /></td>
             </tr>
             <tr className="cart-subtotal">
-                <td scope="row">Biaya Tambahan</td>
+                <th scope="row">Biaya Tambahan</th>
                 <td className="subtotal-price"><NumberFormat prefix={'Rp '} value={props.cartStore.state.expenseAmount} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} /></td>
             </tr>
             <tr className="cart-subtotal">
-                <td scope="row">Diskon</td>
+                <th scope="row">Diskon</th>
                 <td className="subtotal-price">
                     <NumberFormat prefix={props.cartStore.state.discountAmount ? 'Rp ' : 'Rp '} value={props.cartStore.state.discountAmount} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} />
                 </td>
@@ -28,13 +28,13 @@ const CartBookingTotal = (props) => {
             </tr> */}
 
             <tr className="cart-subtotal">
-                <td scope="row">Total</td>
+                <th scope="row">Total</th>
                 <td className="subtotal-price">
                     <NumberFormat value={props.cartStore.state.grandTotalAmountDiscount} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} prefix={'Rp '} />
                 </td>
             </tr>
             <tr className="cart-subtotal">
-                <td scope="row">Uang Muka</td>
+                <th scope="row">Uang Muka</th>
                 <td className="subtotal-price">
                     <NumberFormat prefix={'Rp '} value={props.cartStore.state.dpReservationAmount} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} />
                 </td>

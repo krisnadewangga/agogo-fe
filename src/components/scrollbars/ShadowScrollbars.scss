@@ -1,6 +1,33 @@
 .ShadowScrollbars{
   position: relative;
-  margin-right: -1rem;
+  margin-right: 0;
+
+  .shadow-scroll-body {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, .26) rgba(255, 255, 255, .06);
+  }
+
+  .shadow-scroll-body::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .shadow-scroll-body::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, .05);
+  }
+
+  .shadow-scroll-body::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, .24);
+    border-radius: 999px;
+    border: 2px solid rgba(0, 0, 0, 0);
+    background-clip: padding-box;
+  }
+
+  .shadow-scroll-body::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, .34);
+    background-clip: padding-box;
+  }
+
   .shadow-top,
   .shadow-bottom{
     position: absolute;
@@ -31,5 +58,5 @@
 
 
 .scroll-wrapper{
-  margin-right: 1rem;
+  margin-right: 0;
 }

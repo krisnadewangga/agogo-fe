@@ -9,7 +9,7 @@ const ProductItems = (props) => {
 
       
       { props.productStore.state.productsFiltered.map((product, index) => 
-      <Col xs="4">
+      <Col xs="4" md="4" lg="4" key={product.id || product.name || index}>
         <ProductItem 
           productIndex={index}
           productID={product.id} 

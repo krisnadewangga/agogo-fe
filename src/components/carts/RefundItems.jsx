@@ -1,5 +1,4 @@
 import React from 'react'
-import CartItem from './CartItem';
 import RefundItem from './RefundItem';
 
 const RefundItems = (props) => {

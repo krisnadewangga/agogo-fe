@@ -4,9 +4,6 @@ import "react-simple-keyboard/build/css/index.css";
 import "./CalcNumeric.scss";
 
 class CalcNumericKas extends Component {
-  constructor(props){
-    super(props)
-  }
   state = {
     layoutName: "default"
   };
@@ -16,7 +13,7 @@ class CalcNumericKas extends Component {
       this.onEnterKas(button);
     }
   };
-  onEnterKas = (button) => {
+  onEnterKas = () => {
     // JALANKAN FUNGSI DARI PARENT
     this.props.cartStore.checkApproval(this.props.modalStore)
   };

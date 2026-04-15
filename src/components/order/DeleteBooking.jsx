@@ -1,6 +1,6 @@
 import React from 'react'
 import { Container, Row, Col, Input, Label, Button, NavLink, Form, FormGroup } from 'reactstrap'
-import NumberFormat from 'react-number-format';
+import { NumericFormat as NumberFormat } from 'react-number-format';
 import './DeleteBooking.scss'
 import FooterNavRightBooking from '../navigations/FooterNavRightBooking'
 
@@ -96,7 +96,7 @@ const DeleteBooking = (props) => {
                             <FormGroup row>
                                 <Col className="btn btn-deleted">
                                     <Button onClick={() => props.cartStore.deleteReservationModal(props.modalStore.toggleModal)} 
-                                    size="md" name="btn-del" className="btn-del"><i class="fas fa-trash-alt del"></i>HAPUS</Button>
+                                    size="md" name="btn-del" className="btn-del"><i className="fas fa-trash-alt del"></i>HAPUS</Button>
                                 </Col>
                             </FormGroup>
                         </Form>

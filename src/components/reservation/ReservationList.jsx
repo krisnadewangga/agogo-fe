@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Row, Col, NavLink, Button, Input, Table } from 'reactstrap';
+import { Container, Row, Col, NavLink, Table } from 'reactstrap';
 
 import ShadowScrollbars from '../scrollbars/ShadowScrollbars';
 
@@ -8,9 +8,6 @@ import ReservationItems from './ReservationItems';
 import FooterNavRight from '../navigations/FooterNavRight';
 
 class ReservationList extends Component {
-  constructor(props){
-    super(props)
-  }
     state = {
     footerNvaBarHeight: 350,
     windowInnerHeight: 0,

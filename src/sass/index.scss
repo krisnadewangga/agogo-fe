@@ -1,4 +1,8 @@
-@import 'vars';
+@use 'vars' as *;
+
+* {
+  box-sizing: border-box;
+}
 
 html,
 body,
@@ -9,9 +13,108 @@ body,
   font-family: 'Open Sans', sans-serif;
   background-image: url('../img/bg-login.jpg');
   background-size: cover;
+  background-position: center;
   background-attachment: fixed;
   overflow: hidden;
 }
+
+html {
+  font-size: 16px;
+}
+
+body {
+  color: #111;
+  line-height: 1.45;
+}
+
+.device-gate {
+  display: none;
+}
+
+.app-shell {
+  height: 100%;
+}
+
+.row.no-gutters,
+.row.row-clean {
+  --bs-gutter-x: 0;
+  --bs-gutter-y: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.row.no-gutters > [class*="col-"],
+.row.row-clean > [class*="col-"] {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media only screen and (max-width: 767px) {
+  html,
+  body,
+  #root,
+  .fullscreen {
+    overflow: hidden;
+    background: #0f0f0f !important;
+    background-image: none !important;
+  }
+
+  .app-shell {
+    display: none !important;
+  }
+
+  .device-gate {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+
+    &-card {
+      width: 100%;
+      max-width: 460px;
+      border-radius: 1rem;
+      border: 1px solid rgba(255, 255, 255, .16);
+      background: #161616;
+      padding: 1.25rem 1rem;
+      text-align: center;
+      box-shadow: 0 16px 28px rgba(0, 0, 0, .35);
+
+      h2 {
+        margin: 0 0 .55rem;
+        color: #f4be1a;
+        font-size: 1.15rem;
+        font-weight: 700;
+        font-style: italic;
+      }
+
+      p {
+        margin: 0;
+        color: #efefef;
+        font-size: .96rem;
+      }
+    }
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: .01em;
+}
+
+h1 { font-size: 2rem; }
+h2 { font-size: 1.65rem; }
+h3 { font-size: 1.4rem; }
+h4 { font-size: 1.2rem; }
+h5 { font-size: 1.05rem; }
+h6 { font-size: .92rem; }
+
+@media only screen and (max-width: 991px) {
+  html {
+    font-size: 15px;
+  }
+}
+
 .fullscreen{
   height: 100%;
 }
@@ -49,20 +152,27 @@ a{
 
 .nav-link{
   cursor: pointer;
-  transition: all .3s ease-in-out; -webkit-transition: all 0.3s ease-in-out;
+  transition: all .2s ease-in-out;
+  -webkit-transition: all 0.2s ease-in-out;
 }
 
 .btn{
   border: none;
+  transition: transform .15s ease, box-shadow .15s ease;
 }
 
 .btn-danger{
   background-color: $red;
 }
 
+.btn:hover {
+  transform: translateY(-1px);
+}
+
 
 .anim{
-  transition: all .3s ease-in-out; -webkit-transition: all 0.3s ease-in-out;
+  transition: all .2s ease-in-out;
+  -webkit-transition: all 0.2s ease-in-out;
  }
 
  .bg-orange{
@@ -103,12 +213,21 @@ a{
 }
 
 .btn-fullscreen{
+  background: transparent;
+  border: 0;
   color: white;
   font-size: 2.5rem;
-  padding: 2rem;
-  display: inline-block;
+  padding: 1.25rem;
+  margin: .5rem;
+  display: block;
   line-height: 1;
   float: right;
+  border-radius: 999px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, .45);
+}
+
+.btn-fullscreen:hover {
+  background: rgba(255, 255, 255, .16);
 }
 .btn-fullscreen-other{
   color: white;
@@ -126,14 +245,6 @@ a{
 .modal-content{
   border-radius: 2rem;
   border: none;
-  // top: 90%;
-  // left: 90%;
-  // right: auto;
-  // bottom: auto;
-  // margin-right: -50%;
-  // transform: translate(-50%, -50%)
-}
-.modal{
   // top: 90%;
   // left: 90%;
   // right: auto;

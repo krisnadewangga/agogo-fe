@@ -3,47 +3,47 @@
   "version": "0.1.0",
   "homepage": "https://fe.agogo-bakery.com/",
   "private": true,
+  "engines": {
+    "node": ">=24.13.0"
+  },
   "dependencies": {
-    "axios": "^0.19.0",
-    "bootstrap": "^4.3.1",
+    "ajv": "^8.18.0",
+    "axios": "^1.15.0",
+    "bootstrap": "^5.3.8",
     "classnames": "^2.2.6",
-    "html-to-text": "^5.1.1",
-    "json-loader": "^0.5.7",
     "jwt-decode": "^2.2.0",
-    "mathjs": "^5.2.3",
+    "mathjs": "^15.2.0",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.25",
-    "node-sass": "^9.0.0",
-    "react": "^16.8.6",
-    "react-custom-scroll": "^4.0.1",
-    "react-custom-scrollbars": "^4.2.1",
-    "react-datepicker": "^2.5.0",
-    "react-dom": "^16.8.6",
-    "react-error-overlay": "^6.0.9",
-    "react-full-screen": "^0.2.3",
-    "react-leaflet": "^2.4.0",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "react-full-screen": "^1.1.1",
     "react-modal": "^3.8.1",
-    "react-number-format": "^4.0.5",
-    "react-responsive-modal": "^4.0.1",
-    "react-router-dom": "^4.3.1",
-    "react-scripts": "^4.0.3",
-    "react-scrollbar": "^0.5.4",
-    "react-simple-keyboard": "^1.12.0",
-    "react-simple-timefield": "^2.0.3",
-    "react-time-picker": "^3.5.2",
-    "react-times": "^3.1.12",
-    "reactstrap": "^6.5.0",
+    "react-number-format": "^5.4.5",
+    "react-router-dom": "^6.30.1",
+    "react-simple-keyboard": "^3.8.189",
+    "react-time-picker": "^8.0.3",
+    "reactstrap": "^9.2.3",
     "sass": "^1.97.3",
-    "unstated": "^2.1.1"
+    "unstated": "file:vendor/unstated",
+    "web-vitals": "^2.1.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.0.2",
+    "vite": "^7.1.7"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "vite --port 3000",
+    "dev": "vite --port 3000",
+    "build": "vite build",
+    "preview": "vite preview --port 4173"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "overrides": {
+    "@tootallnate/once": "^3.0.1",
+    "underscore": "^1.13.7",
+    "serialize-javascript": "^7.0.0",
+    "postcss": "^8.4.31",
+    "nth-check": "^2.1.1"
   },
   "browserslist": [
     ">0.2%",

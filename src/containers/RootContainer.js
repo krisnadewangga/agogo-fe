@@ -1,4 +1,4 @@
-import { Container } from 'unstated'
+import { Container } from '../lib/unstated-compat'
 
 class RootContainer extends Container {
 

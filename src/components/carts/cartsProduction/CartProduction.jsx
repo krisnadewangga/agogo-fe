@@ -1,6 +1,5 @@
 import React from 'react'
-import { Table, Container, Row, Col, Input, Button, Popover, PopoverBody} from 'reactstrap'
-import axios from 'axios'
+import { Table, Container, Row, Col } from 'reactstrap'
 import CartProductionTotal from '../CartProductionTotal'
 
 import './CartProduction.scss'
@@ -56,7 +55,7 @@ class CartProduction extends React.Component {
 
                         
                         <div className="view-img img-fluid" style={{marginTop: "10px", maxWidth: 300, maxHeight: 300}}>
-                            <img className="img-fluid" style={{maxWidth: 300, maxHeight: 300}} src={imgLocal}></img>
+                            <img className="img-fluid" style={{maxWidth: 300, maxHeight: 300}} src={imgLocal} alt={this.props.cartStore.state.selectedProduct.name || 'Selected product'}></img>
                         </div>
                         <div className="select-view-product">
                             { this.props.cartStore.state.selectedProduct.name ? this.props.cartStore.state.selectedProduct.name : "Pilih product untuk melihat stok"}
@@ -66,12 +65,12 @@ class CartProduction extends React.Component {
                     <Col xs="5" className="body-right">
                         <div>
                         <tr>
-                            <th><i class="fas fa-plus-circle add-product"> Produksi</i></th>
+                            <th><i className="fas fa-plus-circle add-product"> Produksi</i></th>
                         </tr>
                         <tr className="full">
                             <td className="production">Produksi </td>
                             <td className="product-total text-right" id="produksi1">{ this.props.cartStore.state.produksi[this.props.cartStore.state.selectedProduct.name + "produksi1"] || 0 || "-"}</td>
-                            <td className="button "><a className={this.props.cartStore.productionButton2()} onClick={() => this.props.modalStore.toggleModal('production', 'lg', "1")}><i class="fas fa-pen-square edit"></i></a></td>
+                            <td className="button "><button type="button" className={this.props.cartStore.productionButton2()} onClick={() => this.props.modalStore.toggleModal('production', 'lg', "1")}><i className="fas fa-pen-square edit"></i></button></td>
                         </tr>
                         
                         <hr/>
