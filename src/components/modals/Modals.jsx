@@ -260,7 +260,7 @@ class Modals extends Component {
               displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} prefix={' Rp '} />
               </td>
             </tr>
-            <tr>
+            {/* <tr>
               <td>Transaksi </td>
               <td>:</td>
               <td className='toRight'>
@@ -268,19 +268,9 @@ class Modals extends Component {
                 parseInt(this.props.modalStore.state.transaction.total_refund)}
                 displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} prefix={' Rp '} />
                 </td>
-            </tr>
-            <hr style={{width: 'auto', marginTop: '10px'}} />
-            <tr>
-              <td>Saldo Akhir </td>
-              <td>:</td>
-              <td className='toRight'>
-              <NumberFormat value={parseInt(this.props.modalStore.state.transaction.total_transaksi) + 
-                parseInt(this.props.modalStore.state.transaction.saldo_awal) - 
-                parseInt(this.props.modalStore.state.transaction.total_refund)}
-                displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} prefix={' Rp '} />
-                </td>
-            </tr>
-            <br/>
+            </tr> */}
+            {/* <hr style={{width: 'auto', marginTop: '10px'}} /> */}
+            {/* <br/> */}
             <tr>
               <td>CASH </td>
               <td>:</td>
@@ -307,6 +297,16 @@ class Modals extends Component {
             </tr>
             <hr style={{width: 'auto', marginTop: '10px'}} />
              <tr>
+              <td>Saldo Akhir </td>
+              <td>:</td>
+              <td className='toRight'>
+              <NumberFormat value={parseInt(this.props.modalStore.state.transaction.total_transaksi) + 
+                parseInt(this.props.modalStore.state.transaction.saldo_awal) - 
+                parseInt(this.props.modalStore.state.transaction.total_refund)}
+                displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} prefix={' Rp '} />
+                </td>
+            </tr>
+             {/* <tr>
               <td>Pemasukan </td>
               <td>:</td>
               <td className='toRight'>
@@ -319,7 +319,7 @@ class Modals extends Component {
               }
                 displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} prefix={' Rp '} />
                 </td>
-             </tr>
+             </tr> */}
             <div className={'input-keyboard-wrapper active-input mt-1'}>
               <NumberFormat thousandSeparator={'.'} decimalSeparator={','} prefix={'Rp '} className="mb-4 form-control-lg form-control" placeholder="Cash fisik"  
                 name="noteLogout" id="noteLogout"
