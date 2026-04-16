@@ -11,8 +11,8 @@ const TransactionItem = (props) => {
   let formatedDate = splitDate[2] + '/' + splitDate[1] + '/' + splitDate[0]
   return (
     <div>
-      <Row style={{cursor: 'pointer', fontWeight: 600}} onClick={() => props.isPaid ? props.cartStore.showSelectedTransaction(props.transactionDetail, props.modalStore.toggleModal) : props.cartStore.addSelectedTransaction(props.trxID, props.trxName, props.trxIndex)}>
-        <Col sm={props.isPaid ? '4' : '6'} className="row-trx">
+      <Row>
+        <Col sm={props.isPaid ? '4' : '6'} style={{cursor: 'pointer', fontWeight: 600}} className="row-trx" onClick={() => props.isPaid ? props.cartStore.showSelectedTransaction(props.transactionDetail, props.modalStore.toggleModal) : props.cartStore.addSelectedTransaction(props.trxID, props.trxName, props.trxIndex)}>
           <span className="open-transaction" style={{ color: "black" }} >
             {props.trxName}
           </span>
