@@ -570,7 +570,7 @@ class Modals extends Component {
         const transfer = toNumber(transaction?.transfer)
         const qris = toNumber(transaction?.qris)
         const totalTransaksi = toNumber(transaction?.total_transaksi)
-        const uangBayar = cash + transfer + qris
+        const uangBayar = toNumber(transaction?.total_bayar)
         const uangKembali = uangBayar - totalTransaksi
         return (
           <div id="A" ref={this.root}>
@@ -590,14 +590,14 @@ class Modals extends Component {
                 textAlign: 'left',
               }}
             >
-              <div style={{ letterSpacing: '.03em' }}>------------------------------</div>
+              <div style={{ letterSpacing: '.03em' }}>----------------------------------------------</div>
 
               <div style={{ display: 'flex' }}><span style={{ width: '72px' }}>Jenis</span><span>: Pembelian</span></div>
               <div style={{ display: 'flex' }}><span style={{ width: '72px' }}>No order</span><span>: {transaction?.no_transaksi || '-'}</span></div>
               <div style={{ display: 'flex' }}><span style={{ width: '72px' }}>Tanggal</span><span>: {transaction?.tgl_bayar || '-'}</span></div>
               <div style={{ display: 'flex' }}><span style={{ width: '72px' }}>Kasir</span><span>: {transaction?.kasir_name || '-'}</span></div>
 
-              <div style={{ letterSpacing: '.03em', marginTop: '4px' }}>------------------------------</div>
+              <div style={{ letterSpacing: '.03em', marginTop: '4px' }}>----------------------------------------------</div>
 
               {(transaction?.carts || []).map((item, index) => (
                 <div key={`${item?.product_name || 'item'}-${index}`} style={{ marginBottom: '2px' }}>
@@ -615,7 +615,7 @@ class Modals extends Component {
                 </div>
               ))}
 
-              <div style={{ letterSpacing: '.03em', marginTop: '2px' }}>------------------------------</div>
+              <div style={{ letterSpacing: '.03em', marginTop: '2px' }}>----------------------------------------------</div>
 
               <div style={{ display: 'flex' }}>
                 <span style={{ flex: 1 }}>Subtotal</span>
@@ -625,7 +625,7 @@ class Modals extends Component {
                 </span>
               </div>
 
-              <div style={{ letterSpacing: '.03em', marginTop: '2px' }}>------------------------------</div>
+              <div style={{ letterSpacing: '.03em', marginTop: '2px' }}>----------------------------------------------</div>
 
               <div style={{ display: 'flex' }}>
                 <span style={{ flex: 1 }}>Grand Total</span>
@@ -642,7 +642,7 @@ class Modals extends Component {
                   <span style={{ flex: 1 }}>(CASH)</span>
                   <span style={{ marginRight: '6px' }}>:</span>
                   <span style={{ minWidth: '70px', textAlign: 'right' }}>
-                    <NumberFormat value={cash} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} />
+                    <NumberFormat value={cash + (uangBayar - cash - qris - transfer)} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} />
                   </span>
                 </div>
               )}
