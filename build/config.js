@@ -1,5 +1,21 @@
 window.appConfig = {
-    API_BASE_URL: 'http://127.0.0.1:8000',
-    // API_BASE_URL: 'https://pos.agogo-bakery.com',
+    // API_BASE_URL: 'http://127.0.0.1:8000',
+    API_BASE_URL: 'https://pos.agogo-bakery.com',
     // API_BASE_URL: 'http://localhost/agogo-be',
+
+    VITE_SHOP_NAME: 'Agogo',
+
+    // CABANG BITUNG
+    // VITE_BRANCH_NAME: 'Bitung'
+    // VITE_RECEIPT_CODE: '-BT'
+    // VITE_BRANCH_ADDRESS: 'Jalan Wolter Monginsidi, Kel. Girian Indah, Kec. Girian, Bitung, Sulawesi Utara'
+    // VITE_BRANCH_PHONE: '0821-8749-8746'
+    // VITE_BRANCH_MAP: 'maps.app.goo.gl/QhykU7kVM46afKUc8'
+
+    // CABANG AIRMADIDI
+    VITE_BRANCH_NAME: 'Airmadidi',
+    VITE_RECEIPT_CODE: '-AR',
+    VITE_BRANCH_ADDRESS: 'Jalan Arnold Mononutu, Kel. Sarongsong, Kec. Airmadidi, Minahasa Utara, Sulawesi Utara',
+    VITE_BRANCH_PHONE: '0811-4352-605',
+    VITE_BRANCH_MAP: 'maps.app.goo.gl/aUMC2mBbWVAFAauz9',
 };
