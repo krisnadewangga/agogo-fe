@@ -31,6 +31,7 @@ export default defineConfig({
     outDir: 'build',
     assetsDir: 'static',
     emptyOutDir: true,
+    cssCodeSplit: false,
     chunkSizeWarningLimit: 900,
     rollupOptions: {
       output: {

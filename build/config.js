@@ -1,6 +1,6 @@
 window.appConfig = {
-    // API_BASE_URL: 'http://127.0.0.1:8000',
-    API_BASE_URL: 'https://pos.agogo-bakery.com',
+    API_BASE_URL: 'http://127.0.0.1:8000',
+    // API_BASE_URL: 'https://pos.agogo-bakery.com',
     // API_BASE_URL: 'http://localhost/agogo-be',
     
     VITE_SHOP_NAME: 'Agogo',
