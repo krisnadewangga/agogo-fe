@@ -28,6 +28,9 @@ export default defineConfig({
     port: 4173,
   },
   build: {
+    outDir: 'build',
+    assetsDir: 'static',
+    emptyOutDir: true,
     chunkSizeWarningLimit: 900,
     rollupOptions: {
       output: {

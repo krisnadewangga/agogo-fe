@@ -22,7 +22,7 @@ Server akan berjalan di http://localhost:3000.
 ```bash
 npm run build
 ```
-Output build berada di folder `dist/`.
+Output build berada di folder `build/`.
 
 ### Preview Build Production
 ```bash
@@ -46,5 +46,5 @@ Semua nilai ada di file `.env`.
 
 ## Catatan Deploy
 
-- Untuk static hosting, deploy isi folder `dist/`.
+- Untuk static hosting, deploy isi folder `build/`.
 - Jika server membutuhkan fallback SPA routing, arahkan semua request non-file ke `index.html`.
