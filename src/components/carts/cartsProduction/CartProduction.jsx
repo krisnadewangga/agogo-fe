@@ -51,11 +51,8 @@ class CartProduction extends React.Component {
                 <Row style={{height: "400px"}}>
                     <Col xs="7" className="body-left">
                         <div className="date">Produksi per <span className="date-update">{this.props.cartStore.state.days[new Date(this.props.cartStore.state.lastDate).getDay()] + ", " +this.props.cartStore.state.formatDate}</span></div>
-                        
-
-                        
-                        <div className="view-img img-fluid" style={{marginTop: "10px", maxWidth: 300, maxHeight: 300}}>
-                            <img className="img-fluid" style={{maxWidth: 300, maxHeight: 300}} src={imgLocal} alt={this.props.cartStore.state.selectedProduct.name || 'Selected product'}></img>
+                        <div className="view-img img-fluid" style={{marginTop: "10px", height: 250, width: 250}}>
+                            <img style={{width: "100%", height: "100%", objectFit: "cover"}} src={imgLocal} alt={this.props.cartStore.state.selectedProduct.name || 'Selected product'}></img>
                         </div>
                         <div className="select-view-product">
                             { this.props.cartStore.state.selectedProduct.name ? this.props.cartStore.state.selectedProduct.name : "Pilih product untuk melihat stok"}
@@ -63,25 +60,24 @@ class CartProduction extends React.Component {
     
                     </Col>
                     <Col xs="5" className="body-right">
-                        <div>
-                        <tr>
-                            <th><i className="fas fa-plus-circle add-product"> Produksi</i></th>
-                        </tr>
-                        <tr className="full">
-                            <td className="production">Produksi </td>
-                            <td className="product-total text-right" id="produksi1">{ this.props.cartStore.state.produksi[this.props.cartStore.state.selectedProduct.name + "produksi1"] || 0 || "-"}</td>
-                            <td className="button "><button type="button" className={this.props.cartStore.productionButton2()} onClick={() => this.props.modalStore.toggleModal('production', 'lg', "1")}><i className="fas fa-pen-square edit"></i></button></td>
-                        </tr>
-                        
-                        <hr/>
-                        <tr>
-                            <td className="total-production">Total Produksi</td>
-                            <td className="calc-product-total text-right">{parseInt(this.props.cartStore.state.produksi[this.props.cartStore.state.selectedProduct.name + "produksi1"] || 0)+
-                                                                           parseInt(this.props.cartStore.state.produksi[this.props.cartStore.state.selectedProduct.name + "produksi2"] || 0)+
-                                                                           parseInt(this.props.cartStore.state.produksi[this.props.cartStore.state.selectedProduct.name + "produksi3"] || 0) || "-"
-                                                                           }</td>
-                        </tr>
-                        </div>
+                        <table>
+                            <tr><i className="fas fa-plus-circle add-product"> Produksi</i></tr>
+                            <tr className="full">
+                                <td className="production">Produksi </td>
+                                <td className="product-total text-right" id="produksi1">{ this.props.cartStore.state.produksi[this.props.cartStore.state.selectedProduct.name + "produksi1"] || 0 || "-"}</td>
+                                <td className="button "><button type="button" className={this.props.cartStore.productionButton2()} onClick={() => this.props.modalStore.toggleModal('production', 'lg', "1")}><i className="fas fa-pen-square edit"></i></button></td>
+                            </tr>
+                            
+                            <hr/>
+                            <tr>
+                                <td className="total-production">Total Produksi</td>
+                                <td className="calc-product-total text-right">{parseInt(this.props.cartStore.state.produksi[this.props.cartStore.state.selectedProduct.name + "produksi1"] || 0)+
+                                                                            parseInt(this.props.cartStore.state.produksi[this.props.cartStore.state.selectedProduct.name + "produksi2"] || 0)+
+                                                                            parseInt(this.props.cartStore.state.produksi[this.props.cartStore.state.selectedProduct.name + "produksi3"] || 0) || "-"
+                                                                            }</td>
+                                <td></td>
+                            </tr>
+                        </table>
                         {this.getManagerRole() && 
                             <ProductionStore cartStore={this.props.cartStore} modalStore={this.props.modalStore}/>
                         }

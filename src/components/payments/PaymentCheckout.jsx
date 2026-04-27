@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Row, Col, NavLink, Button, Input, FormGroup } from 'reactstrap';
+import { Container, Row, Col, NavLink, Button, Input, FormGroup, Label } from 'reactstrap';
 import { NumericFormat as NumberFormat } from 'react-number-format';
 import CalcNumericPayment from '../calcs/CalcNumericPayment'
 import './PaymentCheckout.scss';
@@ -55,7 +55,7 @@ const PaymentCheckout = (props) => {
 
   const handleUncheckUangPas = (state) => {
     setUangPas(state)
-    props.cartStore.keyboardRef.keyboard.clearInput();
+    // props.cartStore.keyboardRef.keyboard.clearInput();
     if(state){
       setCash(false);
       setTransfer(false);
@@ -64,7 +64,7 @@ const PaymentCheckout = (props) => {
         paymentMethod: {
           ...prevState.paymentMethod,
           value: {
-            cash: `${props.cartStore.state.grandTotalAmountDiscount}`,
+            cash: props.cartStore.state.grandTotalAmountDiscount,
             transfer: 0,
             qris: 0,
           },
@@ -77,6 +77,7 @@ const PaymentCheckout = (props) => {
     } else {
       props.cartStore.setState(prevState => ({
         paymentMethod: {
+          ...prevState.paymentMethod,
           value: {
             cash: '',
             transfer: '',
@@ -91,9 +92,15 @@ const PaymentCheckout = (props) => {
     }
   }
 
+  const paymentOptions = [
+    { key: 'cash', label: 'Cash', checked: cash, setter: setCash, disabled: uangPas },
+    { key: 'transfer', label: 'Transfer', checked: transfer, setter: setTransfer, disabled: uangPas },
+    { key: 'qris', label: 'QRIS', checked: qris, setter: setQris, disabled: uangPas },
+  ]
+
   return (
 
-    <Row className="PaymentCheckout d-block">
+    <div className="PaymentCheckout d-block">
       <Container>
       <Row className="SidebarHeader">
           <Col sm="7">
@@ -159,24 +166,36 @@ const PaymentCheckout = (props) => {
               <FormGroup
                 check
                 inline
-                className="m-0"
+                className="m-0 gap-3 d-flex flex-wrap align-items-center"
               >
-                <Input type="checkbox" className="form-control-sm" checked={cash} disabled={uangPas} onChange={(e) => handleUncheck(setCash, e.target.checked, 'cash')}/>
-                <span check className="ml-1 mr-2">
-                  Cash
-                </span>
-                <Input type="checkbox" className="form-control-sm" checked={transfer} disabled={uangPas} onChange={(e) => handleUncheck(setTransfer,e.target.checked, 'transfer')}/>
-                <span check className="ml-1 mr-2">
-                  Transfer
-                </span>
-                <Input type="checkbox" className="form-control-sm" checked={qris} disabled={uangPas} onChange={(e) => handleUncheck(setQris,e.target.checked, 'qris')}/>
-                <span check className="ml-1 mr-2">
-                  QRIS
-                </span>
-                <Input type="checkbox" className="form-control-sm" checked={uangPas} onChange={(e) => handleUncheckUangPas(e.target.checked)}/>
-                <span check className="ml-1">
-                  PAS
-                </span>
+                {paymentOptions.map((option) => (
+                  <div key={option.key} className="d-flex align-items-center mb-2 gap-2">
+                    <Input
+                      id={`payment-${option.key}`}
+                      type="checkbox"
+                      className="m-0"
+                      checked={option.checked}
+                      disabled={option.disabled}
+                      onChange={(e) => handleUncheck(option.setter, e.target.checked, option.key)}
+                    />
+                    <Label for={`payment-${option.key}`} className="mb-0">
+                      {option.label}
+                    </Label>
+                  </div>
+                ))}
+
+                <div className="d-inline-flex align-items-center mr-3 mb-2 gap-2">
+                  <Input
+                    id="payment-uang-pas"
+                    type="checkbox"
+                    className="m-0"
+                    checked={uangPas}
+                    onChange={(e) => handleUncheckUangPas(e.target.checked)}
+                  />
+                  <Label for="payment-uang-pas" className="ml-2 mb-0">
+                    PAS
+                  </Label>
+                </div>
               </FormGroup>
               <InputValue props={props} value={cash} label="cash" />
               <InputValue props={props} value={transfer} label="transfer" />
@@ -229,7 +248,7 @@ const PaymentCheckout = (props) => {
           
         </Row>
       </Container>
-    </Row>
+    </div>
 
   )
 }

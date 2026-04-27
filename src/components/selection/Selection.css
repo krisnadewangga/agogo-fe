@@ -1,8 +1,6 @@
 .Selection .container-selection {
     padding: 36px 48px;
     border-radius: 18px;
-    background: rgba(15, 15, 15, 0.62);
-    border: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
     backdrop-filter: blur(3px);
 }

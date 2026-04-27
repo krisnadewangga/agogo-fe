@@ -16,18 +16,17 @@ class OthersProduction extends React.Component {
 
     render() {
         return (
-            <div>
-                <div>
+            <table>
                 <tr>
                     <th><i className="fas fa-minus-circle add-product"> Lain-lain</i></th>
                 </tr>
                 <tr>
-                    <td className="broken-production">Rusak</td>
+                    <td className="production">Rusak</td>
                     <td className="product-total-broken text-right" >{ this.props.cartStore.state.produksi[this.props.cartStore.state.selectedProduct.name + "rusak"] || "-"}</td>
                     <td><button type="button" className={this.props.cartStore.productionButton4()} onClick={() => this.props.modalStore.toggleModal('productionOther', 'lg', "4")}><i className="fas fa-pen-square edit"></i></button></td>
                 </tr>
                 <tr>
-                    <td className="others-production">Lain-lain</td>
+                    <td className="production">Lain-lain</td>
                     <td className="product-total-others text-right" >{ this.props.cartStore.state.produksi[this.props.cartStore.state.selectedProduct.name + "lain"] || "-"}</td>
                     <td><button type="button" className={this.props.cartStore.productionButton5()} onClick={() => this.props.modalStore.toggleModal('productionOther', 'lg', "5")}><i className="fas fa-pen-square edit"></i></button></td>
                 </tr>
@@ -37,8 +36,7 @@ class OthersProduction extends React.Component {
                     <td className="calc-product-total text-right">{parseInt(this.props.cartStore.state.produksi[this.props.cartStore.state.selectedProduct.name + "rusak"] || 0)+
                                                                     parseInt(this.props.cartStore.state.produksi[this.props.cartStore.state.selectedProduct.name + "lain"] || 0) || "-"}</td>
                 </tr>
-                </div>
-            </div>
+            </table>
         )
     }
 }

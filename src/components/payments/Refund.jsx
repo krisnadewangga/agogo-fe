@@ -6,7 +6,7 @@ import './Refund.scss';
 const Refund = (props) => {
   return (
 
-    <Row className="Refund d-block">
+    <div className="Refund d-block">
       <Container>
         <Row className="SidebarHeader">
           <Col>
@@ -14,16 +14,16 @@ const Refund = (props) => {
           </Col>
         </Row>
 
-        <Row sm={4}>
-        <FormGroup check>
-              <Label style={{marginLeft:"4px", marginRight:"10px"}} check> Toko </Label>
-              <Input style={{position: "relative"}} checked={props.cartStore.state.selectedRefund === "TK"} onChange={(e) => props.cartStore.handleRefundChange(e)} value="TK" className="radio sm" size="sm" type="radio" name="TK" id="TK" /> {' '}
+        <div className='d-flex gap-3'>
+          <FormGroup check className="d-flex align-items-center mb-0">
+            <Input style={{position: "relative"}} checked={props.cartStore.state.selectedRefund === "TK"} onChange={(e) => props.cartStore.handleRefundChange(e)} value="TK" className="radio sm" size="sm" type="radio" name="TK" id="TK" /> {' '}
+            <Label style={{marginLeft:"4px", marginRight:"10px"}} check> Toko </Label>
             </FormGroup>  
-          <FormGroup check>
-              <Label style={{marginLeft:"4px", marginRight:"10px"}} check> Pesanan </Label>
-              <Input style={{position: "relative"}} checked={props.cartStore.state.selectedRefund === "PS"} onChange={(e) => props.cartStore.handleRefundChange(e)} value="PS" className="radio sm" size="sm" type="radio" name="PS" id="PS" /> {' '}
-            </FormGroup>                    
-          </Row>
+          <FormGroup check className="d-flex align-items-center mb-0">
+            <Input style={{position: "relative"}} checked={props.cartStore.state.selectedRefund === "PS"} onChange={(e) => props.cartStore.handleRefundChange(e)} value="PS" className="radio sm" size="sm" type="radio" name="PS" id="PS" /> {' '}
+            <Label style={{marginLeft:"4px", marginRight:"10px"}} check> Pesanan </Label>
+          </FormGroup>                    
+        </div>
 
         <Row className="SidebarBody" >
 
@@ -89,7 +89,7 @@ const Refund = (props) => {
           </Col>
         </Row>
       </Container>
-    </Row>
+    </div>
 
   )
 }

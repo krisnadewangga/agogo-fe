@@ -34,33 +34,34 @@ class TransactionList extends Component {
 
     render() {
       return (
-        <Container className="transaction d-block">
-        <NavLink onClick={() => this.props.cartStore.toggleOpenTransactionShow()} className="sidebar-header-nav" style={{color: "white"}}><i className="fas fa-arrow-left mr-2" style={{color: "white"}}></i>Transaksi Tertunda</NavLink>
-            <Table style={{color: "white"}} borderless striped>
-              <TransactionHeader />
-            </Table>
-  
-            <ShadowScrollbars
-              autoHide
-              autoHideTimeout={1000}
-              autoHideDuration={200}
-              autoHeight
-              autoHeightMin={500}
-              autoHeightMax={500}
-            >
-              <div className="scroll-wrapper" id="Cobaaa">
-                <Table style={{color: "white"}} borderless striped className="mb-0">
-                  <TransactionItems cartStore={this.props.cartStore} paid={false} modalStore={this.props.modalStore}/>
-                </Table>
-              </div>
-            </ShadowScrollbars>
-
-            <Row className="product-nav no-gutters">
-              <Col xs="12">
-                <FooterNavRight cartStore={this.props.cartStore} rootStore={this.props.rootStore} modalStore={this.props.modalStore}/>
-              </Col>
-            </Row>
-        </Container>
+        <div>
+          <Container className="transaction d-block">
+            <NavLink onClick={() => this.props.cartStore.toggleOpenTransactionShow()} className="sidebar-header-nav" style={{color: "white"}}><i className="fas fa-arrow-left mr-2" style={{color: "white"}}></i>Transaksi Tertunda</NavLink>
+              <Table style={{color: "white"}} borderless striped>
+                <TransactionHeader />
+              </Table>
+    
+              <ShadowScrollbars
+                autoHide
+                autoHideTimeout={1000}
+                autoHideDuration={200}
+                autoHeight
+                autoHeightMin={500}
+                autoHeightMax={500}
+              >
+                <div className="scroll-wrapper" id="Cobaaa">
+                  <Table style={{color: "white"}} borderless striped className="mb-0">
+                    <TransactionItems cartStore={this.props.cartStore} paid={false} modalStore={this.props.modalStore}/>
+                  </Table>
+                </div>
+              </ShadowScrollbars>
+          </Container>
+          <Row className="product-nav no-gutters d-flex w-100">
+            <Col xs="12">
+              <FooterNavRight cartStore={this.props.cartStore} rootStore={this.props.rootStore} modalStore={this.props.modalStore}/>
+            </Col>
+          </Row>
+        </div>
       );
     }
 }

@@ -10,6 +10,7 @@ import { NumericFormat as NumberFormat } from 'react-number-format'
 import RootContainer from '../../containers/RootContainer'
 import ModalsContainer from '../../containers/ModalsContainer'
 import CartsContainer from '../../containers/CartsContainer'
+import DefaultIP from '../../containers/DefaultIP';
 
 const customStyles = {
   content: {
@@ -126,6 +127,9 @@ class Modals extends Component {
 
   renderSwitch(type) {
     const externalCloseBtn = <button className="close" style={{ zIndex:'20', position: 'absolute', top: '20px', right: '20px' }} onClick={this.props.toggle}>&times;</button>;
+    const serverImage = this.props.cartStore.state.selectedProduct.photo;
+    const localImage = serverImage ? serverImage.replace("https://pos.agogo-bakery.com", DefaultIP) : null;
+    
     switch(type) {
       case 'reguler':
         return (
@@ -186,7 +190,7 @@ class Modals extends Component {
           {this.root.current && (
         <Modal parentSelector={() => this.root.current} style={customStyles} isOpen={this.props.modal} toggle={this.props.toggle} className={this.props.className} size={this.props.size} centered>
           {externalCloseBtn}
-          <ModalHeader toggle={this.props.toggle} className="text-center d-block mt-2"><h3>Logout</h3></ModalHeader>
+          <ModalHeader className="text-center d-block mt-2"><h3>Logout</h3></ModalHeader>
           <ModalBody>
             Apakah anda yakin akan keluar ?
           </ModalBody>
@@ -300,7 +304,7 @@ class Modals extends Component {
               <td>Saldo Akhir </td>
               <td>:</td>
               <td className='toRight'>
-              <NumberFormat value={parseInt(this.props.modalStore.state.transaction.total_transaksi) + 
+              <NumberFormat value={parseInt(this.props.modalStore.state.transaction.cash + this.props.modalStore.state.transaction.transfer + this.props.modalStore.state.transaction.qris + this.props.modalStore.state.transaction.total_pelunasan_preorders + this.props.modalStore.state.transaction.total_dp_preorders) + 
                 parseInt(this.props.modalStore.state.transaction.saldo_awal) - 
                 parseInt(this.props.modalStore.state.transaction.total_refund)}
                 displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} prefix={' Rp '} />
@@ -562,97 +566,115 @@ class Modals extends Component {
       );
       case 'showTransaction':
         const transaction = this.props.cartStore.state.showSelectedTransaction
-        const uangBayar = parseInt(transaction.cash + transaction.transfer + transaction.qris)
-        const uangKembali = parseInt(uangBayar - transaction.total_transaksi)
+        const toNumber = (value) => parseInt(value, 10) || 0
+        const cash = toNumber(transaction?.cash)
+        const transfer = toNumber(transaction?.transfer)
+        const qris = toNumber(transaction?.qris)
+        const totalTransaksi = toNumber(transaction?.total_transaksi)
+        const uangBayar = toNumber(transaction?.total_bayar)
+        const uangKembali = uangBayar - totalTransaksi
         return (
           <div id="A" ref={this.root}>
           {this.root.current && (
         <Modal parentSelector={() => this.root.current} style={customStyles} isOpen={this.props.modal} toggle={this.props.toggle} className={this.props.className} size={this.props.size} centered>
           {externalCloseBtn}
-          <ModalBody className="p-5">
-            <table>
-              <tr class="tabletitle">
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">Jenis</td>
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center">Pembelian</td>
-              </tr>
-              <tr class="tabletitle">
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">No order</td>
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center">{transaction.no_transaksi}</td>
-              </tr>
-              <tr class="tabletitle">
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">Tanggal</td>
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center">{transaction.tgl_bayar}</td>
-              </tr>
-              <tr class="tabletitle">
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">Kasir</td>
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center">{transaction.kasir_name}</td>
-              </tr>
-              <tr>
-                <td colSpan={3}>
-                ------------------------------------------------------------
-                </td>
-              </tr>
-              {transaction?.carts?.map((item,index) => 
-                <tr class="service">
-                  <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">{index + 1}. {item.product_name}</td>
-                  <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">&nbsp;{`(${item.qty} x ${item.price})`}</td>
-                  <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="right"><NumberFormat value={item.price * item.qty} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} /></td>
-                </tr>
+          <ModalBody className="p-4">
+            <div
+              style={{
+                width: '100%',
+                maxWidth: '310px',
+                margin: '0 auto',
+                fontFamily: 'Arial, Helvetica, sans-serif',
+                fontSize: '11px',
+                lineHeight: 1.35,
+                color: '#111',
+                textAlign: 'left',
+              }}
+            >
+              <div style={{ letterSpacing: '.03em' }}>---------------------------------------------</div>
+
+              <div style={{ display: 'flex' }}><span style={{ width: '72px' }}>Jenis</span><span>: Pembelian</span></div>
+              <div style={{ display: 'flex' }}><span style={{ width: '72px' }}>No order</span><span>: {transaction?.no_transaksi || '-'}</span></div>
+              <div style={{ display: 'flex' }}><span style={{ width: '72px' }}>Tanggal</span><span>: {transaction?.tgl_bayar || '-'}</span></div>
+              <div style={{ display: 'flex' }}><span style={{ width: '72px' }}>Kasir</span><span>: {transaction?.kasir_name || '-'}</span></div>
+
+              <div style={{ letterSpacing: '.03em', marginTop: '4px' }}>---------------------------------------------</div>
+
+              {(transaction?.carts || []).map((item, index) => (
+                <div key={`${item?.product_name || 'item'}-${index}`} style={{ marginBottom: '2px' }}>
+                  <div style={{ display: 'flex' }}>
+                    <span>{index + 1}. {item?.product_name || '-'}</span>
+                  </div>
+                  <div style={{ display: 'flex' }}>
+                    <span style={{ width: '16px' }} />
+                    <span style={{ flex: 1 }}>{item?.qty || 0} x {item?.price || 0}</span>
+                    <span style={{ marginRight: '6px' }}>=</span>
+                    <span style={{ minWidth: '70px', textAlign: 'right' }}>
+                      <NumberFormat value={toNumber(item?.price) * toNumber(item?.qty)} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} />
+                    </span>
+                  </div>
+                </div>
+              ))}
+
+              <div style={{ letterSpacing: '.03em', marginTop: '2px' }}>---------------------------------------------</div>
+
+              <div style={{ display: 'flex' }}>
+                <span style={{ flex: 1 }}>Subtotal</span>
+                <span style={{ marginRight: '6px' }}>:</span>
+                <span style={{ minWidth: '70px', textAlign: 'right' }}>
+                  <NumberFormat value={totalTransaksi} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} />
+                </span>
+              </div>
+
+              <div style={{ letterSpacing: '.03em', marginTop: '2px' }}>---------------------------------------------</div>
+
+              <div style={{ display: 'flex' }}>
+                <span style={{ flex: 1 }}>Grand Total</span>
+                <span style={{ marginRight: '6px' }}>:</span>
+                <span style={{ minWidth: '70px', textAlign: 'right' }}>
+                  <NumberFormat value={totalTransaksi} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} />
+                </span>
+              </div>
+
+              <div style={{ marginTop: '2px' }}>Pembayaran</div>
+
+              {cash > 0 && (
+                <div style={{ display: 'flex' }}>
+                  <span style={{ flex: 1 }}>(CASH)</span>
+                  <span style={{ marginRight: '6px' }}>:</span>
+                  <span style={{ minWidth: '70px', textAlign: 'right' }}>
+                    <NumberFormat value={cash + (uangBayar - cash - qris - transfer)} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} />
+                  </span>
+                </div>
               )}
-              <tr>
-                <td colSpan={3}>
-                ------------------------------------------------------------
-                </td>
-              </tr>
-              <tr class="tabletitle">
-               <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">Subtotal </td>
-               <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
-               <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="right"><NumberFormat prefix={' '} value={transaction.total_transaksi} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} /></td>
-              </tr>
-              <tr>
-                <td colSpan={3}>
-                ------------------------------------------------------------
-                </td>
-              </tr>
-              <tr class="tabletitle">
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">Grand Total </td>
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="right"><NumberFormat prefix={' '} value={transaction.total_transaksi} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} /></td>
-              </tr>
-              <tr class="tabletitle">
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">Pembayaran </td>
-              </tr>
-              {transaction?.["cash"] !== 0 &&  <tr>
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">{`(CASH)`}</td>
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="right">
-                  <NumberFormat prefix={' '} value={transaction?.["cash"]} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} />
-                </td>
-              </tr>}
-              {transaction?.["transfer"] !== 0 &&  <tr>
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">{`(TRANSFER)`}</td>
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="right">
-                  <NumberFormat prefix={' '} value={transaction?.["transfer"]} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} />
-                </td>
-              </tr>}
-              {transaction?.["qris"] !== 0 &&  <tr>
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">{`(QRIS)`}</td>
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="right">
-                  <NumberFormat prefix={' '} value={transaction?.["qris"]} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} />
-                </td>
-              </tr>}
-              <tr class="tabletitle">
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="left">Kembali </td>
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="center"> : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
-                <td style={{fontFamily: 'Arial, Helvetica, sans-serif'}}align="right"><NumberFormat prefix={' '} value={uangKembali} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} /></td>
-              </tr>
-            </table>
+              {transfer > 0 && (
+                <div style={{ display: 'flex' }}>
+                  <span style={{ flex: 1 }}>(TRANSFER)</span>
+                  <span style={{ marginRight: '6px' }}>:</span>
+                  <span style={{ minWidth: '70px', textAlign: 'right' }}>
+                    <NumberFormat value={transfer} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} />
+                  </span>
+                </div>
+              )}
+
+              {qris > 0 && (
+                <div style={{ display: 'flex' }}>
+                  <span style={{ flex: 1 }}>(QRIS)</span>
+                  <span style={{ marginRight: '6px' }}>:</span>
+                  <span style={{ minWidth: '70px', textAlign: 'right' }}>
+                    <NumberFormat value={qris} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} />
+                  </span>
+                </div>
+              )}
+
+              <div style={{ display: 'flex', marginTop: '2px' }}>
+                <span style={{ flex: 1 }}>Kembali</span>
+                <span style={{ marginRight: '6px' }}>:</span>
+                <span style={{ minWidth: '70px', textAlign: 'right' }}>
+                  <NumberFormat value={uangKembali} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} />
+                </span>
+              </div>
+            </div>
           </ModalBody>
         </Modal>
         )}
@@ -725,7 +747,8 @@ class Modals extends Component {
             <div className="date">
               {this.props.where === "1" && 
               <div>
-                Produksi
+                {"Produksi : " + this.props.cartStore.state.selectedProduct.name}
+
               </div>
               } 
               {this.props.where === "2" && 
@@ -744,7 +767,7 @@ class Modals extends Component {
               {/* LEFT */}
               <Col xs='4'>
                 <div centered>
-                    <img className="img-view" src={this.props.cartStore.state.selectedProduct.photo} alt={this.props.cartStore.state.selectedProduct.name || 'Selected product'}></img>
+                    <img className="img-view" src={localImage} alt={this.props.cartStore.state.selectedProduct.name || 'Selected product'}></img>
                 </div>
                 </Col>
                 <Col xs='4'>
@@ -824,16 +847,17 @@ class Modals extends Component {
               {/* LEFT */}
               <Col xs='4'>
                 <div centered>
-                  <img className="img-view" src={this.props.cartStore.state.selectedProduct.photo} alt={this.props.cartStore.state.selectedProduct.name || 'Selected product'}></img>
+                  <img className="img-view" src={localImage} alt={this.props.cartStore.state.selectedProduct.name || 'Selected product'}></img>
                   <div style={{paddingTop: '10px'}} className={this.props.cartStore.state.activeInputBooking === 'note'+this.props.cartStore.state.selectedProduct.name ? 'input-keyboard-wrapper active-input' : 'input-keyboard-wrapper'}>
                     <Input  
-                            defaultValue={this.props.cartStore.state.produksi["note"+this.props.cartStore.state.selectedProduct.name]}
-                            id={"note"+this.props.cartStore.state.selectedProduct.name}
-                            onChange={this.props.cartStore.onChangeBooking}
-                            onFocus={this.props.cartStore.setActiveInputBooking} 
-                            className="note-production" type="textarea" name="catatan" placeholder="TAMBAH CATATAN" rows="4"
-                            autoFocus
-                            >
+                      style={{border: "2px solid grey"}}
+                      defaultValue={this.props.cartStore.state.produksi["note"+this.props.cartStore.state.selectedProduct.name]}
+                      id={"note"+this.props.cartStore.state.selectedProduct.name}
+                      onChange={this.props.cartStore.onChangeBooking}
+                      onFocus={this.props.cartStore.setActiveInputBooking} 
+                      className="note-production" type="textarea" name="catatan" placeholder="TAMBAH CATATAN" rows="4"
+                      autoFocus
+                      >
                     </Input>
                   </div>
                 </div>

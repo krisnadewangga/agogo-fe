@@ -5,18 +5,22 @@
 hr.garis-pembatas {
     width: auto;
     font-size: 20px;
-        border-top: 1px dashed rgba(0, 0, 0, .2);
+        border-top: 1px dashed rgba(255, 255, 255, .26);
 }
 
-a.open-booking, a.open-transaction {
-        color: #1f2328;
+.open-booking, .open-transaction {
+        color: rgba(245, 245, 245, .96);
     font-weight: bold;
         transition: color .18s ease;
 
         &:hover {
-            color: $red;
+            color: #f7d8a0;
             text-decoration: none;
         }
+}
+
+.transaction-list {
+    color: rgba(245, 245, 245, .96);
 }
 
 .row-trx{

@@ -70,7 +70,7 @@
     tfoot.tfoot-booking{
       display: table;
       position: fixed;
-      bottom: 5.6rem;
+      bottom: 0px;
       left: 0;
       width: 50%;
       padding-top: 1rem;
@@ -87,9 +87,9 @@
         padding: 0rem 1.5rem;
         box-sizing: border-box;
       }
-      th{
-        padding: 0.75rem 1.5rem;
-      }
+      // th{
+      //   padding: 0.75rem 1.5rem;
+      // }
 
       .cart-subtotal{
         font-weight: 600;
@@ -113,7 +113,7 @@
       }
 
       .cart-total{
-        background: #9b2f22;
+        background: #9b2f22 !important;
         color: white;
         th,
         td,

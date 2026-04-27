@@ -24,7 +24,7 @@ class Products extends Component {
       <Container fluid className="products p-0">
 
         <ShadowScrollbars
-          style={{ height: 'calc(100vh - 6rem)' }}
+          style={{ height: 'calc(100vh - 4.6rem)' }}
           isBlack
         >
           <ProductItems modalStore={this.props.modalStore} activePath={this.props.activePath} productStore={this.props.productStore} cartStore={this.props.cartStore}  />

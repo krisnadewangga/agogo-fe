@@ -8,7 +8,7 @@ const ReservationCheckout = (props) => {
 
   return (
 
-    <Row className="PaymentCheckout d-block">
+    <div className="PaymentCheckout d-block">
       <Container>
         <Row className="SidebarHeader">
           <Col>
@@ -108,7 +108,7 @@ const ReservationCheckout = (props) => {
           </Col>
         </Row>
       </Container>
-    </Row>
+    </div>
 
   )
 }

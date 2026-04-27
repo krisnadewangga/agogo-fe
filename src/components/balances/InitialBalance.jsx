@@ -159,7 +159,7 @@ class SaldoAwal extends Component {
                           value={this.state.saldo} 
                           onChange={e => this.onChangeInputSaldo(e)}
                           type="number" name="saldo" id="saldo" placeholder="0"  size="lg" className="text-center mt-3 mb-3" 
-                          readOnly autoComplete="off"
+                          autoComplete="off"
                         />
 
                         <Label for="username" className="text-center d-block"><h3>User Approval</h3></Label>
@@ -168,7 +168,7 @@ class SaldoAwal extends Component {
                           value={this.state.username} 
                           onChange={e => this.onChangeInputUsername(e)}
                           type="text" name="username" id="username" placeholder="USER" size="lg" className="text-center mb-3" 
-                          readOnly autoComplete="off"
+                          autoComplete="off"
                         />
                         
                         <Label for="pin" className="text-center d-block"><h3>Pin Approval</h3></Label>
@@ -177,7 +177,7 @@ class SaldoAwal extends Component {
                           value={this.state.pin} 
                           onChange={e => this.onChangeInputPIN(e)}
                           type="password" name="pin" id="pin" placeholder="PIN"  size="lg" className="text-center mb-3" 
-                          readOnly autoComplete="off"
+                          autoComplete="off"
                         />
 
                       </FormGroup>

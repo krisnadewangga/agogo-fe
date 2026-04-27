@@ -11,15 +11,14 @@ const OrderItem = (props) => {
     <div>
       <Row>
         <Col sm="6" className="row-trx" onClick={() => props.cartStore.doOrder(props.trxID)}>
-          <span className="open-transaction" style={{ color: "black" }}>
+          <span className="open-transaction">
             {props.trxName}</span>
         </Col>
         <Col sm="4" className="transaction-list">
-          <span className="open-transaction" style={{ color: "black" }}>
+          <span className="open-transaction">
             {formatedDate}</span>
         </Col>
       </Row>
-    <hr className="garis-pembatas" />
 </div>
   )
 }

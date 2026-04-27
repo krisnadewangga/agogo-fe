@@ -7,10 +7,10 @@
   left: 50%;
   width: 50%;
   height: 100%;
-  padding: 1.5% 1.8%;
-  @media only screen and (max-width: 1140px) {
-    padding: 1% 1%;
-  }
+  // padding: 1.5% 1.8%;
+  // @media only screen and (max-width: 1140px) {
+  //   padding: 1% 1%;
+  // }
   background-color: rgba(17, 17, 17, .72);
   background-image: url('../../img/bg-login.jpg');
   background-size: cover;
@@ -26,8 +26,6 @@
     padding: .4rem .75rem;
     border-radius: .65rem;
     display: inline-block;
-    background: rgba(0, 0, 0, .3);
-    border: 1px solid rgba(255, 255, 255, .25);
     cursor: pointer;
     &:hover{
       color: $orange !important;
@@ -35,9 +33,8 @@
   }
 
   .TransactionItems, .ReservationItems {
-    background-color: white;
+    background-color: transparent;
     border-radius: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
     // padding-top: 10px;
   }
@@ -45,8 +42,8 @@
   .transaction,
   .reservation {
     .table {
-      background: rgba(255, 255, 255, .96);
-      color: #1f2328 !important;
+      background: transparent;
+      color: rgba(245, 245, 245, .95) !important;
       border-radius: .9rem;
       overflow: hidden;
       margin-bottom: .6rem;
@@ -54,12 +51,17 @@
       thead th {
         font-size: .84rem;
         letter-spacing: .02em;
-        color: #5a5147;
-        background: #f4eee4;
+        color: #f7d8a0;
+        background: transparent;
+        border-bottom-color: rgba(255, 255, 255, .22);
+      }
+
+      tbody td {
+        border-top-color: rgba(255, 255, 255, .14);
       }
 
       tbody tr:hover {
-        background-color: rgba(253, 190, 30, .14);
+        background-color: rgba(255, 255, 255, .08);
       }
     }
 

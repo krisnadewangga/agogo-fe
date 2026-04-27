@@ -148,5 +148,11 @@ label.form-check-label {
 
 .toRight{
   position: absolute;
-  right: 10px;
+  right: 260px;
+}
+
+i.fas.fa-check.font-weight-bold.display-3.text-red::before {
+  content: "✓";
+  font-family: inherit;
+  font-style: normal;
 }

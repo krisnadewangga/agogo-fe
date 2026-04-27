@@ -404,7 +404,7 @@ class CartsContainer extends Container {
       if(active_path === '/cashier' && this.state.items.length === 0){
       axios.get(DefaultIP + `/api/cekInvoice`).then(res => {
       const trx = res.data;
-      this.setState({ currentTrx: `${trx.current_invoice}${import.meta.env.VITE_RECEIPT_CODE || ''}`, isDisabled: false});
+      this.setState({ currentTrx: `${trx.current_invoice}${window.appConfig.VITE_RECEIPT_CODE || ''}`, isDisabled: false});
       })
       }
       else if(active_path === '/booking'){
@@ -420,7 +420,7 @@ class CartsContainer extends Container {
         // })
 
 
-        this.setState({ currentTrx: `${trx.current_invoice}${import.meta.env.VITE_RECEIPT_CODE || ''}`, disabledOrder: false, disabledOther: true});
+        this.setState({ currentTrx: `${trx.current_invoice}${window.appConfig.VITE_RECEIPT_CODE || ''}`, disabledOrder: false, disabledOther: true});
         })
 
        
@@ -446,29 +446,30 @@ class CartsContainer extends Container {
       axios.get(DefaultIP + '/api/product/' + id).then(res => {
         const product = res.data;
         this.setState({selectedProduct: product})
-        let index = this.state.production.findIndex( x => x.id === id);
+        let index = this.state.production.findIndex( x => String(x.id) === String(id) || String(x.product_id) === String(id));
         if(index === -1){
-          this.state.production.push(product)
           const reset = {
             product_id: id,
-              produksi1: 0,
-              produksi2: 0,
-              produksi3: 0,
-              total_produksi: 0,
-              ket_rusak: 0,
-              ket_lain: 0,
-              total_lain: 0,
-              catatan: "tidak ada catatan",
+            produksi1: 0,
+            produksi2: 0,
+            produksi3: 0,
+            total_produksi: 0,
+            ket_rusak: 0,
+            ket_lain: 0,
+            total_lain: 0,
+            catatan: "tidak ada catatan",
           }
-          const productKosong = Object.assign(product, reset)
+          const productKosong = Object.assign({}, product, reset)
+          this.state.production.push(productKosong)
           this.state.clearProduction.push(productKosong)
           this.setState({disabledProductionNote: false})
         } else {
           axios.get(DefaultIP + '/api/product/' + id)
         }
 
+        this.doProduction(id, modal, product)
+
       })
-      this.doProduction(id, modal)
       axios.get(DefaultIP + `/api/TrxByProduct/` + id).then(res => {
       const pesan = res.data;
 
@@ -1613,6 +1614,9 @@ addSelectedTransaction(id, current, idx) {
       isOrderBookingDeleteShow: false,
       isOrderBookingEditShow: false,
       isOrderBookingTakeShow: false,
+      isBookingDeleteShow: false,
+      isBookingEditShow: false,
+      isBookingTakeShow: false,
       isOrderBookingShow: !this.state.isOrderBookingShow
     })
   }
@@ -1627,6 +1631,9 @@ addSelectedTransaction(id, current, idx) {
       isOrderBookingShow: false,
       isOrderBookingEditShow: false,
       isOrderBookingTakeShow: false,
+      isBookingDeleteShow: false,
+      isBookingEditShow: false,
+      isBookingTakeShow: false,
       isOrderBookingDeleteShow: !this.state.isOrderBookingDeleteShow,
     })
   }
@@ -1641,6 +1648,9 @@ addSelectedTransaction(id, current, idx) {
       isOrderBookingShow: false,
       isOrderBookingDeleteShow: false,
       isOrderBookingTakeShow: false,
+      isBookingDeleteShow: false,
+      isBookingEditShow: false,
+      isBookingTakeShow: false,
       isOrderBookingEditShow: !this.state.isOrderBookingEditShow,
     })
   }
@@ -1654,6 +1664,9 @@ addSelectedTransaction(id, current, idx) {
       isOrderBookingShow: false,
       isOrderBookingDeleteShow: false,
       isOrderBookingEditShow: false,
+      isBookingDeleteShow: false,
+      isBookingEditShow: false,
+      isBookingTakeShow: false,
       isOrderBookingTakeShow: !this.state.isOrderBookingTakeShow,
     })
   }
@@ -1852,7 +1865,7 @@ addSelectedTransaction(id, current, idx) {
       this.state.dataReservation["code"] = code;
   }
 
-  onChangeTime = (time) => this.setState(time, 
+  onChangeTime = (time) => this.setState({ time }, 
     () => this.state.dataReservation["waktu_selesai"] = time)
 
   handleDateChange = (date) => this.setState({startDate: date, whatDate: date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()}, 
@@ -2305,13 +2318,15 @@ addSelectedTransaction(id, current, idx) {
   }
 
 
-  doProduction = (id, modal) => {
+  doProduction = (id, modal, baseProduct) => {
     let qty1 = this.state.valueInputRefund["refundCode1"] || 0
     let qty4 = this.state.valueInputRefund["refundCode4"] || 0
     let qty5 = this.state.valueInputRefund["refundCode5"] || 0
     let user = this.state.dataReservation['user']
     let pin = this.state.dataReservation['code'] || this.state.valueInputRefund["approvalCode"]
-    let index = this.state.production.findIndex( x => x.id === id);
+    let index = this.state.production.findIndex(x => String(x.id) === String(id) || String(x.product_id) === String(id));
+    const sourceProduct = baseProduct || this.state.production[index] || this.state.selectedProduct
+    const safeIndex = index === -1 ? this.state.production.length : index;
 
     if(this.state.activeInputRefund === "approvalCode" ||
       this.state.activeInputRefund === "approvalUser" ||
@@ -2341,22 +2356,24 @@ addSelectedTransaction(id, current, idx) {
             ]})
          // this.state.produksi[this.state.selectedProduct.name+"produksi1"] = parseInt(this.state.production[index].produksi1 || 0 ) + parseInt(qty1 || 0)
 
-          this.setState({
-            production : [
-               ...this.state.production.slice(0,index),
-               Object.assign({}, this.state.production[index], 
+          const updatedProduction = Object.assign({}, sourceProduct, 
                {produksi1: parseInt(qty1)},
                {total_produksi: 0},
                {sisa_stock: 0},       
                {ket_rusak: 0},
                {lain: 0},
               {rusak: 0}, 
-               {catatan: this.state.production[index].catatan || "tidak ada catatan"},
+               {catatan: sourceProduct.catatan || "tidak ada catatan"},
                {username_approval: user},
-               {pin_approval: pin}),
-               ...this.state.production.slice(index+1)
+               {pin_approval: pin})
+
+          this.setState({
+            production : [
+               ...this.state.production.slice(0,safeIndex),
+               updatedProduction,
+               ...this.state.production.slice(safeIndex+1)
             ]
-          }, () => this.changeDate(id, modal))
+          }, () => this.changeDate(updatedProduction, modal))
           }
         }
           
@@ -2379,11 +2396,7 @@ addSelectedTransaction(id, current, idx) {
                   ]})
               //  this.state.produksi[this.state.selectedProduct.name+"rusak"] = parseInt(this.state.production[index].ket_rusak || 0 ) + parseInt(qty4 || 0)
 
-          
-                this.setState({
-                  production: [
-                     ...this.state.production.slice(0,index),
-                     Object.assign({}, this.state.production[index], 
+                 const updatedProduction = Object.assign({}, sourceProduct, 
                      {ket_rusak: parseInt(qty4)}, 
                      {rusak: parseInt(qty4)}, 
                      {lain: 0}, 
@@ -2391,12 +2404,17 @@ addSelectedTransaction(id, current, idx) {
                      {sisa_stock: 0},           
                      {produksi1: 0},
                      {total_produksi: 0},
-                     {catatan: this.state.production[index].catatan || "tidak ada catatan"},
+                   {catatan: sourceProduct.catatan || "tidak ada catatan"},
                      {username_approval: user},
-                     {pin_approval: pin}),
-                     ...this.state.production.slice(index+1)
+                     {pin_approval: pin})
+
+                this.setState({
+                  production: [
+                   ...this.state.production.slice(0,safeIndex),
+                     updatedProduction,
+                   ...this.state.production.slice(safeIndex+1)
                   ]
-                }, () => this.changeDate(id, modal))
+                }, () => this.changeDate(updatedProduction, modal))
               }
             }
               else if(qty5 !== 0){
@@ -2417,23 +2435,23 @@ addSelectedTransaction(id, current, idx) {
                 ]})
                 //this.state.produksi[this.state.selectedProduct.name+"lain"] = parseInt(this.state.production[index].ket_lain || 0 ) + parseInt(qty5 || 0)
                 console.log(qty5)
-                this.setState({
-                  production: [
-                     ...this.state.production.slice(0,index),
-                     Object.assign({}, this.state.production[index], 
-                      
+                const updatedProduction = Object.assign({}, sourceProduct, 
                       {ket_lain: parseInt(qty5)},
                       {rusak: 0}, 
                       {lain: parseInt(qty5)}, 
                      {sisa_stock: 0},           
                      {produksi1: 0},
                      {total_produksi: 0},
-                     {catatan: this.state.production[index].catatan || "tidak ada catatan"},
+                     {catatan: sourceProduct.catatan || "tidak ada catatan"},
                      {username_approval: user},
-                     {pin_approval: pin}),
-                     ...this.state.production.slice(index+1)
+                     {pin_approval: pin})
+                this.setState({
+                  production: [
+                     ...this.state.production.slice(0,safeIndex),
+                     updatedProduction,
+                     ...this.state.production.slice(safeIndex+1)
                   ]
-                }, () => this.changeDate(id, modal))
+                }, () => this.changeDate(updatedProduction, modal))
               }
             }
               else {
@@ -2475,25 +2493,15 @@ addSelectedTransaction(id, current, idx) {
     }
   }
 
-  changeDate = (id, modal) => {
+  changeDate = (productionItem, modal) => {
 
 
 
 
-    let data = this.state.production
-    let dataFiltered = data.filter(function(data){
-      return data.id === id
-    })
+    const dataFiltered = Array.isArray(productionItem) ? productionItem : [productionItem]
    
     
   
-
-  
-
-
-
-
-    console.log(data)
 
     axios.post(DefaultIP + `/api/postProduction`, dataFiltered)
     .then(res => {

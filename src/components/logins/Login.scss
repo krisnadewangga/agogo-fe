@@ -42,16 +42,15 @@
 
   .box-pin{
     background-color: #b9bec1;
-    padding: 2rem 1.7rem 2.1rem;
-    width: auto;
     height: auto;
     min-height: 402px;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-inline: 26px;
 
     .box-inner {
-      max-width: 295px;
+      // max-width: 295px;
       margin: 0 auto;
     }
 
@@ -102,7 +101,7 @@
       border-radius: 999px;
       color: #5f7387;
       height: 56px;
-      font-size: 2.3rem;
+      font-size: 1.5rem;
       letter-spacing: .08em;
       font-weight: 700;
       box-shadow: inset 0 1px 2px rgba(0, 0, 0, .08);
@@ -118,7 +117,6 @@
   }
 
   .box-calc{
-    width: auto;
     min-height: 402px;
     background-color: #9f2f22;
     display: flex;
@@ -129,8 +127,8 @@
     &::before{
       content: '';
       position: absolute;
-      bottom: 4rem;
-      left: -22px;
+      bottom: 2rem;
+      left: -20px;
       width: 0;
       height: 0;
       border-style: solid;
@@ -141,17 +139,17 @@
     }
     &.saldo{
       &::before{
-        top: 7rem;
+        top: 5.5rem;
       }
     }
     &.username{
       &::before{
-        top: 14.25rem;
+        top: 13rem;
       }
     }
     &.pin{
       &::before{
-        top: 21.5rem;
+        top: 20rem;
       }
     }
 

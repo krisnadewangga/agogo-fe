@@ -44,7 +44,7 @@ return (
         </tr>
         <tr>
             <td style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '50%'}}>No orderz</td>
-          <td style={{fontFamily: 'Arial, Helvetica, sans-serif',fontSize: '50%'}}>: {`${props.cartStore.state.currentTrx}${import.meta.env.VITE_RECEIPT_CODE || ''}`}</td>
+          <td style={{fontFamily: 'Arial, Helvetica, sans-serif',fontSize: '50%'}}>: {`${props.cartStore.state.currentTrx}${window.appConfig.VITE_RECEIPT_CODE || ''}`}</td>
         </tr>
         <tr>
             <td style={{fontFamily: 'Arial, Helvetica, sans-serif',fontSize: '50%'}}>Tanggal</td>

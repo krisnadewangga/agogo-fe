@@ -1,7 +1,6 @@
 import React from 'react'
 import { Container, Row, Col, Input, Label, Button, NavLink, Form, FormGroup } from 'reactstrap'
 import { NumericFormat as NumberFormat } from 'react-number-format';
-import TimePicker from 'react-time-picker'
 
 import './EditBooking.scss'
 import FooterNavRightBooking from '../navigations/FooterNavRightBooking'
@@ -11,14 +10,39 @@ import DefaultIP from '../../containers/DefaultIP'
 
 
 const EditBooking = (props) => {
-    const toDateValue = (date) => {
-        if (!date) return '';
-        const d = new Date(date);
-        if (Number.isNaN(d.getTime())) return '';
-        const month = String(d.getMonth() + 1).padStart(2, '0');
-        const day = String(d.getDate()).padStart(2, '0');
-        return `${d.getFullYear()}-${month}-${day}`;
+    const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+    const getSafeDate = () => {
+        const rawDate = props.cartStore.state.startDate || new Date();
+        const date = new Date(rawDate);
+        if (Number.isNaN(date.getTime())) {
+            return new Date();
+        }
+        return date;
     };
+
+    const currentDate = getSafeDate();
+    const selectedTime = typeof props.cartStore.state.time === 'string' ? props.cartStore.state.time : '00:00';
+    const [selectedHour, selectedMinute] = selectedTime.split(':');
+
+    const updateDate = (nextParts = {}) => {
+        const nextDate = new Date(currentDate);
+        if (nextParts.day !== undefined) nextDate.setDate(parseInt(nextParts.day, 10));
+        if (nextParts.month !== undefined) nextDate.setMonth(parseInt(nextParts.month, 10) - 1);
+        if (nextParts.year !== undefined) nextDate.setFullYear(parseInt(nextParts.year, 10));
+        props.cartStore.handleDateChange(nextDate);
+    };
+
+    const updateTime = (nextParts = {}) => {
+        const hour = nextParts.hour !== undefined ? String(nextParts.hour).padStart(2, '0') : (selectedHour || '00');
+        const minute = nextParts.minute !== undefined ? String(nextParts.minute).padStart(2, '0') : (selectedMinute || '00');
+        props.cartStore.onChangeTime(`${hour}:${minute}`);
+    };
+
+    const yearOptions = Array.from({ length: 4 }, (_, index) => currentDate.getFullYear() + index);
+    const dayOptions = Array.from({ length: new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate() }, (_, index) => index + 1);
+    const hourOptions = Array.from({ length: 24 }, (_, index) => index);
+    const minuteOptions = Array.from({ length: 60 }, (_, index) => index);
 
     axios.get(DefaultIP + '/api/cek_tax/2')
     .then(res => {
@@ -28,195 +52,155 @@ const EditBooking = (props) => {
     })
 
     return (
-
-        <Row className="editBooking d-block">
-            <Container>
-                <Row className="SidebarHeader">
+        <Row className="OrderBooking editBooking d-block">
+            <Container fluid className="order-booking-shell edit-booking-shell">
+                <Row className="order-booking-header">
                     <Col>
-                        <NavLink onClick={() => props.cartStore.toggleBookingEditShow() || props.cartStore.clearCart()} className="sidebar-header-nav"><i className="fas fa-arrow-left mr-2"></i> Pemesanan</NavLink>
+                        <NavLink onClick={() => props.cartStore.toggleBookingEditShow() || props.cartStore.clearCart()} className="sidebar-header-nav" style={{color: "white"}}><i className="fas fa-arrow-left mr-2" style={{color: "white"}}></i> Pemesanan</NavLink>
                     </Col>
                 </Row>
-                
-                <Row className="SidebarBody">
-                        <Col xs="6" className="pl-0">
-                        <Col>
-                            <h7 className="mb-0">PEMESAN</h7>
-                            {/* <Input className="input pemesan" placeholder="NAMA" text-color="white"></Input> */}
-                            <Input className="input-nama" type="text" name="bookingName" id="bookingName" placeholder="NAMA" 
-                                value={props.cartStore.state.valueInputBooking["bookingName"]} 
-                                onChange={props.cartStore.onChangeBooking}
-                                onFocus={props.cartStore.setActiveInputBooking}
-                                defaultValue={props.cartStore.state.dataReservation.nama}
-                                />
-                        </Col>
-                        <Col>
-                            <h7 className="mb-0">TANGGAL SELESAI</h7>
-                            {/* <Input className="input tgl" placeholder="DD-MM-YYYY"></Input> */}
-                            {/* <Input className="input-tgl" type="date" name="bookingDate" id="bookingDate" placeholder="DD-MM-YYYY"
-                                value={props.cartStore.state.valueInputBooking["bookingDate"]}
-                                onChange={props.cartStore.onChangeBooking}
-                                onFocus={props.cartStore.setActiveInputBooking}
-                                defaultValue={formatedDate}
-                                dateFormat='dd/MM/yyyy'
-                                /> */}
 
-                            <Input
-                                className="input-tgl"
-                                type="date"
-                                name="bookingDate"
-                                id="bookingDate"
-                                value={toDateValue(props.cartStore.state.startDate)}
-                                min={toDateValue(new Date())}
-                                onChange={(e) => props.cartStore.handleDateChange(new Date(e.target.value))}
-                            />
-                        </Col>
-                        <Col>
-                            <h7 className="mb-0">JAM SELESAI</h7>
-                            {/* <Input className="input jam" placeholder="HH-MM"></Input> */}
-                            {/* <Input className="input-jam" type="time" name="bookingTime" id="bookingTime" placeholder="HH-MM"
-                                value={props.cartStore.state.valueInputBooking["bookingTime"]}
-                                onChange={props.cartStore.onChangeBooking}
-                                onFocus={props.cartStore.setActiveInputBooking}
-                                defaultValue={props.cartStore.state.dataReservation.waktu_selesai}
-                                /> */}
-                            <TimePicker onChange={props.cartStore.onChangeTime} 
-                                    format="HH:mm" value={props.cartStore.state.time}
-                                    locale="sv-sv" />
-                        </Col>
-                        <Col>
-                            <h7 className="mb-0">TELEPON</h7>
-                            <Input className="input-telepon" type="text" name="bookingPhone" id="bookingPhone" placeholder="TELEPON"
-                                value={props.cartStore.state.valueInputBooking["bookingPhone"]}
-                                onChange={props.cartStore.onChangeBooking}
-                                onFocus={props.cartStore.setActiveInputBooking}
-                                defaultValue={props.cartStore.state.dataReservation.telepon}
+                <Row className="order-booking-grid edit-booking-grid">
+                    <Col xs="12" lg="6" className="order-booking-column edit-booking-column">
+                        <div className="order-booking-panel edit-booking-panel">
+                            <div className="order-booking-panel-title">Data Pemesanan</div>
+                            <div className="order-booking-field">
+                                <small className="order-booking-label">PEMESAN</small>
+                                <Input className="input-nama" type="text" name="bookingName" id="bookingName" placeholder="Nama pemesan"
+                                    value={props.cartStore.state.valueInputBooking["bookingName"]}
+                                    onChange={props.cartStore.onChangeBooking}
+                                    onFocus={props.cartStore.setActiveInputBooking}
+                                    defaultValue={props.cartStore.state.dataReservation.nama}
                                 />
-                        </Col>
-                        </Col>
-                        <Col xs="6"  className="pl-0">
-                        <Col>
-                            <h7 className="mb-0">ALAMAT</h7>
-                            {/* <Input className="input alamat" type="textarea" placeholder="ALAMAT"></Input> */}
-                            <Input className="input-alamat" type="textarea" name="bookingAddress" id="bookingAddress" placeholder="ALAMAT"
-                                value={props.cartStore.state.valueInputBooking["bookingAddress"]} style={{minHeight:"100px"}}
-                                onChange={props.cartStore.onChangeBooking}
-                                onFocus={props.cartStore.setActiveInputBooking}
-                                defaultValue={props.cartStore.state.dataReservation.alamat}
+                            </div>
+                            <div className="order-booking-field">
+                                <small className="order-booking-label">TANGGAL SELESAI</small>
+                                <div className="order-booking-date-time order-booking-date-row">
+                                    <Input
+                                        className="booking-select booking-select-day"
+                                        type="select"
+                                        value={String(currentDate.getDate())}
+                                        onChange={(e) => updateDate({ day: e.target.value })}
+                                    >
+                                        {dayOptions.map((day) => (
+                                            <option key={day} value={day}>{day}</option>
+                                        ))}
+                                    </Input>
+                                    <Input
+                                        className="booking-select booking-select-month"
+                                        type="select"
+                                        value={String(currentDate.getMonth())}
+                                        onChange={(e) => updateDate({ month: Number(e.target.value) + 1 })}
+                                    >
+                                        {monthNames.map((month, index) => (
+                                            <option key={month} value={index}>{month}</option>
+                                        ))}
+                                    </Input>
+                                    <Input
+                                        className="booking-select booking-select-year"
+                                        type="select"
+                                        value={String(currentDate.getFullYear())}
+                                        onChange={(e) => updateDate({ year: e.target.value })}
+                                    >
+                                        {yearOptions.map((year) => (
+                                            <option key={year} value={year}>{year}</option>
+                                        ))}
+                                    </Input>
+                                </div>
+                            </div>
+                            <div className="order-booking-field">
+                                <small className="order-booking-label">JAM SELESAI</small>
+                                <div className="order-booking-date-time order-booking-time-row">
+                                    <Input
+                                        className="booking-select booking-select-hour"
+                                        type="select"
+                                        value={String(parseInt(selectedHour || '0', 10))}
+                                        onChange={(e) => updateTime({ hour: e.target.value })}
+                                    >
+                                        {hourOptions.map((hour) => (
+                                            <option key={hour} value={hour}>{String(hour).padStart(2, '0')}</option>
+                                        ))}
+                                    </Input>
+                                    <Input
+                                        className="booking-select booking-select-minute"
+                                        type="select"
+                                        value={String(parseInt(selectedMinute || '0', 10))}
+                                        onChange={(e) => updateTime({ minute: e.target.value })}
+                                    >
+                                        {minuteOptions.map((minute) => (
+                                            <option key={minute} value={minute}>{String(minute).padStart(2, '0')}</option>
+                                        ))}
+                                    </Input>
+                                </div>
+                            </div>
+                            <div className="order-booking-field">
+                                <small className="order-booking-label">TELEPON</small>
+                                <Input className="input-telepon" type="text" name="bookingPhone" id="bookingPhone" placeholder="Telepon"
+                                    value={props.cartStore.state.valueInputBooking["bookingPhone"]}
+                                    onChange={props.cartStore.onChangeBooking}
+                                    onFocus={props.cartStore.setActiveInputBooking}
+                                    defaultValue={props.cartStore.state.dataReservation.telepon}
                                 />
-                        </Col>
-                        <Col>
-                            <h7 className="mb-0">CATATAN</h7>
-                            {/* <Input className="input-note" type="textarea" placeholder="CATATAN"></Input> */}
-                            <Input className="input-note" type="textarea" name="bookingNote" id="bookingNote" placeholder="CATATAN"
+                            </div>
+                        </div>
+                    </Col>
+
+                    <Col xs="12" lg="6" className="order-booking-column edit-booking-column">
+                        <div className="order-booking-panel edit-booking-panel">
+                            <div className="order-booking-panel-title">Detail Pengiriman</div>
+                            <div className="order-booking-field">
+                                <small className="order-booking-label">ALAMAT</small>
+                                <Input className="input-alamat" type="textarea" name="bookingAddress" id="bookingAddress" placeholder="Alamat pengantaran"
+                                    value={props.cartStore.state.valueInputBooking["bookingAddress"]} style={{minHeight:"100px"}}
+                                    onChange={props.cartStore.onChangeBooking}
+                                    onFocus={props.cartStore.setActiveInputBooking}
+                                    defaultValue={props.cartStore.state.dataReservation.alamat}
+                                />
+                            </div>
+                            <div className="order-booking-field">
+                                <small className="order-booking-label">CATATAN</small>
+                                <Input className="input-note" type="textarea" name="bookingNote" id="bookingNote" placeholder="Catatan khusus"
                                     value={props.cartStore.state.valueInputBooking["bookingNote"]} style={{marginTop:"0px", minHeight:"100px"}}
                                     onChange={props.cartStore.onChangeBooking}
                                     onFocus={props.cartStore.setActiveInputBooking}
                                     defaultValue={props.cartStore.state.dataReservation.catatan}
-                                    />
-                        </Col>
-                        </Col>
-                    </Row>
-                    <Row className="Sidebar">
-                        {/* LEFT */}
-                        <Col className="pr-0">
-                            <Form>
-                                <FormGroup row>
-                                    <Label sm={4} style={{paddingRight: "0"}} className="control-label">BIAYA TAMBAHAN</Label>
-                                    <Col sm={7} style={{paddingLeft: "0", paddingRight: "0"}}>
-                                    <NumberFormat thousandSeparator={'.'} decimalSeparator={','} prefix={'Rp '} className="input-uangTambah" placeholder="Rp 0"  
-                                    name="bookingAddition" id="bookingAddition"
-                                    value={props.cartStore.state.valueInputBooking["bookingAddition"]}  
-                                    onValueChange={props.cartStore.onChangeBooking} 
-                                    defaultValue={props.cartStore.state.dataReservation.add_fee}
-                                    onFocus={props.cartStore.setActiveInputBooking}
-                                    autoComplete="off"/>
-                                    </Col>
-                                </FormGroup>
+                                />
+                            </div>
 
-                                <FormGroup row>
-                                    <Label sm={4} className="control-label">DISKON</Label>
-                                    <Col sm={6} style={{float: "left", paddingLeft: "0", paddingRight: "0"}} >
-                                    {props.cartStore.state.discountType === 'Rp' &&
-                                    <NumberFormat type="text" thousandSeparator={'.'} decimalSeparator={','} className="input-uangDiskon" placeholder="Rp 0" 
-                                    value={props.cartStore.state.valueInputBooking["paymentDiscount"]}
-                                    name="paymentDiscount" id="paymentDiscount" 
-                                    onValueChange={props.cartStore.onChangeBooking}
-                                    defaultValue={props.cartStore.state.dataReservation.discount}
-                                    onFocus={props.cartStore.setActiveInputBooking}
-                                    autoComplete="off"
-                                    prefix={'Rp '}/>
-                                    }
-                                    {props.cartStore.state.discountType === '%' &&
-                                    <NumberFormat type="text" thousandSeparator={'.'} decimalSeparator={','} className="input-uangDiskon" placeholder="%" 
-                                    value={props.cartStore.state.valueInputBooking["paymentDiscount"]}
-                                    name="paymentDiscount" id="paymentDiscount"
-                                    onValueChange={props.cartStore.onChangeBooking}
-                                    defaultValue={props.cartStore.state.dataReservation.discount}
-                                    onFocus={props.cartStore.setActiveInputBooking}
-                                    suffix={'%'}
-                                    autoComplete="off"/>
-                                    }
+                            <div className="order-booking-approval">
+                                <Row>
+                                    <Col sm={6} className="mb-2 mb-sm-0">
+                                        <Input className="input-user" type="text" placeholder="USER APPROVAL"
+                                            name="approvalUser" id="approvalUser"
+                                            onFocus={props.cartStore.setActiveInputRefund}
+                                            onChange={props.cartStore.onChangeUserApprove}
+                                            autoComplete="off"
+                                        />
                                     </Col>
-                                    <Col sm={2}>
-                                    <FormGroup check className="pl-0">
-                                        <Input checked={props.cartStore.state.discountType === "Rp"} onChange={props.cartStore.handleDiscountChange} value="Rp" className="radio sm " size="sm" type="radio" name="Rp" id="Rp" /><Label check> Rp </Label>
-                                    </FormGroup>
-                                    <FormGroup check className="pl-0">
-                                        <Input checked={props.cartStore.state.discountType === "%"} onChange={props.cartStore.handleDiscountChange} value="%" className="radio sm " size="sm" type="radio" name="%" id="%" /><Label check> % </Label>
-                                    </FormGroup>   
+                                    <Col sm={6} style={{paddingLeft: '1%'}}>
+                                        <Input className="input-password" type="password" placeholder="PIN"
+                                            name="approvalCode" id="approvalCode"
+                                            onFocus={props.cartStore.setActiveInputRefund}
+                                            onChange={props.cartStore.onChangePinApprove}
+                                            autoComplete="off"
+                                        />
                                     </Col>
-                                </FormGroup>
-
-                                <FormGroup row>
-                                    <Label sm={4} className="control-label">UANG MUKA</Label>
-                                    <Col style={{paddingLeft: "0", paddingRight: "0"}} sm={7}>
-                                        <NumberFormat thousandSeparator={'.'} decimalSeparator={','} prefix={'Rp '} className="input-uangMuka" placeholder="RP 0"  
-                                        name="bookingPayment" id="bookingPayment"
-                                        value={props.cartStore.state.valueInputBooking["bookingPayment"]}
-                                        onValueChange={props.cartStore.onChangeBooking}
-                                        defaultValue={props.cartStore.state.dataReservation.uang_muka}
-                                        onFocus={props.cartStore.setActiveInputBooking}
-                                        autoComplete="off"/>
-                                    </Col>
-                                </FormGroup>
-
-                                <FormGroup>
-                                <Row >
-                                {/* <Label sm={2} className="approval">USER</Label> */}
-                                <Col sm={6} style={{paddingRight: "9%"}}>
-                                <Input className="input-user" type="text" placeholder="USER APPROVAL" 
-                                        name="approvalUser" id="approvalUser"
-                                        onFocus={props.cartStore.setActiveInputRefund}
-                                        onChange={props.cartStore.onChangeUserApprove}
-                                        autoComplete="off"
-                                    />
-                                </Col>
-                                <Col sm={6} style={{paddingLeft: '1%', paddingRight: "9%"}}>
-                                <Input className="input-password" type="password" placeholder="PIN" 
-                                        // value={props.cartStore.state.valueInputBooking["approvalCode"]}
-                                        name="approvalCode" id="approvalCode"
-                                        onFocus={props.cartStore.setActiveInputRefund}
-                                        onChange={props.cartStore.onChangePinApprove}
-                                        autoComplete="off"
-                                    />
-                                </Col>
                                 </Row>
-                                <Row style={{paddingTop: "10px", paddingLeft:"3%"}}>
-                                {/* <Label sm={2} className="approval">APPROVAL</Label> */}
-                                
-                                <Button onClick={() => props.cartStore.addReservation(props.userNow, props.modalStore.toggleModal, "doOrder")} color="danger"><i className="fas fa-edit"></i> SIMPAN</Button>
-                                
-                                </Row>
-                            </FormGroup>
-                            </Form>
-                            <Row className="product-nav no-gutters">
-                                <Col xs="12">
-                                    <FooterNavRightBooking cartStore={props.cartStore} rootStore={props.rootStore} modalStore={props.modalStore}/>
-                                </Col>
-                            </Row>
-                        </Col>
-                    </Row>
+                                <div className="order-booking-actions order-booking-actions-center">
+                                    <Button onClick={() => props.cartStore.addReservation(props.userNow, props.modalStore.toggleModal, "doOrder")} color="danger" className="order-booking-save">
+                                        <i className="fas fa-edit mr-1"></i> SIMPAN
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
+                    </Col>
+                </Row>
 
+                <Row className="product-nav no-gutters order-booking-footer w-100">
+                    <Col xs="12">
+                        <FooterNavRightBooking cartStore={props.cartStore} rootStore={props.rootStore} modalStore={props.modalStore}/>
+                    </Col>
+                </Row>
             </Container>
         </Row>
 

@@ -138,7 +138,7 @@ class Login extends Component {
                       colorSubTitle="text-red" 
                     />
 
-                    <FormGroup className="mt-4">
+                    <FormGroup className="mt-3">
                       <Label for="PIN" className="text-center d-block">Masukkan PIN Anda</Label>
                       <Input 
                         autoFocus

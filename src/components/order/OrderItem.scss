@@ -23,7 +23,7 @@ a.open-booking, a.open-transaction {
     cursor: pointer;
         transition: background-color .16s ease;
         border-radius: .45rem;
-        padding: .35rem .4rem;
+        padding: 0px;
 
         &:hover {
             background-color: rgba(253, 190, 30, .12);

@@ -9,9 +9,10 @@ import OrderItems from './OrderItems';
 const OrderBookingEdit = (props) => {
   
   return (
-<Container className="order-booking-list mt-4 pt-5 pr-0 pl-0">
-        <NavLink onClick={() => props.cartStore.toggleOrderBookingEditShow()} className="sidebar-header-nav"><i className="fas fa-arrow-left mr-2"></i>Edit Pemesanan</NavLink>
-            <Table borderless striped>
+    <div>
+      <Container className="reservation">
+        <NavLink onClick={() => props.cartStore.toggleOrderBookingEditShow()} className="sidebar-header-nav" style={{color: "white"}}><i className="fas fa-arrow-left mr-2" style={{color: "white"}}></i>Edit Pemesanan</NavLink>
+            <Table style={{color: "white"}} borderless striped>
               <OrderHeader cartStore={props.cartStore}/>
             </Table>
   
@@ -20,21 +21,22 @@ const OrderBookingEdit = (props) => {
               autoHideTimeout={1000}
               autoHideDuration={200}
               autoHeight
-              autoHeightMin={600}
-              autoHeightMax={0}
+              autoHeightMin={500}
+              autoHeightMax={500}
             >
               <div className="scroll-wrapper">
-                <Table borderless striped className="mb-0">
+                <Table style={{color: "white"}} borderless striped className="mb-0">
                   <OrderItems cartStore={props.cartStore}/>
                 </Table>
               </div>
             </ShadowScrollbars>
-            <Row className="product-nav no-gutters">
-              <Col xs="12">
-                  <FooterNavRightBooking cartStore={props.cartStore} rootStore={props.rootStore} modalStore={props.modalStore}/>
-              </Col>
-          </Row>
         </Container>
+        <Row className="product-nav no-gutters w-100">
+          <Col xs="12">
+            <FooterNavRightBooking cartStore={props.cartStore} rootStore={props.rootStore} modalStore={props.modalStore}/>
+          </Col>
+        </Row>
+    </div>
   )
 }
 

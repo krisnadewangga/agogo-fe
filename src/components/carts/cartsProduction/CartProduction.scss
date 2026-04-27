@@ -4,6 +4,14 @@
     .cart {
         color: #222;
 
+        button {
+            background: transparent;
+            border-radius: 0;
+            border: 0;
+            padding: 0;
+            box-shadow: none;
+        }
+
         .body-left {
             text-align: center;
             background: transparent;
@@ -81,7 +89,8 @@
         }
 
         .production {
-            padding-right: 1.7em;
+            // padding-right: 1.7em;
+            font-weight: 400;
         }
 
         .total-production,
@@ -89,6 +98,7 @@
         .total-others {
             font-style: italic;
             font-weight: 700;
+            padding-left: 0px;
         }
 
         .total-production {
@@ -185,7 +195,7 @@
             border-top: 1px solid rgba(0, 0, 0, .2);
 
             .cart-total {
-                background: #9b2f22;
+                background: #9b2f22 !important;
                 color: #fff;
 
                 th {

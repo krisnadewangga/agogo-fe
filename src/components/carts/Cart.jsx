@@ -34,6 +34,7 @@ class Cart extends Component {
   render() {
     return (
       <Container className="cart mt-4 pt-5 pr-0 pl-0">
+        {console.log(this, 'niki')}
           <Table borderless striped>
             <CartHeader cartStore={this.props.cartStore} />
           </Table>

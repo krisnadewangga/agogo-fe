@@ -33,7 +33,8 @@ class ReservationList extends Component {
 
   render(){
   return (
-<Container className="reservation">
+    <div>
+      <Container className="reservation">
         <NavLink onClick={() => this.props.cartStore.toggleOpenReservationShow()} className="sidebar-header-nav" style={{color: "white"}}><i className="fas fa-arrow-left mr-2" style={{color: "white"}}></i>Pemesanan</NavLink>
             <Table style={{color: "white"}} borderless striped>
               <ReservationHeader />
@@ -53,13 +54,13 @@ class ReservationList extends Component {
                 </Table>
               </div>
             </ShadowScrollbars>
-
-            <Row className="product-nav no-gutters">
-              <Col xs="12">
-                <FooterNavRight modalStore={this.props.modalStore} cartStore={this.props.cartStore} rootStore={this.props.rootStore}/>
-              </Col>
-            </Row>
         </Container>
+        <Row className="product-nav no-gutters w-100">
+          <Col xs="12">
+            <FooterNavRight modalStore={this.props.modalStore} cartStore={this.props.cartStore} rootStore={this.props.rootStore}/>
+          </Col>
+        </Row>
+    </div>
   )
 }
 }

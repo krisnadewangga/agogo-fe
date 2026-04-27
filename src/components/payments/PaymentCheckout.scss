@@ -12,8 +12,6 @@
 
   .SidebarBody {
     margin-top: .35rem;
-    background: rgba(0, 0, 0, .36);
-    border: 1px solid rgba(255, 255, 255, .16);
     border-radius: 1rem;
     padding: 1rem .8rem;
     box-shadow: 0 14px 28px rgba(0, 0, 0, .22);
@@ -42,6 +40,7 @@
   .form-check-inline {
     margin-right: .8rem;
     margin-bottom: .4rem;
+    padding-left: 0px;
   }
 
   .form-check-inline input[type="checkbox"] {
