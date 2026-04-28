@@ -404,7 +404,7 @@ class CartsContainer extends Container {
       if(active_path === '/cashier' && this.state.items.length === 0){
       axios.get(DefaultIP + `/api/cekInvoice`).then(res => {
       const trx = res.data;
-      this.setState({ currentTrx: `${trx.current_invoice}${window.appConfig.VITE_RECEIPT_CODE || ''}`, isDisabled: false});
+      this.setState({ currentTrx: `${trx.current_invoice}${window.appConfig.RECEIPT_CODE || ''}`, isDisabled: false});
       })
       }
       else if(active_path === '/booking'){
@@ -420,7 +420,7 @@ class CartsContainer extends Container {
         // })
 
 
-        this.setState({ currentTrx: `${trx.current_invoice}${window.appConfig.VITE_RECEIPT_CODE || ''}`, disabledOrder: false, disabledOther: true});
+        this.setState({ currentTrx: `${trx.current_invoice}${window.appConfig.RECEIPT_CODE || ''}`, disabledOrder: false, disabledOther: true});
         })
 
        

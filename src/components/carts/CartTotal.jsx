@@ -6,10 +6,10 @@ const CartTotal = (props) => {
   return (
     <tfoot>
       <tr className="table-spacer"><td></td></tr>
-      <tr className="cart-subtotal">
+      {/* <tr className="cart-subtotal">
         <th scope="row">Sub Total</th>
         <td className="subtotal-price"><NumberFormat prefix={'Rp '} value={props.cartStore.state.totalAmount} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} className="h5 font-weight-bold" /></td>
-      </tr>
+      </tr> */}
       {/* <tr className="cart-subtotal">
         <td scope="row">Pajak Pemda</td>
         <td className="subtotal-price"><NumberFormat prefix={'Rp '} value={props.cartStore.state.totalTax } displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} className="h5 font-weight-bold" /></td>

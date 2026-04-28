@@ -31,16 +31,13 @@ npm run preview
 Preview berjalan di http://localhost:4173.
 
 ## Environment Variables
-
-Project ini menggunakan environment variable dengan prefix `VITE_`.
-
 Contoh variabel yang dipakai:
-- `VITE_SHOP_NAME`
-- `VITE_BRANCH_NAME`
-- `VITE_RECEIPT_CODE`
-- `VITE_BRANCH_ADDRESS`
-- `VITE_BRANCH_PHONE`
-- `VITE_BRANCH_MAP`
+- `SHOP_NAME`
+- `BRANCH_NAME`
+- `RECEIPT_CODE`
+- `BRANCH_ADDRESS`
+- `BRANCH_PHONE`
+- `BRANCH_MAP`
 
 Semua nilai ada di file `.env`.
 
