@@ -3,7 +3,7 @@ import NumberFormat from 'react-number-format'
 // import "./PrintArea.css"
 import LogoAgogo from "../../img/logoa.png";
 const headContent = () =>{
-  const alamat = process.env.REACT_APP_BRANCH_ADDRESS.split(',')
+  const alamat = window.appConfig.BRANCH_ADDRESS.split(',')
   const namaJalan = alamat[0]
   const namaKel = alamat[1]
   const namaKec = alamat[2]
@@ -16,7 +16,7 @@ const headContent = () =>{
         {namaJalan}<br />
         {namaKel} - {namaKec}<br />
         {namaKab} | {namaProv}<br />
-        {process.env.REACT_APP_BRANCH_PHONE}<br />
+        {window.appConfig.BRANCH_PHONE}<br />
     </p>
     </div>
   )

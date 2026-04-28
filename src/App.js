@@ -53,33 +53,26 @@ const isLoggedIn = () => {
 }
 
 const whatRole = () => {
-  const roles = JSON.parse(sessionStorage.getItem("usernow"))
+  try {
+    const user = JSON.parse(sessionStorage.getItem("usernow"));
+    const raw = user && user.role;
+    if (!raw) return false;
 
-  try{
-    if(roles.role.includes(3) && roles.role.includes(4) && roles.role.includes(5) ){
-      return 'all'
-    }else if(roles.role.includes(3) && roles.role.includes(5)){
-      return 'kasirpemesanan'
-    }else if(roles.role.includes(3) && roles.role.includes(4)){
-      return 'kasirproduksi'
-    }else if(roles.role.includes(5) && roles.role.includes(4)){
-      return 'pemesananproduksi'
-    }else if(roles.role.includes(3)){
-      return 'kasir'
-    } if(roles.role.includes(5)){
-      return 'pemesanan'
-    }else if(roles.role.includes(4)){
-      return 'produksi'
-    }else{
-      return false
-    }
+    const roles = Array.isArray(raw) ? raw.map(r => String(r)) : [String(raw)];
+    const has = (r) => roles.includes(String(r));
 
-
-  }
-  catch(err){
+    if (has(3) && has(4) && has(5)) return 'all';
+    if (has(3) && has(5)) return 'kasirpemesanan';
+    if (has(3) && has(4)) return 'kasirproduksi';
+    if (has(5) && has(4)) return 'pemesananproduksi';
+    if (has(3)) return 'kasir';
+    if (has(5)) return 'pemesanan';
+    if (has(4)) return 'produksi';
+    return false;
+  } catch (err) {
     return false;
   }
-}
+};
 
 const root = document.getElementById("root");
 
@@ -95,14 +88,6 @@ class App extends Component {
     sessionStorage.setItem('token', '');
     sessionStorage.setItem('idKas', '');
     sessionStorage.clear();
-  }
-
-  activePath = (props) => {
-    if(props.match.path !== this.state.activePath){
-      this.setState({
-        activePath: props.match.path
-      })
-    }
   }
 
   escFunction = (event) => {
@@ -163,7 +148,6 @@ class App extends Component {
               
               <Route path='/login/:user_index'
                 render={(props) => {
-                  this.activePath(props);
                   return(
                     isLoggedIn() === true
                     ? <Redirect to={{ pathname: '/initial-balance', state: { from: props.location } }} />
@@ -177,7 +161,6 @@ class App extends Component {
 
               <Route path='/selection'
                 render={(props) => {
-                  this.activePath(props);
                   return(
                     isLoggedIn() === true
                     ? <Selection {...props}
@@ -191,7 +174,6 @@ class App extends Component {
               
               <Route path='/initial-balance'
                 render={(props) => {
-                  this.activePath(props);
                   return(
                     isLoggedIn() === true
                     ? <InitialBalance {...props} 
@@ -205,7 +187,6 @@ class App extends Component {
 
               <Route path='/invoice'
                 render={(props) => {
-                  this.activePath(props);
                   return(
                     isLoggedIn() === true
                     ? <Invoice {...props} 
@@ -219,7 +200,6 @@ class App extends Component {
               />
               <Route path='/cashier'
                 render={(props) => {
-                  this.activePath(props);
                   return(
                     isLoggedIn() === true && (whatRole() === 'all' || whatRole() === 'kasirpemesanan' || whatRole() === 'kasirproduksi' || whatRole() === 'kasir')
                     ? <Cashier {...props} 
@@ -235,7 +215,6 @@ class App extends Component {
 
               <Route path='/booking'
                 render={(props) => {
-                  this.activePath(props);
                   return (
                     isLoggedIn() === true && (whatRole() === 'all' || whatRole() === 'kasirpemesanan' || whatRole() === 'pemesananproduksi' || whatRole() === 'pemesanan' ) && this.state.saldo
                       ? <Booking {...props}
@@ -252,7 +231,6 @@ class App extends Component {
 
               <Route path='/production'
                 render={(props) => {
-                  this.activePath(props);
                   return (
                     isLoggedIn() === true && (whatRole() === 'all' || whatRole() === 'pemesananproduksi' || whatRole() === 'kasirproduksi' || whatRole() === 'produksi')
                       ? <Production {...props}

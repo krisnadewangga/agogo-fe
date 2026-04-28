@@ -30,29 +30,38 @@ class Login extends Component {
   };
 
   componentDidMount(){
-    if(sessionStorage.getItem('users')){
-      console.log('User logged in')
-    }else{
-      this.state({ redirect: true })
+    const usersRaw = sessionStorage.getItem('users');
+
+    if(!usersRaw){
+      this.setState({ redirect: true })
+      return;
     }
 
-    let user_index = this.props.match.params.user_index;
-    let users = sessionStorage.getItem('users');
-    this.setState({ users: JSON.parse(users)},
-    () => {
-      this.setState({
-        user: this.state.users[user_index]
-      },
-      () => {
-        this.setState({
-          username: this.state.user.name,
-          userAvatar: this.state.user.photo,
-          userRole: this.state.user.role,
-        },
-        () => {
-          sessionStorage.setItem('usernow', JSON.stringify(this.state.user));
-        });
-      });
+    let users;
+
+    try {
+      users = JSON.parse(usersRaw);
+    } catch (error) {
+      this.setState({ redirect: true })
+      return;
+    }
+
+    const user_index = Number(this.props.match.params.user_index);
+    const selectedUser = Array.isArray(users) ? users[user_index] : null;
+
+    if(!selectedUser){
+      this.setState({ redirect: true })
+      return;
+    }
+
+    this.setState({
+      users,
+      user: selectedUser,
+      username: selectedUser.name || '',
+      userAvatar: selectedUser.photo || '',
+      userRole: selectedUser.role || '',
+    }, () => {
+      sessionStorage.setItem('usernow', JSON.stringify(selectedUser));
     });
   }
 

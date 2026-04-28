@@ -11,18 +11,36 @@ class Selection extends Component {
     constructor(props){
         super(props)
       }
-      state = {
-        userLoggedIn: {},
-        where: {},
-        all: false,
-        kasir: false,
-        stok: false,
-        pemesanan: false,
-        kasirpemesanan: false,
-        kasirproduksi: false,
-        produksipemesanan: false,
-        // admin: false,
-      }
+            state = {
+                userLoggedIn: {},
+                where: {},
+                all: false,
+                kasir: false,
+                stok: false,
+                pemesanan: false,
+                kasirpemesanan: false,
+                kasirproduksi: false,
+                produksipemesanan: false,
+                // admin: false,
+                debugSession: {},
+                missingSession: false,
+            }
+
+    getRoles = () => {
+        const roles = this.state.userLoggedIn && this.state.userLoggedIn.role;
+
+        if(Array.isArray(roles)){
+            return roles.map(role => String(role));
+        }
+
+        if(roles === undefined || roles === null){
+            return [];
+        }
+
+        return [String(roles)];
+    }
+
+    hasRole = (role) => this.getRoles().includes(String(role))
 
     componentDidMount(){
 
@@ -34,6 +52,17 @@ class Selection extends Component {
                 this.setState({where: res.data})
             })
         
+        // session debugging: capture token/tokenex/usernow so we can see why redirects happen
+        try{
+            const token = sessionStorage.getItem('token')
+            const tokenex = sessionStorage.getItem('tokenex')
+            const usernow = sessionStorage.getItem('usernow')
+            const missing = !(token && tokenex && usernow)
+            this.setState({ debugSession: { token, tokenex, usernow }, missingSession: missing })
+            console.log('Selection session debug', { token, tokenex, usernow, missing })
+        }catch(e){
+            console.log('Error reading sessionStorage', e)
+        }
     }
 
     checkRole(){
@@ -52,39 +81,50 @@ class Selection extends Component {
 
         */
 
-        if(this.state.userLoggedIn.role.includes(3) && this.state.userLoggedIn.role.includes(4) && this.state.userLoggedIn.role.includes(5)){
+        if(this.hasRole(3) && this.hasRole(4) && this.hasRole(5)){
             this.setState({all: !this.state.all})
         }
-        else if(this.state.userLoggedIn.role.includes(3) && this.state.userLoggedIn.role.includes(5)){
+        else if(this.hasRole(3) && this.hasRole(5)){
             this.setState({kasirpemesanan: !this.state.kasirpemesanan})
         }
-        else if(this.state.userLoggedIn.role.includes(3) && this.state.userLoggedIn.role.includes(4)){
+        else if(this.hasRole(3) && this.hasRole(4)){
             this.setState({kasirproduksi: !this.state.kasirproduksi})
         }
-        else if(this.state.userLoggedIn.role.includes(4) && this.state.userLoggedIn.role.includes(5)){
+        else if(this.hasRole(4) && this.hasRole(5)){
             this.setState({produksipemesanan: !this.state.produksipemesanan})
         }
-        else if(this.state.userLoggedIn.role.includes(3)){
+        else if(this.hasRole(3)){
             this.setState({kasir: !this.state.kasir})
         }
-        else if(this.state.userLoggedIn.role.includes(4)){
+        else if(this.hasRole(4)){
             this.setState({stok: !this.state.stok})
         }
-        else if(this.state.userLoggedIn.role.includes(5)){
+        else if(this.hasRole(5)){
             this.setState({pemesanan: !this.state.pemesanan})
         }
-        else if(this.state.userLoggedIn.role.includes(2)){
+        else if(this.hasRole(2)){
             this.setState({admin: !this.state.admin})
         }
-        else if(this.state.userLoggedIn.role.includes(2)){
+        else if(this.hasRole(2)){
             this.setState({admin: !this.state.admin})
         }
     }
 
     render() {
+        const hasMenu = this.state.all || this.state.kasir || this.state.stok || this.state.pemesanan || this.state.kasirpemesanan || this.state.kasirproduksi || this.state.produksipemesanan
+        const { missingSession, debugSession } = this.state
 
         return (
     <section className="Selection centered">
+            {missingSession &&
+                <div style={{padding:12,background:'#fff3f3',border:'1px solid #f5c2c2',color:'#8a1f1f',marginBottom:12,textAlign:'center'}}>
+                    <div><strong>Session tidak lengkap — silakan masuk ulang.</strong></div>
+                    <div style={{fontSize:12,opacity:0.9,marginTop:6}}>Debug: {JSON.stringify(debugSession)}</div>
+                    <div style={{marginTop:8}}>
+                        <a href="/" className="btn btn-sm btn-outline-danger">Kembali ke Login</a>
+                    </div>
+                </div>
+            }
             <Container >
                 <Row >
                     <Col sm="12" md={{ size: 6, offset: 3}} className="container-selection">
@@ -172,6 +212,11 @@ class Selection extends Component {
                             <Link to={'/production'}>
                             <button className="btn btn-size">PRODUKSI</button>
                             </Link>
+                            </div>
+                        }
+                        {!hasMenu &&
+                            <div className="text-center text-muted mt-4">
+                                Menu belum muncul. Periksa data role user di sessionStorage.
                             </div>
                         }
                         {/* {this.state.userLoggedIn.role.map(role => 
