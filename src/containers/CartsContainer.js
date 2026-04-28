@@ -763,7 +763,7 @@ addSelectedTransaction(id, current, idx) {
 
 
       this.setState({dpReservationAmount: reservationData[0].uang_muka,  
-                    changePayment: reservationData[0].subtotal - reservationData[0].uang_muka,
+                    // changePayment: parseInt(reservationData[0].subtotal) - parseInt(reservationData[0].uang_muka),
                     expenseAmount: reservationData[0].add_fee,
                     discountAmount: reservationData[0].discount, 
                     tgl_trx: reservationData[0].tgl_selesai,
@@ -1483,14 +1483,13 @@ addSelectedTransaction(id, current, idx) {
     // let totalPayment = parseInt( this.state.valueInputPayment["paymentTotal"] || this.state.valueInputBooking["bookingAddition"])
     let grandPayment = this.getTotalPayment();
     let totalPayment = parseInt( grandPayment || this.state.valueInputBooking["bookingAddition"])
-    
     this.setState({payment: totalPayment})
     if(isNaN(totalPayment)){
       totalPayment = 0
     }
-
+    
     let grandTotalAmountDiscount =  parseInt( this.state.grandTotalAmountDiscount )
-    let dpReservationAmount = this.state.dpReservationAmount
+    let dpReservationAmount = parseInt(this.state.dpReservationAmount)
     let changePayment = parseInt( totalPayment - grandTotalAmountDiscount + dpReservationAmount )
     
     this.setState({

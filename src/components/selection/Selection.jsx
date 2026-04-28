@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Row, Col } from 'reactstrap'
+import { Container, Row, Col, Button } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import DefaultIP from '../../containers/DefaultIP'
@@ -7,29 +7,86 @@ import DefaultIP from '../../containers/DefaultIP'
 import './Selection.css'
 
 class Selection extends Component {
-      state = {
-        userLoggedIn: {},
-        where: {},
-        all: false,
-        kasir: false,
-        stok: false,
-        pemesanan: false,
-        kasirpemesanan: false,
-        kasirproduksi: false,
-        produksipemesanan: false,
-        // admin: false,
+
+    constructor(props){
+        super(props)
       }
+            state = {
+                userLoggedIn: {},
+                where: {},
+                all: false,
+                kasir: false,
+                stok: false,
+                pemesanan: false,
+                kasirpemesanan: false,
+                kasirproduksi: false,
+                produksipemesanan: false,
+                // admin: false,
+                debugSession: {},
+                missingSession: false,
+            }
+
+    getRoles = () => {
+        const roles = this.state.userLoggedIn && this.state.userLoggedIn.role;
+
+        if(!roles) return []
+        if(Array.isArray(roles)) return roles.map(role => String(role).toLowerCase())
+        return [String(roles).toLowerCase()]
+    }
+
+    hasRole = (role) => {
+        const roles = this.getRoles()
+        const roleStr = String(role).toLowerCase()
+        if(roles.includes(roleStr)) return true
+        // accept numeric code -> name mapping
+        const map = { '2': 'admin', '3': 'kasir', '4': 'produksi', '5': 'pemesanan' }
+        const mapped = map[roleStr]
+        if(mapped && roles.includes(mapped)) return true
+        return false
+    }
 
     componentDidMount(){
 
+        const user = (() => {
+            try { return JSON.parse(sessionStorage.getItem('usernow')) } catch(e) { return null }
+        })();
 
-        const user = JSON.parse(sessionStorage.getItem('usernow'))
-            this.setState({userLoggedIn: user}, () => this.checkRole())
+        if(!user){
+            this.setState({ userLoggedIn: {}, where: {}, missingSession: true });
+            // still gather debug info
+            try{
+                const token = sessionStorage.getItem('token')
+                const tokenex = sessionStorage.getItem('tokenex')
+                const usernow = sessionStorage.getItem('usernow')
+                const missing = !(token && tokenex && usernow)
+                this.setState({ debugSession: { token, tokenex, usernow }, missingSession: missing })
+                console.log('Selection session debug', { token, tokenex, usernow, missing })
+            }catch(e){
+                console.log('Error reading sessionStorage', e)
+            }
+            return
+        }
+
+        this.setState({userLoggedIn: user}, () => this.checkRole())
+
+        if(user && user.id){
             axios.get(DefaultIP + '/api/cekKas/'+user.id)
             .then(res => {
                 this.setState({where: res.data})
             })
-        
+            .catch(() => {})
+        }
+
+        try{
+            const token = sessionStorage.getItem('token')
+            const tokenex = sessionStorage.getItem('tokenex')
+            const usernow = sessionStorage.getItem('usernow')
+            const missing = !(token && tokenex && usernow)
+            this.setState({ debugSession: { token, tokenex, usernow }, missingSession: missing })
+            console.log('Selection session debug', { token, tokenex, usernow, missing })
+        }catch(e){
+            console.log('Error reading sessionStorage', e)
+        }
     }
 
     checkRole(){
@@ -48,39 +105,55 @@ class Selection extends Component {
 
         */
 
-        if(this.state.userLoggedIn.role.includes(3) && this.state.userLoggedIn.role.includes(4) && this.state.userLoggedIn.role.includes(5)){
-            this.setState({all: !this.state.all})
+        if(this.hasRole(3) && this.hasRole(4) && this.hasRole(5)){
+            this.setState({all: true})
+            return
         }
-        else if(this.state.userLoggedIn.role.includes(3) && this.state.userLoggedIn.role.includes(5)){
-            this.setState({kasirpemesanan: !this.state.kasirpemesanan})
+        if(this.hasRole(3) && this.hasRole(5)){
+            this.setState({kasirpemesanan: true})
+            return
         }
-        else if(this.state.userLoggedIn.role.includes(3) && this.state.userLoggedIn.role.includes(4)){
-            this.setState({kasirproduksi: !this.state.kasirproduksi})
+        if(this.hasRole(3) && this.hasRole(4)){
+            this.setState({kasirproduksi: true})
+            return
         }
-        else if(this.state.userLoggedIn.role.includes(4) && this.state.userLoggedIn.role.includes(5)){
-            this.setState({produksipemesanan: !this.state.produksipemesanan})
+        if(this.hasRole(4) && this.hasRole(5)){
+            this.setState({produksipemesanan: true})
+            return
         }
-        else if(this.state.userLoggedIn.role.includes(3)){
-            this.setState({kasir: !this.state.kasir})
+        if(this.hasRole(3)){
+            this.setState({kasir: true})
+            return
         }
-        else if(this.state.userLoggedIn.role.includes(4)){
-            this.setState({stok: !this.state.stok})
+        if(this.hasRole(4)){
+            this.setState({stok: true})
+            return
         }
-        else if(this.state.userLoggedIn.role.includes(5)){
-            this.setState({pemesanan: !this.state.pemesanan})
+        if(this.hasRole(5)){
+            this.setState({pemesanan: true})
+            return
         }
-        else if(this.state.userLoggedIn.role.includes(2)){
-            this.setState({admin: !this.state.admin})
-        }
-        else if(this.state.userLoggedIn.role.includes(2)){
-            this.setState({admin: !this.state.admin})
+        if(this.hasRole(2)){
+            this.setState({admin: true})
+            return
         }
     }
 
     render() {
+        const hasMenu = this.state.all || this.state.kasir || this.state.stok || this.state.pemesanan || this.state.kasirpemesanan || this.state.kasirproduksi || this.state.produksipemesanan
+        const { missingSession, debugSession } = this.state
 
         return (
     <section className="Selection centered">
+            {missingSession &&
+                <div style={{padding:12,background:'#fff3f3',border:'1px solid #f5c2c2',color:'#8a1f1f',marginBottom:12,textAlign:'center'}}>
+                    <div><strong>Session tidak lengkap — silakan masuk ulang.</strong></div>
+                    <div style={{fontSize:12,opacity:0.9,marginTop:6}}>Debug: {JSON.stringify(debugSession)}</div>
+                    <div style={{marginTop:8}}>
+                        <a href="/" className="btn btn-sm btn-outline-danger">Kembali ke Login</a>
+                    </div>
+                </div>
+            }
             <Container >
                 <Row >
                     <Col sm="12" md={{ size: 6, offset: 3}} className="container-selection">
@@ -168,6 +241,11 @@ class Selection extends Component {
                             <Link to={'/production'}>
                             <button className="btn btn-size">PRODUKSI</button>
                             </Link>
+                            </div>
+                        }
+                        {!hasMenu &&
+                            <div className="text-center text-muted mt-4">
+                                Menu belum muncul. Periksa data role user di sessionStorage.
                             </div>
                         }
                         {/* {this.state.userLoggedIn.role.map(role => 

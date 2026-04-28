@@ -72,39 +72,35 @@ const ReservationCheckout = (props) => {
         </Row>
 
         <Row className="SidebarFooter mt-3">
-        <FormGroup row>
-                <Col sm={3}>
-                    <Label>
-                        <h7 className="mb-0">USER APPROVAL</h7>
-                    </Label>
-                </Col>
-                <Col sm={9}>
-                <Input className="mb-4 form-control-md form-control" type="text" placeholder="USER APPROVAL" bsSize="md"
-                        value={props.cartStore.state.valueInputRefund["approvalUser"]}
-                        name="approvalUser" id="approvalUser"
-                        onFocus={props.cartStore.setActiveInputPayment}
-                        onChange={props.cartStore.onChangeUserApprove}
-                        autoComplete="off"
-                    />
-                </Col>
-                <Col sm={3}>
-                    <Label>
-                        <h7 className="mb-0">APPROVAL</h7>
-                    </Label>
-                </Col>
-                <Col sm={9}>
-                <Input className="mb-4 form-control-md form-control" type="password" placeholder="PIN" bsSize="md"
-                        value={props.cartStore.state.valueInputRefund["approvalCode"]}
-                        name="approvalCode" id="approvalCode"
-                        onFocus={props.cartStore.setActiveInputPayment}
-                        onChange={props.cartStore.onChangePinApprove}
-                        autoComplete="off"
-                    />
-                </Col>
-            </FormGroup>
-          <Col>
+          <FormGroup className="w-100">
+            <Row className="w-100">
+              <Col sm={6} className="mb-2">
+                <Label className="mb-1"><strong>USER APPROVAL</strong></Label>
+                <Input className="form-control-md form-control" type="text" placeholder="USER APPROVAL" bsSize="md"
+                  value={props.cartStore.state.valueInputRefund["approvalUser"]}
+                  name="approvalUser" id="approvalUser"
+                  onFocus={props.cartStore.setActiveInputPayment}
+                  onChange={props.cartStore.onChangeUserApprove}
+                  autoComplete="off"
+                />
+              </Col>
+
+              <Col sm={6} className="mb-2">
+                <Label className="mb-1"><strong>APPROVAL</strong></Label>
+                <Input className="form-control-md form-control" type="password" placeholder="PIN" bsSize="md"
+                  value={props.cartStore.state.valueInputRefund["approvalCode"]}
+                  name="approvalCode" id="approvalCode"
+                  onFocus={props.cartStore.setActiveInputPayment}
+                  onChange={props.cartStore.onChangePinApprove}
+                  autoComplete="off"
+                />
+              </Col>
+            </Row>
+          </FormGroup>
+
+          <Col className="w-100 text-right">
             <Button onClick={() => props.cartStore.doReservation(props.userNow.id, props.modalStore.toggleModal)} 
-            color="danger" size="lg" className="py-3 px-5 btn-bayar-fixed"><i className="fas fa-coins mr-2"></i> BAYAR</Button>
+              color="danger" size="lg" className="py-3 px-5 btn-bayar-fixed"><i className="fas fa-coins mr-2"></i> BAYAR</Button>
           </Col>
         </Row>
       </Container>

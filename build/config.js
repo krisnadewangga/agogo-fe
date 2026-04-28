@@ -6,11 +6,11 @@ window.appConfig = {
     SHOP_NAME: 'Agogo',
 
     // CABANG BITUNG
-    // BRANCH_NAME: 'Bitung'
-    // RECEIPT_CODE: '-BT'
-    // BRANCH_ADDRESS: 'Jalan Wolter Monginsidi, Kel. Girian Indah, Kec. Girian, Bitung, Sulawesi Utara'
-    // BRANCH_PHONE: '0821-8749-8746'
-    // BRANCH_MAP: 'maps.app.goo.gl/QhykU7kVM46afKUc8'
+    // BRANCH_NAME: 'Bitung',
+    // RECEIPT_CODE: '-BT',
+    // BRANCH_ADDRESS: 'Jalan Wolter Monginsidi, Kel. Girian Indah, Kec. Girian, Bitung, Sulawesi Utara',
+    // BRANCH_PHONE: '0821-8749-8746',
+    // BRANCH_MAP: 'maps.app.goo.gl/QhykU7kVM46afKUc8',
 
     // CABANG AIRMADIDI
     BRANCH_NAME: 'Airmadidi',

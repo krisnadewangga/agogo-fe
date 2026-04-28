@@ -48,31 +48,31 @@ const isLoggedIn = () => {
 }
 
 const whatRole = () => {
-  const roles = JSON.parse(sessionStorage.getItem("usernow"))
+  try {
+    const user = JSON.parse(sessionStorage.getItem("usernow"))
+    const raw = user && user.role
+    if(!raw) return false
 
-  try{
-    if(roles.role.includes(3) && roles.role.includes(4) && roles.role.includes(5) ){
-      return 'all'
-    }else if(roles.role.includes(3) && roles.role.includes(5)){
-      return 'kasirpemesanan'
-    }else if(roles.role.includes(3) && roles.role.includes(4)){
-      return 'kasirproduksi'
-    }else if(roles.role.includes(5) && roles.role.includes(4)){
-      return 'pemesananproduksi'
-    }else if(roles.role.includes(3)){
-      return 'kasir'
-    } if(roles.role.includes(5)){
-      return 'pemesanan'
-    }else if(roles.role.includes(4)){
-      return 'produksi'
-    }else{
+    const roles = Array.isArray(raw) ? raw.map(r => String(r).toLowerCase()) : [String(raw).toLowerCase()]
+    const has = (r) => {
+      const rs = String(r).toLowerCase()
+      if(roles.includes(rs)) return true
+      const map = { '2': 'admin', '3': 'kasir', '4': 'produksi', '5': 'pemesanan' }
+      const mapped = map[rs]
+      if(mapped && roles.includes(mapped)) return true
       return false
     }
 
-
-  }
-  catch(err){
-    return false;
+    if(has(3) && has(4) && has(5)) return 'all'
+    if(has(3) && has(5)) return 'kasirpemesanan'
+    if(has(3) && has(4)) return 'kasirproduksi'
+    if(has(5) && has(4)) return 'pemesananproduksi'
+    if(has(3)) return 'kasir'
+    if(has(5)) return 'pemesanan'
+    if(has(4)) return 'produksi'
+    return false
+  } catch (err) {
+    return false
   }
 }
 
