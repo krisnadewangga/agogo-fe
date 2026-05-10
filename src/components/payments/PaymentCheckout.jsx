@@ -157,7 +157,7 @@ const PaymentCheckout = (props) => {
             </div>
             }
              */}
-          <Col>
+          <Col lg="7">
             <h5 className="mb-0">TOTAL</h5>
             <h3><strong><NumberFormat value={props.cartStore.state.grandTotalAmountDiscount} displayType={'text'} thousandSeparator={'.'} decimalSeparator={','} prefix={'Rp '} /></strong></h3>
 
@@ -236,7 +236,7 @@ const PaymentCheckout = (props) => {
           </Col>
 
           {/* RIGHT */}
-          <Col className="px-0">
+          <Col lg="5" className="px-0">
             <CalcNumericPayment
               cartStore={props.cartStore}
               onChange={props.cartStore.onChange} 

@@ -1,7 +1,7 @@
 .Selection .container-selection {
     padding: 36px 48px;
     border-radius: 18px;
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+    /* box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35); */
     backdrop-filter: blur(3px);
 }
 
@@ -12,17 +12,19 @@
     margin: 14px auto 0;
     border: 0;
     color: #fff;
-    font-weight: 700;
+    font-weight: 400;
     letter-spacing: 0.4px;
     border-radius: 999px;
-    background: linear-gradient(135deg, #983025 0%, #cf4a3b 100%);
-    box-shadow: 0 10px 22px rgba(152, 48, 37, 0.35);
+    border: #7D4F01 solid 2px;
+    /* background: linear-gradient(135deg, #983025 0%, #cf4a3b 100%); */
+    /* box-shadow: 0 10px 22px rgba(152, 48, 37, 0.35); */
     transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
 }
 
 .Selection .btn-size:hover {
     transform: translateY(-1px);
-    box-shadow: 0 14px 28px rgba(152, 48, 37, 0.45);
+    background: #b58126;
+    /* box-shadow: 0 14px 28px rgba(152, 48, 37, 0.45); */
     filter: brightness(1.03);
 }
 

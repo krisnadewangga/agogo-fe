@@ -191,10 +191,10 @@ class Modals extends Component {
         <Modal parentSelector={() => this.root.current} style={customStyles} isOpen={this.props.modal} toggle={this.props.toggle} className={this.props.className} size={this.props.size} centered>
           {externalCloseBtn}
           <ModalHeader className="text-center d-block mt-2"><h3>Logout</h3></ModalHeader>
-          <ModalBody>
+          <ModalBody className='py-4'>
             Apakah anda yakin akan keluar ?
           </ModalBody>
-          <ModalFooter className="text-center d-block">
+          <ModalFooter className="text-center d-flex gap-2">
             <a href="/logout" color="dark" className="btn btn-dark btn-lg"><i class="fas fa-sign-out-alt mr-1"></i> Log Out</a>
             <Button color="danger" size="lg" onClick={this.props.toggle}><i class="fas fa-times-circle mr-1"></i> Batalkan</Button>
           </ModalFooter>
