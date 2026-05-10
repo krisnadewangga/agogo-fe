@@ -27,7 +27,7 @@ class Production extends React.Component {
 
                     <Col md="6" className="production-cart">
                         <Row className="cart-header row-clean">
-                            <Col xs="12">
+                            <Col xs="12" style={{alignContent: 'center'}}>
                                 <Navbar expand="md">
                                     <NavbarBrand href="#" className="ml-4"><i className="fas fa-user-alt mr-1"></i> {" " +this.state.name}</NavbarBrand>
                                     <Nav className="ml-auto" navbar>

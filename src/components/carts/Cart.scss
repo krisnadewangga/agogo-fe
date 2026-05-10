@@ -1,7 +1,7 @@
 @use "../../sass/vars" as *;
 
 .cart{
-  --cart-surface: #d8d8d8;
+  --cart-surface: white;
   --cart-surface-soft: #dcdcdc;
   --cart-text: #102131;
   color: #222;
@@ -96,7 +96,7 @@
       .cart-subtotal{
         font-weight: 600;
         color: var(--cart-text);
-        background: var(--cart-surface-soft);
+        // background: var(--cart-surface-soft);
         .subtotal-price{
           text-align: right;
           font-size: 1.25rem;
