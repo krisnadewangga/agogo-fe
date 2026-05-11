@@ -33,7 +33,7 @@ const Refund = (props) => {
             {/* <Input className="mb-4" type="text" name="paymentDiscount" id="paymentDiscount" placeholder=" ..." bsSize="lg" /> */}
             <div className={props.cartStore.state.activeInputRefund === 'refundCode' ? 'input-keyboard-wrapper active-input' : 'input-keyboard-wrapper'}>
               <Input className="input-masking mb-4" type="text" placeholder=" ..." bsSize="lg" 
-                value={props.cartStore.state.whatRefund + '-' + (props.cartStore.state.valueInputRefund["refundCode"] || "" ? props.cartStore.state.valueInputRefund["refundCode"] || "" : "")}
+                value={props.cartStore.state.whatRefund + '-' + (props.cartStore.state.valueInputRefund["refundCode"] || "" ? props.cartStore.state.valueInputRefund["refundCode"] || "" : "") + window.appConfig.RECEIPT_CODE}
                 name="refundCode" id="refundCode"
                 onFocus={props.cartStore.setActiveInputRefund}
                 autoFocus

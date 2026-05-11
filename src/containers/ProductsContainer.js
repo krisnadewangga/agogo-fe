@@ -34,7 +34,7 @@ class ProductsContainer extends Container {
         }, 
           () => {
             this.productsFiltered()
-            // sessionStorage.setItem('products', JSON.stringify(products));
+            sessionStorage.setItem('products', JSON.stringify(products));
           }
         );
       })

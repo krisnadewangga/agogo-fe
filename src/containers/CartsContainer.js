@@ -1033,7 +1033,7 @@ addSelectedTransaction(id, current, idx) {
 
   doRefund(modal) {
     this.setState({onRefund: true})
-    let refundCode = this.state.whatRefund + '-' + (this.state.valueInputRefund["refundCode"])
+    let refundCode = this.state.whatRefund + '-' + (this.state.valueInputRefund["refundCode"]) + window.appConfig.RECEIPT_CODE;
 
    
     if(this.state.whatRefund === 'PS'){
