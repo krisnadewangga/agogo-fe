@@ -31,3 +31,21 @@ hr.garis-pembatas {
             background-color: rgba(253, 190, 30, .12);
         }
 }
+
+.transaction {
+    height: calc(100vh - 70px);
+    overflow-y: auto;  /* Memunculkan scrollbar vertikal saat konten melebihi max-height */
+}
+
+.transaction::-webkit-scrollbar {
+    width: 8px;
+}
+
+.transaction::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.transaction::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
