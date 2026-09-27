@@ -5,6 +5,7 @@ import ShadowScrollbars from '../scrollbars/ShadowScrollbars';
 import TransactionHeader from './TransactionHeader';
 import TransactionItems from './TransactionItems';
 import FooterNavRight from '../navigations/FooterNavRight';
+import TransactionFilter from './TransactionFilter';
 
 
 class TransactionList extends Component {
@@ -37,7 +38,17 @@ class TransactionList extends Component {
         <div>
           <Container className="transaction d-block">
           <NavLink onClick={() => this.props.cartStore.toggleOpenDoneTransactionShow()} className="sidebar-header-nav" style={{color: "white"}}><i className="fas fa-arrow-left mr-2" style={{color: "white"}}></i>Transaksi Selesai</NavLink>
-              <Table style={{color: "white"}} borderless striped>
+            <ShadowScrollbars
+                autoHide
+                autoHideTimeout={1000}
+                autoHideDuration={200}
+                autoHeight
+                autoHeightMin={500}
+                autoHeightMax={500}
+              >
+              <TransactionFilter isPaid={true} cartStore={this.props.cartStore} modalStore={this.props.modalStore}/>
+            </ShadowScrollbars>
+              {/* <Table style={{color: "white"}} borderless striped>
                 <TransactionHeader paid={true} />
               </Table>
     
@@ -54,7 +65,7 @@ class TransactionList extends Component {
                     <TransactionItems cartStore={this.props.cartStore} paid={true} modalStore={this.props.modalStore}/>
                   </Table>
                 </div>
-              </ShadowScrollbars>
+              </ShadowScrollbars> */}
           </Container>
           <Row className="product-nav no-gutters w-100">
             <Col xs="12">
