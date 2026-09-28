@@ -236,7 +236,6 @@ class TransactionFilter extends Component {
                         <option value="Cash">Cash</option>
                         <option value="QRIS">QRIS</option>
                         <option value="Transfer">Transfer</option>
-                        <option value="Toko">Toko</option>
                       </Input>
                     </FormGroup>
                   </Col>
