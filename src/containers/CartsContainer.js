@@ -443,137 +443,124 @@ class CartsContainer extends Container {
     }
     else if (active_path === '/production'){
       this.setState({valueInputBooking: ""})
-      axios.get(DefaultIP + '/api/product/' + id).then(res => {
-        const product = res.data;
-        this.setState({selectedProduct: product})
-        let index = this.state.production.findIndex( x => String(x.id) === String(id) || String(x.product_id) === String(id));
-        if(index === -1){
-          const reset = {
-            product_id: id,
-            produksi1: 0,
-            produksi2: 0,
-            produksi3: 0,
-            total_produksi: 0,
-            ket_rusak: 0,
-            ket_lain: 0,
-            total_lain: 0,
-            catatan: "tidak ada catatan",
+      Promise.all([
+        axios.get(DefaultIP + '/api/product/' + id),
+        axios.get(DefaultIP + '/api/TrxByProduct/' + id)
+      ]).then(([resProduct, resTrx]) => {
+        const product = resProduct.data || {};
+        const pesan = resTrx.data || {};
+
+        console.log(pesan, 'xx')
+
+        const currentStock = parseInt(product.stock || 0);
+        const countOrder = parseInt(pesan.count_order || 0);
+        const countPreorder = parseInt(pesan.count_preorder || 0);
+        const totalPenjualan = countOrder + countPreorder;
+        const productName = product.name || (this.state.selectedProduct && this.state.selectedProduct.name) || "";
+
+        let prod1 = 0;
+        let prod2 = 0;
+        let prod3 = 0;
+        let totalProd = 0;
+        let rusak = 0;
+        let lain = 0;
+        let totalLain = 0;
+        let catatan = "tidak ada catatan";
+        let stockAwal = 0;
+        let sisaStock = 0;
+
+        if (pesan.production === null || !pesan.production) {
+          if (pesan.stok_awal !== undefined && pesan.stok_awal !== null && parseInt(pesan.stok_awal) > 0) {
+            stockAwal = parseInt(pesan.stok_awal);
+          } else {
+            stockAwal = currentStock + totalPenjualan;
           }
-          const productKosong = Object.assign({}, product, reset)
-          this.state.production.push(productKosong)
-          this.state.clearProduction.push(productKosong)
-          this.setState({disabledProductionNote: false})
+          sisaStock = stockAwal + totalProd - totalPenjualan - totalLain;
         } else {
-          axios.get(DefaultIP + '/api/product/' + id)
+          const prod = pesan.production;
+          prod1 = parseInt(prod.produksi1 || 0);
+          prod2 = parseInt(prod.produksi2 || 0);
+          prod3 = parseInt(prod.produksi3 || 0);
+          totalProd = prod1 + prod2 + prod3;
+          rusak = parseInt(prod.ket_rusak || 0);
+          lain = parseInt(prod.ket_lain || 0);
+          totalLain = rusak + lain;
+          catatan = prod.catatan || "tidak ada catatan";
+
+          if (prod.stock_awal !== undefined && prod.stock_awal !== null && parseInt(prod.stock_awal) > 0) {
+            stockAwal = parseInt(prod.stock_awal);
+          } else if (pesan.stok_awal !== undefined && pesan.stok_awal !== null && parseInt(pesan.stok_awal) > 0) {
+            stockAwal = parseInt(pesan.stok_awal);
+          } else {
+            stockAwal = currentStock + totalPenjualan - totalProd + totalLain;
+          }
+
+          sisaStock = stockAwal + totalProd - totalPenjualan - totalLain;
         }
 
-        this.doProduction(id, modal, product)
+        const produksiState = { ...this.state.produksi };
+        if (productName) {
+          produksiState[productName + "produksi1"] = prod1;
+          produksiState[productName + "produksi2"] = prod2;
+          produksiState[productName + "produksi3"] = prod3;
+          produksiState[productName + "rusak"] = rusak;
+          produksiState[productName + "lain"] = lain;
+          produksiState["note" + productName] = catatan;
+          produksiState["total" + productName] = countOrder;
+          produksiState["pemesanan" + productName] = countPreorder;
+          produksiState["total_penjualan" + productName] = totalPenjualan;
+          produksiState["stok_kemarin" + productName] = stockAwal;
+          produksiState["order" + productName] = countOrder;
+          produksiState["pesanan" + productName] = countPreorder;
+        }
 
-      })
-      axios.get(DefaultIP + `/api/TrxByProduct/` + id).then(res => {
-      const pesan = res.data;
+        const updatedItem = {
+          ...product,
+          id: product.id || id,
+          product_id: id,
+          name: productName,
+          penjualan_toko: countOrder,
+          penjualan_pemesanan: countPreorder,
+          total_penjualan: totalPenjualan,
+          stock_awal: stockAwal,
+          sisa_stock: sisaStock,
+          catatan: catatan,
+          produksi1: prod1,
+          produksi2: prod2,
+          produksi3: prod3,
+          total_produksi: totalProd,
+          ket_rusak: rusak,
+          ket_lain: lain,
+          total_lain: totalLain,
+          ubah_tanggal: "no"
+        };
 
-      console.log(pesan)
+        const prodIndex = this.state.production.findIndex(
+          x => String(x.id) === String(id) || String(x.product_id) === String(id)
+        );
 
-  
-      
-      let index = this.state.production.findIndex( x => x.id === id)
-      if(pesan.production === null){
-        this.state.produksi[this.state.selectedProduct.name + "produksi1"] = 0
-        this.state.produksi[this.state.selectedProduct.name + "produksi2"] = 0
-        this.state.produksi[this.state.selectedProduct.name + "produksi3"] = 0
-        this.state.produksi[this.state.selectedProduct.name + "rusak"] = 0
-        this.state.produksi[this.state.selectedProduct.name + "lain"] = 0
-        this.state.produksi["note" + this.state.selectedProduct.name] = "tidak ada catatan"
-        this.state.produksi["total_penjualan"+this.state.selectedProduct.name] = pesan.count_order + pesan.count_preorder
-        this.state.produksi["stok_kemarin"+this.state.selectedProduct.name] = 0
-        this.state.produksi["total"+this.state.selectedProduct.name] = pesan.count_order
-        this.state.produksi["pemesanan"+this.state.selectedProduct.name] = pesan.count_preorder
-        this.state.produksi["order"+this.state.selectedProduct.name] = pesan.count_order
-        this.state.produksi["pesanan"+this.state.selectedProduct.name] = pesan.count_preorder
+        const newProduction = prodIndex === -1
+          ? [...this.state.production, updatedItem]
+          : [
+              ...this.state.production.slice(0, prodIndex),
+              updatedItem,
+              ...this.state.production.slice(prodIndex + 1)
+            ];
+
         this.setState({
-          production: [
-             ...this.state.production.slice(0,index),
-             Object.assign({}, this.state.production[index], {penjualan_toko: pesan.count_order},
-                                                             {penjualan_pemesanan: pesan.count_preorder},
-                                                             {total_penjualan: parseInt(pesan.count_preorder) + parseInt(pesan.count_order)},
-                                                             {stock_awal: pesan.stok_awal},
-                                                             {sisa_stock: pesan.sisa_stock},
-                                                             {product_id: id},
-                                                             {catatan: "tidak ada catatan"},
-                                                             {produksi1: 0},
-                                                             {produksi2: 0},
-                                                             {produksi3: 0},
-                                                             {total_produksi: 0},
-                                                             {ket_rusak: 0},
-                                                             {ket_lain: 0},
-                                                             {total_lain: 0},
-                                                             {ubah_tanggal: "no"}),
-             ...this.state.production.slice(index+1)
-          ],
-          clearProduction: [
-            ...this.state.clearProduction.slice(0,index),
-            Object.assign({}, this.state.clearProduction[index], {penjualan_toko: ""},
-                                                                 {penjualan_pemesanan: ""},
-                                                                 {total_penjualan: ""},
-                                                                 {total_lain: 0},
-                                                                 {ubah_tanggal: "no"},
-                                                                 {stock_awal: parseInt(pesan.sisa_stock)},
-                                                                 {sisa_stock: 1}),
-            ...this.state.clearProduction.slice(index+1)
-          ]
-        })
-      } else {
-      this.state.produksi[this.state.selectedProduct.name + "produksi1"] = pesan.production.produksi1
-      this.state.produksi[this.state.selectedProduct.name + "produksi2"] = pesan.production.produksi2
-      this.state.produksi[this.state.selectedProduct.name + "produksi3"] = pesan.production.produksi3
-      this.state.produksi[this.state.selectedProduct.name + "rusak"] = pesan.production.ket_rusak
-      this.state.produksi[this.state.selectedProduct.name + "lain"] = pesan.production.ket_lain
-
-      this.state.produksi["note" + this.state.selectedProduct.name] = pesan.production.catatan
-      this.state.produksi["total"+this.state.selectedProduct.name] = pesan.production.penjualan_toko
-      
-      this.state.produksi["pemesanan"+this.state.selectedProduct.name] = pesan.production.penjualan_pemesanan
-      this.state.produksi["total_penjualan"+this.state.selectedProduct.name] = pesan.production.total_penjualan
-      this.state.produksi["stok_kemarin"+this.state.selectedProduct.name] = pesan.production.stock_awal
-      this.state.produksi["order"+this.state.selectedProduct.name] = pesan.production.penjualan_toko
-      this.state.produksi["pesanan"+this.state.selectedProduct.name] =pesan.production.penjualan_pemesanan
-      this.setState({
-        production: [
-           ...this.state.production.slice(0,index),
-           Object.assign({}, this.state.production[index], {penjualan_toko: pesan.count_order},
-                                                           {penjualan_pemesanan: pesan.count_preorder},
-                                                           {total_penjualan: parseInt(pesan.production.penjualan_toko) + parseInt(pesan.production.penjualan_pemesanan)},
-                                                           {stock_awal: pesan.production.stock_awal},
-                                                           {sisa_stock: 
-                                                              parseInt(pesan.production.sisa_stock || 0) },
-                                                           {product_id: id},
-                                                           {catatan: pesan.production.catatan || "tidak ada catatan"},
-                                                           {produksi1: parseInt(pesan.production.produksi1 || 0)},
-                                                           {produksi2: parseInt(pesan.production.produksi2 || 0)},
-                                                           {produksi3: parseInt(pesan.production.produksi3 || 0)},
-                                                          
-                                                           {total_produksi: parseInt(pesan.production.produksi1 || 0) + parseInt(pesan.production.produksi2 || 0) + parseInt(pesan.production.produksi3 || 0)},
-                                                           {ket_rusak: parseInt(pesan.production.ket_rusak || 0)},
-                                                           {ket_lain: parseInt(pesan.production.ket_lain || 0)},
-                                                           {total_lain: parseInt(pesan.production.ket_rusak || 0) + parseInt(pesan.production.ket_lain || 0)},
-                                                           {ubah_tanggal: "no"}),
-           ...this.state.production.slice(index+1)
-        ],
-        clearProduction: [
-          ...this.state.clearProduction.slice(0,index),
-          Object.assign({}, this.state.clearProduction[index], {penjualan_toko: ""},
-                                                               {penjualan_pemesanan: ""},
-                                                               {total_penjualan: ""},
-                                                               {total_lain: 0},
-                                                               {ubah_tanggal: "no"},
-                                                               {stock_awal: parseInt(pesan.sisa_stock)},
-                                                               {sisa_stock: parseInt(this.state.selectedProduct.stock)}),
-          ...this.state.clearProduction.slice(index+1)
-        ]
-      })
-      }
-      })    
+          selectedProduct: {
+            ...product,
+            id: product.id || id,
+            stock_awal: stockAwal,
+            sisa_stock: sisaStock
+          },
+          produksi: produksiState,
+          production: newProduction,
+          disabledProductionNote: false
+        });
+      }).catch(err => {
+        console.error('Error fetching production data', err);
+      });
     }
   }
 
@@ -1844,14 +1831,17 @@ addSelectedTransaction(id, current, idx) {
     else if (this.state.activeInputBooking === 'note'+this.state.selectedProduct.name){
       const note = valueInputBooking.target.value
       this.state.produksi["note"+this.state.selectedProduct.name] = note;
-      let index = this.state.production.findIndex( x => x.id === this.state.selectedProduct.id)
-      this.setState({
-        production: [
-           ...this.state.production.slice(0,index),
-           Object.assign({}, this.state.production[index], {catatan: note || ""}),
-           ...this.state.production.slice(index+1)
-        ]
-      })
+      const selectedId = this.state.selectedProduct && (this.state.selectedProduct.id || this.state.selectedProduct.product_id);
+      let index = this.state.production.findIndex( x => String(x.id) === String(selectedId) || String(x.product_id) === String(selectedId))
+      if (index !== -1) {
+        this.setState({
+          production: [
+             ...this.state.production.slice(0,index),
+             Object.assign({}, this.state.production[index], {catatan: note || ""}),
+             ...this.state.production.slice(index+1)
+          ]
+        })
+      }
     }
   }
 
@@ -2318,13 +2308,13 @@ addSelectedTransaction(id, current, idx) {
 
 
   doProduction = (id, modal, baseProduct) => {
-    let qty1 = this.state.valueInputRefund["refundCode1"] || 0
-    let qty4 = this.state.valueInputRefund["refundCode4"] || 0
-    let qty5 = this.state.valueInputRefund["refundCode5"] || 0
-    let user = this.state.dataReservation['user']
-    let pin = this.state.dataReservation['code'] || this.state.valueInputRefund["approvalCode"]
+    let qty1 = parseInt(this.state.valueInputRefund["refundCode1"] || 0);
+    let qty4 = parseInt(this.state.valueInputRefund["refundCode4"] || 0);
+    let qty5 = parseInt(this.state.valueInputRefund["refundCode5"] || 0);
+    let user = this.state.dataReservation['user'];
+    let pin = this.state.dataReservation['code'] || this.state.valueInputRefund["approvalCode"];
     let index = this.state.production.findIndex(x => String(x.id) === String(id) || String(x.product_id) === String(id));
-    const sourceProduct = baseProduct || this.state.production[index] || this.state.selectedProduct
+    const sourceProduct = (index !== -1 ? this.state.production[index] : null) || baseProduct || this.state.selectedProduct || {};
     const safeIndex = index === -1 ? this.state.production.length : index;
 
     if(this.state.activeInputRefund === "approvalCode" ||
@@ -2335,193 +2325,195 @@ addSelectedTransaction(id, current, idx) {
       this.state.activeInputRefund === "refundCode4" ||
       this.state.activeInputRefund === "refundCode5"){
       
-        if(qty1 !== 0){
-          if(user === undefined ){
-            modal.clearModal()
-            modal.toggleModal('alert','','','Mohon lakukan approval terlebih dahulu!')
-          }
-          else if (pin === undefined){
-            modal.clearModal()
-            modal.toggleModal('alert','','','Mohon lakukan approval terlebih dahulu!')
-          } else if (this.state.production === ""){
-            modal.clearModal()
-            modal.toggleModal('alert','','',index)
-          }else{
-            console.log("produksi1")
-            this.setState({production:[  
-              {lain: 0},
-              {rusak: 0},          
-              {produksi1: 0},
-            ]})
-         // this.state.produksi[this.state.selectedProduct.name+"produksi1"] = parseInt(this.state.production[index].produksi1 || 0 ) + parseInt(qty1 || 0)
+      if(user === undefined || user === ""){
+        modal.clearModal();
+        modal.toggleModal('alert','','','Mohon lakukan approval terlebih dahulu!');
+        return;
+      }
+      if(pin === undefined || pin === ""){
+        modal.clearModal();
+        modal.toggleModal('alert','','','Mohon lakukan approval terlebih dahulu!');
+        return;
+      }
 
-          const updatedProduction = Object.assign({}, sourceProduct, 
-               {produksi1: parseInt(qty1)},
-               {total_produksi: 0},
-               {sisa_stock: 0},       
-               {ket_rusak: 0},
-               {lain: 0},
-              {rusak: 0}, 
-               {catatan: sourceProduct.catatan || "tidak ada catatan"},
-               {username_approval: user},
-               {pin_approval: pin})
+      const stokAwal = parseInt(sourceProduct.stock_awal || 0);
+      const currentProd1 = parseInt(sourceProduct.produksi1 || 0);
+      const currentProd2 = parseInt(sourceProduct.produksi2 || 0);
+      const currentProd3 = parseInt(sourceProduct.produksi3 || 0);
+      const currentRusak = parseInt(sourceProduct.ket_rusak || 0);
+      const currentLain = parseInt(sourceProduct.ket_lain || 0);
+      const totalPenjualan = parseInt(sourceProduct.total_penjualan || 0);
 
-          this.setState({
-            production : [
-               ...this.state.production.slice(0,safeIndex),
-               updatedProduction,
-               ...this.state.production.slice(safeIndex+1)
-            ]
-          }, () => this.changeDate(updatedProduction, modal))
-          }
-        }
-          
-            
-              else if(qty4 !== 0){
-                if(user === undefined ){
-                  modal.clearModal()
-                  modal.toggleModal('alert','','','Mohon lakukan approval terlebih dahulu!')
-                }
-                else if (pin === undefined){
-                  modal.clearModal()
-                  modal.toggleModal('alert','','','Mohon lakukan approval terlebih dahulu!')
-                }
-                else{
-                   console.log("rusak")
-                   this.setState({production:[  
-                    {lain: 0},
-                    {rusak: 0},          
-                     {produksi1: 0},
-                  ]})
-              //  this.state.produksi[this.state.selectedProduct.name+"rusak"] = parseInt(this.state.production[index].ket_rusak || 0 ) + parseInt(qty4 || 0)
+      if(qty1 > 0){
+        console.log("produksi1");
+        const newProd1 = qty1;
+        const newTotalProd = currentProd1 + newProd1 + currentProd2 + currentProd3;
+        const totalLain = currentRusak + currentLain;
+        const newSisaStock = stokAwal + newTotalProd - totalPenjualan - totalLain;
 
-                 const updatedProduction = Object.assign({}, sourceProduct, 
-                     {ket_rusak: parseInt(qty4)}, 
-                     {rusak: parseInt(qty4)}, 
-                     {lain: 0}, 
-                     {total_lain: 0},
-                     {sisa_stock: 0},           
-                     {produksi1: 0},
-                     {total_produksi: 0},
-                   {catatan: sourceProduct.catatan || "tidak ada catatan"},
-                     {username_approval: user},
-                     {pin_approval: pin})
+        const updatedProduction = Object.assign({}, sourceProduct, {
+          product_id: id,
+          id: sourceProduct.id || id,
+          produksi1: newProd1,
+          total_produksi: newTotalProd,
+          sisa_stock: newSisaStock,
+          stock_awal: stokAwal,
+          ket_rusak: currentRusak,
+          ket_lain: currentLain,
+          total_lain: totalLain,
+          rusak: 0,
+          lain: 0,
+          catatan: sourceProduct.catatan || "tidak ada catatan",
+          username_approval: user,
+          pin_approval: pin
+        });
 
-                this.setState({
-                  production: [
-                   ...this.state.production.slice(0,safeIndex),
-                     updatedProduction,
-                   ...this.state.production.slice(safeIndex+1)
-                  ]
-                }, () => this.changeDate(updatedProduction, modal))
-              }
-            }
-              else if(qty5 !== 0){
-                if(user === undefined ){
-                  modal.clearModal()
-                  modal.toggleModal('alert','','','Mohon lakukan approval terlebih dahulu!')
-                }
-                else if (pin === undefined){
-                  modal.clearModal()
-                  modal.toggleModal('alert','','','Mohon lakukan approval terlebih dahulu!')
-                }
-                else{
-                console.log("dan lain lain")
-                this.setState({production:[  
-                  {lain: 0},
-                  {rusak: 0},          
-                   {produksi1: 0},
-                ]})
-                //this.state.produksi[this.state.selectedProduct.name+"lain"] = parseInt(this.state.production[index].ket_lain || 0 ) + parseInt(qty5 || 0)
-                console.log(qty5)
-                const updatedProduction = Object.assign({}, sourceProduct, 
-                      {ket_lain: parseInt(qty5)},
-                      {rusak: 0}, 
-                      {lain: parseInt(qty5)}, 
-                     {sisa_stock: 0},           
-                     {produksi1: 0},
-                     {total_produksi: 0},
-                     {catatan: sourceProduct.catatan || "tidak ada catatan"},
-                     {username_approval: user},
-                     {pin_approval: pin})
-                this.setState({
-                  production: [
-                     ...this.state.production.slice(0,safeIndex),
-                     updatedProduction,
-                     ...this.state.production.slice(safeIndex+1)
-                  ]
-                }, () => this.changeDate(updatedProduction, modal))
-              }
-            }
-              else {
-                modal.clearModal()
-                modal.toggleModal('alert','','','Input data tidak sesuai')
-              }
-          }
+        this.setState({
+          production: [
+            ...this.state.production.slice(0, safeIndex),
+            updatedProduction,
+            ...this.state.production.slice(safeIndex + 1)
+          ]
+        }, () => this.changeDate(updatedProduction, modal));
+      } else if(qty4 > 0){
+        console.log("rusak");
+        const newRusak = qty4;
+        const totalProd = currentProd1 + currentProd2 + currentProd3;
+        const newTotalRusak = currentRusak + newRusak;
+        const totalLain = newTotalRusak + currentLain;
+        const newSisaStock = stokAwal + totalProd - totalPenjualan - totalLain;
+
+        const updatedProduction = Object.assign({}, sourceProduct, {
+          product_id: id,
+          id: sourceProduct.id || id,
+          ket_rusak: newTotalRusak,
+          rusak: newRusak,
+          lain: 0,
+          produksi1: 0,
+          total_produksi: totalProd,
+          sisa_stock: newSisaStock,
+          stock_awal: stokAwal,
+          total_lain: totalLain,
+          catatan: sourceProduct.catatan || "tidak ada catatan",
+          username_approval: user,
+          pin_approval: pin
+        });
+
+        this.setState({
+          production: [
+            ...this.state.production.slice(0, safeIndex),
+            updatedProduction,
+            ...this.state.production.slice(safeIndex + 1)
+          ]
+        }, () => this.changeDate(updatedProduction, modal));
+      } else if(qty5 > 0){
+        console.log("dan lain lain");
+        const newLain = qty5;
+        const totalProd = currentProd1 + currentProd2 + currentProd3;
+        const newTotalLainVal = currentLain + newLain;
+        const totalLain = currentRusak + newTotalLainVal;
+        const newSisaStock = stokAwal + totalProd - totalPenjualan - totalLain;
+
+        const updatedProduction = Object.assign({}, sourceProduct, {
+          product_id: id,
+          id: sourceProduct.id || id,
+          ket_lain: newTotalLainVal,
+          rusak: 0,
+          lain: newLain,
+          produksi1: 0,
+          total_produksi: totalProd,
+          sisa_stock: newSisaStock,
+          stock_awal: stokAwal,
+          total_lain: totalLain,
+          catatan: sourceProduct.catatan || "tidak ada catatan",
+          username_approval: user,
+          pin_approval: pin
+        });
+
+        this.setState({
+          production: [
+            ...this.state.production.slice(0, safeIndex),
+            updatedProduction,
+            ...this.state.production.slice(safeIndex + 1)
+          ]
+        }, () => this.changeDate(updatedProduction, modal));
+      } else {
+        modal.clearModal();
+        modal.toggleModal('alert', '', '', 'Input data tidak sesuai');
+      }
+    }
   }
 
   getStokNow = () => {
-    let total = 0
-    let data = this.state.production
-    let whatId = this.state.selectedProduct.id
-    let filterData = data.filter(function(data){
-      return data.id === whatId
-    })
-    if(filterData.length !== 0){
-      // total = stok+produksi1+produksi2+produksi3-total_penjualan-total_lain
-    
-      total = parseInt(filterData[0].sisa_stock || 0)
-      return total
-    } else {
-      return total
+    let selected = this.state.selectedProduct;
+    if (!selected || (!selected.id && !selected.product_id)) {
+      return 0;
     }
-    
+    let whatId = String(selected.id || selected.product_id);
+    let filterData = this.state.production.filter(function(item) {
+      return String(item.id) === whatId || String(item.product_id) === whatId;
+    });
+
+    if (filterData.length !== 0) {
+      const item = filterData[0];
+      const stokAwal = parseInt(item.stock_awal || 0);
+      const prod1 = parseInt(item.produksi1 || 0);
+      const prod2 = parseInt(item.produksi2 || 0);
+      const prod3 = parseInt(item.produksi3 || 0);
+      const totalProd = parseInt(item.total_produksi !== undefined ? item.total_produksi : (prod1 + prod2 + prod3));
+
+      const salesStore = parseInt(item.penjualan_toko !== undefined ? item.penjualan_toko : 0);
+      const salesPreorder = parseInt(item.penjualan_pemesanan !== undefined ? item.penjualan_pemesanan : 0);
+      const totalSales = parseInt(item.total_penjualan !== undefined ? item.total_penjualan : (salesStore + salesPreorder));
+
+      const rusak = parseInt(item.ket_rusak || 0);
+      const lain = parseInt(item.ket_lain || 0);
+      const totalLain = parseInt(item.total_lain !== undefined ? item.total_lain : (rusak + lain));
+
+      return stokAwal + totalProd - totalSales - totalLain;
+    } else {
+      return parseInt(selected.sisa_stock !== undefined ? selected.sisa_stock : (selected.stock || 0));
+    }
   }
 
-  getStokAwal(){
-    let total = 0
-    let data = this.state.production
-    let whatId = this.state.selectedProduct.id
-    let filterData = data.filter(function(data){
-      return data.id === whatId
-    })
-    if(filterData.length === 0){
-      return total
+  getStokAwal = () => {
+    let selected = this.state.selectedProduct;
+    if (!selected || (!selected.id && !selected.product_id)) {
+      return 0;
+    }
+    let whatId = String(selected.id || selected.product_id);
+    let filterData = this.state.production.filter(function(item) {
+      return String(item.id) === whatId || String(item.product_id) === whatId;
+    });
+
+    if (filterData.length !== 0) {
+      return parseInt(filterData[0].stock_awal || 0);
     } else {
-    return parseInt(filterData[0].stock_awal)
+      return parseInt(selected.stock_awal || 0);
     }
   }
 
   changeDate = (productionItem, modal) => {
-
-
-
-
-    const dataFiltered = Array.isArray(productionItem) ? productionItem : [productionItem]
-   
-    
-  
+    const dataFiltered = Array.isArray(productionItem) ? productionItem : [productionItem];
+    const currentProductId = (dataFiltered[0] && (dataFiltered[0].product_id || dataFiltered[0].id));
 
     axios.post(DefaultIP + `/api/postProduction`, dataFiltered)
     .then(res => {
       if(res.data.status === 'success'){
-        
-          this.clearCart()
-          modal.clearModal() 
-        
-
-      }else{
-        modal.clearModal()
+        this.clearCart();
+        modal.clearModal();
+        if (currentProductId) {
+          this.addSelectedProduct(0, currentProductId, '', 1, 0, '/production', modal);
+        }
+      } else {
+        modal.clearModal();
       }
     })
-    .catch(res => {modal.clearModal() 
-                   modal.toggleModal('alertProduksi','','',res.response.data.message)
-  })
-
-  // window.location.reload(false);
-
-    
-}
+    .catch(res => {
+      modal.clearModal();
+      modal.toggleModal('alertProduksi', '', '', res.response && res.response.data && res.response.data.message ? res.response.data.message : 'Gagal menyimpan produksi');
+    });
+  }
 
   changeAllDate(modal, close){
     axios.get(DefaultIP + `/api/products`)
